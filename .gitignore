@@ -13,6 +13,10 @@
 !/.themplate
 /.themplate/config.cfg
 
+!/.xmonad
+/.xmonad/*
+!/.xmonad/xmonad.hs
+
 !/.zshrc
 !/.xmodmap
 !/.Xresources
