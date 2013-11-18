@@ -1,0 +1,6 @@
+(setq powerline-buffer-size-suffix t)
+(setq powerline-color1 "#222232")
+(setq powerline-color2 "#333343")
+(setq powerline-default-separator 'arrow-fade)
+(eval-after-load 'powerline '(powerline-default-theme))
+(provide 'config-powerline)
