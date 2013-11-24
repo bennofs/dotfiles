@@ -6,6 +6,7 @@
 !/.emacs.d
 /.emacs.d/*
 !/.emacs.d/config
+/.emacs.d/config/config-customize.el
 !/.emacs.d/init.el
 !/.emacs.d/Cask
 !/.emacs.d/snippets

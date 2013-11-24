@@ -10,6 +10,7 @@
 (depends-on "ghc")
 (depends-on "haskell-mode")
 (depends-on "magit")
+(depends-on "mmm-mode")
 (depends-on "org-plus-contrib")
 (depends-on "pallet")
 (depends-on "powerline")

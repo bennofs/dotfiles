@@ -7,7 +7,10 @@
         (TeX-command "LaTeX" 'TeX-master-file -1))
     (TeX-view)))
 
-(add-hook 'LaTeX-mode-hook '(lambda () (local-set-key (kbd "<f2>") 'my-run-latex)))
+(add-hook 'LaTeX-mode-hook '(lambda () 
+  (local-set-key (kbd "<f2>") 'my-run-latex)
+  (visual-line-mode)
+))
 
 (setq TeX-command-force "")
 (setq TeX-PDF-mode t)
@@ -19,10 +22,12 @@
   "\\PreviewEnvironment{enumerate}"
   "\\PreviewEnvironment{itemize}"
   "\\PreviewEnvironment{lstlisting}"
+  "\\PreviewEnvironment{minted}"
 ))
 
 ;; FIXME: Enabling -shell-escape globally is probably not a good idea. Maybe just enable it based on the used packages, or provide
 ;; a key for toggling it?
+(setq preview-LaTeX-command-replacements (quote (("pdflatex" "pdflatex -shell-escape"))))
 (setq TeX-command-list '(
   ("TeX" "%(PDF)%(tex) %`%S%(PDFout)%(mode) -shell-escape%' %t" TeX-run-TeX nil (plain-tex-mode texinfo-mode ams-tex-mode) :help "Run plain TeX") 
   ("LaTeX" "%`%l%(mode) -shell-escape%' %t" TeX-run-command nil (latex-mode doctex-mode) :help "Run LaTeX") 
