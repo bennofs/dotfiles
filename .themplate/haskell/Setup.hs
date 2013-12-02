@@ -25,12 +25,12 @@ generateBuildModule :: Verbosity -> PackageDescription -> LocalBuildInfo -> IO (
 generateBuildModule verbosity pkg lbi = do
   let dir = autogenModulesDir lbi
   createDirectoryIfMissingVerbose verbosity True dir
-  withLibLBI pkg lbi $ \_ libcfg -> do
-    withTestLBI pkg lbi $ \suite suitecfg -> do
+  withLibLBI pkg lbi $ \_ libcfg ->
+    withTestLBI pkg lbi $ \suite suitecfg ->
       rewriteFile (dir </> "Build_" ++ testName suite ++ ".hs") $ unlines
         [ "module Build_" ++ testName suite ++ " where"
         , "deps :: [String]"
-        , "deps = " ++ (show $ formatdeps (testDeps libcfg suitecfg))
+        , "deps = " ++ show (formatdeps $ testDeps libcfg suitecfg)
         ]
   where
     formatdeps = map (formatone . snd)
