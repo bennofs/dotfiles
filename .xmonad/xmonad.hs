@@ -7,7 +7,7 @@ import           Control.Monad
 import           XMonad
 import           XMonad.Actions.CycleRecentWS
 import           XMonad.Actions.CycleWS
-import           XMonad.Actions.Search        (SearchEngine, intelligent, multi,  promptSearch, searchEngine, selectSearch, (!>))
+import           XMonad.Actions.Search        (SearchEngine, intelligent, multi,  promptSearchBrowser, searchEngine, selectSearchBrowser , (!>))
 import           XMonad.Actions.WindowGo
 import           XMonad.Hooks.DynamicLog
 import           XMonad.Hooks.EwmhDesktops
@@ -63,6 +63,12 @@ hayoo = searchEngine "hayoo" "http://holumbus.fh-wedel.de/hayoo/hayoo.html?query
 dictcc :: SearchEngine
 dictcc = searchEngine "dictcc" "http://www.dict.cc/?=DEEN&s="
 
+promptSearchB :: XPConfig -> SearchEngine -> X ()
+promptSearchB = flip promptSearchBrowser "chromium"
+
+selectSearchB :: SearchEngine -> X ()
+selectSearchB = selectSearchBrowser "chromium"
+
 bindings =
     [ ("<XF86AudioLowerVolume>", spawn "volume.sh -d 5")
     , ("<XF86AudioRaiseVolume>", spawn "volume.sh -i 5")
@@ -72,14 +78,14 @@ bindings =
     , ("M-b"                   , raiseMaybe (spawn "chromium" >> windows (W.greedyView $ ws 1)) $ className =? "Chromium")
     , ("M-x"                   , sendMessage ToggleStruts)
     , ("C-<Tab>"               , cycleRecentWS [xK_Control_L] xK_Tab xK_grave)
-    , ("M-s"                   , promptSearch defaultXPConfig $ intelligent $ hayoo !> dictcc !> multi)
-    , ("M-S-s"                 , selectSearch multi)
-    , ("M-g"                   , promptSearch defaultXPConfig hayoo)
-    , ("M-S-g"                 , selectSearch hayoo)
-    , ("M-d"                   , promptSearch defaultXPConfig dictcc)
+    , ("M-s"                   , promptSearchB defaultXPConfig $ intelligent $ hayoo !> dictcc !> multi)
+    , ("M-S-s"                 , selectSearchB multi)
+    , ("M-g"                   , promptSearchB defaultXPConfig hayoo)
+    , ("M-S-g"                 , selectSearchB hayoo)
+    , ("M-d"                   , promptSearchB defaultXPConfig dictcc)
     , ("M-f"                   , spawn "thunar")
     , ("M-c"                   , runOrRaiseNext "emacs" $ className =? "Emacs")
-    , ("M-S-d"                 , selectSearch dictcc)
+    , ("M-S-d"                 , selectSearchB dictcc)
     , ("<Print>"               , spawn "scrot '%y-%m-%d-%T.png' -e 'mv -b \"$f\" /home/benno/Screenshots'")
     , ("M-<Print>"             , spawn "scrot '%y-%m-%d-%T.png' -s -e 'mv -b \"$f\" /home/benno/Screenshots'")
     ] ++ zipWith (\n w -> ("M-<F" ++ show n ++ ">", windows $ W.greedyView w)) [1..] myWorkspaces
