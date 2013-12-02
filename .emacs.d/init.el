@@ -5,6 +5,7 @@
 (require 'nix-mode)
 
 (add-to-list 'load-path "~/.emacs.d/config")
+(add-to-list 'load-path "~/.emacs.d/lib")
 (require 'config-theme)
 (require 'config-faces)
 (require 'config-misc)
@@ -17,6 +18,7 @@
 (require 'config-org)
 (require 'config-yasnippet)
 (require 'config-auctex)
+(require 'config-magit)
 
 (setq custom-file "~/.emacs.d/config/config-customize.el")
 (load custom-file)

@@ -8,7 +8,6 @@
 (setq org-agenda-files (directory-files "~/notes" t "^[^.][^.]*\.org\\'"))
 (setq org-agenda-todo-list-sublevels nil)
 (setq org-hide-leading-stars t)
-(global-set-key (kbd "C-c a") 'org-agenda)
 
 (setq org-latex-listings t)
 

@@ -1,8 +1,8 @@
 (global-flycheck-mode 1)
 (setq flycheck-check-syntax-automatically '(save new-line mode-enabled idle-change))
-(setq flycheck-idle-change-delay 0.25)
+(setq flycheck-idle-change-delay 0.5)
 
-(flycheck-define-checker haskell-hdevtools-custom
+(flycheck-define-checker haskell-hdevtools
   "A Haskell syntax and type checker using hdevtools.
 
 See URL `https://github.com/bitc/hdevtools'."
@@ -26,5 +26,6 @@ See URL `https://github.com/bitc/hdevtools'."
           line-end))
   :modes (haskell-mode literate-haskell-mode)
   :next-checkers ((warnings-only . haskell-hlint)))
+(add-to-list 'flycheck-checkers 'haskell-hdevtools)
 
 (provide 'config-flycheck)
