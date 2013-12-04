@@ -2,6 +2,7 @@
 *~
 
 !/.gitignore
+!/.gitignore_global
 
 !/.emacs.d
 /.emacs.d/*
