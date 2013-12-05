@@ -19,6 +19,7 @@
 (require 'config-yasnippet)
 (require 'config-auctex)
 (require 'config-magit)
+(require 'config-eshell)
 
 (setq custom-file "~/.emacs.d/config/config-customize.el")
 (load custom-file)
