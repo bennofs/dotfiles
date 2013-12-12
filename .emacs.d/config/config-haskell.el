@@ -24,7 +24,12 @@
     (define-key haskell-mode-map (kbd "C-c b")   'haskell-interactive-switch)
     (define-key haskell-mode-map (kbd "C-c c")   'haskell-cabal-visit-file)
     (define-key haskell-mode-map (kbd "C-c h")   'hayoo)
-    (define-key haskell-mode-map (kbd "C-c g")   (in-console '(lambda () (switch-to-buffer (haskell-session-interactive-buffer (haskell-session))))))
+    (define-key haskell-mode-map (kbd "C-c g")   '(lambda () 
+      (interactive)
+      (let ((session (haskell-session)))
+           (funcall (in-console '(lambda () (switch-to-buffer (haskell-session-interactive-buffer session)))))
+      )
+    ))
     (define-key haskell-mode-map (kbd "C-c M-.") nil)
     (define-key haskell-mode-map (kbd "C-c C-d") nil)))
 
