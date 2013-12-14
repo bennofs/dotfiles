@@ -50,16 +50,19 @@ withUnicode m = m
 ##endif
 
 main :: IO ()
-main = withUnicode $ getSources >>= \sources -> doctest $
-    "-isrc"
-  : "-idist/build/autogen"
-  : "-optP-include"
-  : "-optPdist/build/autogen/cabal_macros.h"
-  : "-hide-all-packages"
-  : map ("-package="++) deps ++ sources
+main = withUnicode $ forM_ deps $ \(dirs, dep) -> do
+    putStrLn $ ":: Running doctests for source directories: " ++ intercalate " " dirs
+    mapM getSources dirs >>= \sources -> doctest $
+        "-idist/build/autogen"
+      : "-optP-include"
+      : "-optPdist/build/autogen/cabal_macros.h"
+      : "-hide-all-packages"
+      : map ("-package="++) dep
+        ++ map ("-i"++) dirs 
+        ++ join sources 
 
-getSources :: IO [FilePath]
-getSources = filter (isSuffixOf ".hs") <$> go "src"
+getSources :: FilePath -> IO [FilePath]
+getSources d = filter (isSuffixOf ".hs") <$> go d
   where
     go dir = do
       (dirs, files) <- getFilesAndDirectories dir

@@ -5,10 +5,10 @@ import Data.IORef
 import Data.List ( nub )
 import Data.Version ( showVersion )
 import Distribution.Package ( PackageName(PackageName), PackageId, InstalledPackageId, packageVersion, packageName )
-import Distribution.PackageDescription ( PackageDescription(), TestSuite(..), hsSourceDirs)
+import Distribution.PackageDescription ( PackageDescription(), TestSuite(..), hsSourceDirs, libBuildInfo, buildInfo)
 import Distribution.Simple ( defaultMainWithHooks, UserHooks(..), simpleUserHooks )
 import Distribution.Simple.BuildPaths ( autogenModulesDir )
-import Distribution.Simple.LocalBuildInfo ( withLibLBI, withTestLBI, ComponentLocalBuildInfo(), LocalBuildInfo(), componentPackageDeps )
+import Distribution.Simple.LocalBuildInfo ( withLibLBI, withTestLBI, withExeLBI, ComponentLocalBuildInfo(), LocalBuildInfo(), componentPackageDeps )
 import Distribution.Simple.Setup ( BuildFlags(buildVerbosity), fromFlag, buildDistPref, defaultDistPref, fromFlagOrDefault )
 import Distribution.Simple.Utils ( rewriteFile, createDirectoryIfMissingVerbose )
 import Distribution.Verbosity ( Verbosity )
@@ -29,9 +29,6 @@ singletonDL = (:)
 emptyDL :: [a] -> [a]
 emptyDL = id
 
-listDL :: [a] -> [a] -> [a]
-listDL = foldl (\acc x -> acc `appendDL` singletonDL x) emptyDL
-
 appendDL :: ([a] -> [a]) -> ([a] -> [a]) -> [a] -> [a]
 appendDL x y = x . y
 
@@ -42,25 +39,29 @@ generateBuildModule verbosity pkg lbi flags = do
   withTestLBI pkg lbi $ \suite suitelbi -> do
     srcDirs <- mapM canonicalizePath $ hsSourceDirs $ testBuildInfo suite
     distDir <- canonicalizePath $ fromFlagOrDefault defaultDistPref $ buildDistPref flags
-    contents <- newIORef $ listDL
+
+    depsVar <- newIORef emptyDL
+    withLibLBI pkg lbi $ \lib liblbi ->
+      modifyIORef depsVar $ appendDL . singletonDL $ depsEntry (libBuildInfo lib) liblbi suitelbi
+    withExeLBI pkg lbi $ \exe exelbi ->
+      modifyIORef depsVar $ appendDL . singletonDL $ depsEntry (buildInfo exe) exelbi suitelbi
+    deps <- fmap ($ []) $ readIORef depsVar
+
+    rewriteFile (map fixchar $ dir </> "Build_" ++ testName suite ++ ".hs") $ unlines 
       [ "module Build_" ++ map fixchar (testName suite) ++ " where"
       , "getDistDir :: FilePath"
       , "getDistDir = " ++ show distDir
       , "getSrcDirs :: [FilePath]"
       , "getSrcDirs = " ++ show srcDirs
+      , "deps :: [([FilePath], [String])]"
+      , "deps = " ++ show deps
       ]
-    withLibLBI pkg lbi $ \_ liblbi ->
-      modifyIORef contents (appendDL $ depsDef liblbi suitelbi)
-    contents' <- fmap ($ []) $ readIORef contents
-    rewriteFile (map fixchar $ dir </> "Build_" ++ testName suite ++ ".hs") $ unlines contents'
+
   where
     formatdeps = map (formatone . snd)
     formatone p = case packageName p of
       PackageName n -> n ++ "-" ++ showVersion (packageVersion p)
-    depsDef librarylbi suitelbi = listDL
-      [ "deps :: [String]"
-      , "deps = " ++ show (formatdeps $ testDeps librarylbi suitelbi)
-      ]
+    depsEntry targetbi targetlbi suitelbi = (hsSourceDirs targetbi, formatdeps $ testDeps targetlbi suitelbi)
     fixchar '-' = '_'
     fixchar c = c
 
