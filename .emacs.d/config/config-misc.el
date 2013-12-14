@@ -13,6 +13,8 @@
 (set-frame-parameter (selected-frame) 'alpha '(97 97))
 (add-to-list 'default-frame-alist '(alpha 97 97))
 
+(setq browse-url-browser-function 'browse-url-chromium)
+
 (require 'uniquify)
 (setq uniquify-buffer-name-style 'post-forward)
 (setq linum-format " %3d ")
