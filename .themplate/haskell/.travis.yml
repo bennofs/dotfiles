@@ -2,7 +2,7 @@
 env:
  - GHCVER=7.4.2 CABALVER=1.16
  - GHCVER=7.6.3 CABALVER=1.18
- - GHCVER=head  # see section about GHC HEAD snapshots
+ - GHCVER=head CABALVER=1.18  # see section about GHC HEAD snapshots
 
 before_install:
  - sudo add-apt-repository -y ppa:hvr/ghc
@@ -16,7 +16,7 @@ install:
 
 script:
  - cabal-$CABALVER configure --enable-tests --enable-benchmarks -v2 --ghc-options="-Wall -Werror"
- - cabal-$CABALVER build
+ - cabal-$CABALVER build -j0 # Do not use multiple jobs, to get full build log
  - cabal-$CABALVER test
  - cabal-$CABALVER check
  - hlint src
