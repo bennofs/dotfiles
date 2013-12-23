@@ -1,9 +1,9 @@
 {-# LANGUAGE NoMonomorphismRestriction #-}
 {-# OPTIONS_GHC -fno-warn-type-defaults -fno-warn-missing-signatures #-}
-import           Data.List
-import           Data.Monoid
 import           Control.Applicative
 import           Control.Monad
+import           Data.List
+import           Data.Monoid
 import           XMonad
 import           XMonad.Actions.CycleRecentWS
 import           XMonad.Actions.CycleWS
@@ -86,8 +86,8 @@ bindings =
     , ("M-f"                   , spawn "thunar")
     , ("M-c"                   , runOrRaiseNext "emacs" $ className =? "Emacs")
     , ("M-S-d"                 , selectSearchB dictcc)
-    , ("<Print>"               , spawn "scrot '%y-%m-%d-%T.png' -e 'mv -b \"$f\" /home/benno/Screenshots'")
-    , ("M-<Print>"             , spawn "scrot '%y-%m-%d-%T.png' -s -e 'mv -b \"$f\" /home/benno/Screenshots'")
+    , ("<Print>"               , spawn "scrot '%y-%m-%d-%T.png' -e 'mv -b \"$f\" /home/benno/pics/screen'")
+    , ("M-<Print>"             , spawn "scrot '%y-%m-%d-%T.png' -s -e 'mv -b \"$f\" /home/benno/pics/screen'")
     ] ++ zipWith (\n w -> ("M-<F" ++ show n ++ ">", windows $ W.greedyView w)) [1..] myWorkspaces
       ++ zipWith (\n w -> ("M-S-<F" ++ show n ++ ">", windows $ W.shift w)) [1..] myWorkspaces
 
@@ -98,6 +98,7 @@ conf = withUrgencyHook FocusHook $ ewmh $ defaultConfig
        , modMask = mod4Mask
        , terminal = "konsole"
        , workspaces = myWorkspaces
+       , handleEventHook = fullscreenEventHook
        } `additionalKeysP` bindings
 
 main :: IO ()
