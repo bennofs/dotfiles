@@ -19,4 +19,6 @@
 (setq uniquify-buffer-name-style 'post-forward)
 (setq linum-format " %3d ")
 
+(diredp-toggle-find-file-reuse-dir 1)
+
 (provide 'config-misc)
