@@ -23,3 +23,4 @@
 
 (setq custom-file "~/.emacs.d/config/config-customize.el")
 (load custom-file)
+(put 'dired-find-alternate-file 'disabled nil)
