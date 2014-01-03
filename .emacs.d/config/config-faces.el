@@ -9,10 +9,9 @@
   :underline nil
   :slant 'normal
   :weight 'normal
-  :height 90
+  :height 95
   :width 'normal
-  :foundry "adobe"
-  :family "Source Code Pro for Powerline"
+  :font "Inconsolata-dz for Powerline"
 )
 
 (set-face-attribute 'mode-line nil
