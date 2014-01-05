@@ -1,7 +1,5 @@
 {-# LANGUAGE NoMonomorphismRestriction #-}
 {-# OPTIONS_GHC -fno-warn-type-defaults -fno-warn-missing-signatures #-}
-import           Control.Applicative
-import           Control.Monad
 import           Data.List
 import           Data.Monoid
 import           XMonad
@@ -32,7 +30,7 @@ ws = (myWorkspaces !!)
 q <=? x = fmap (x `isPrefixOf`) q
 
 windowH :: ManageHook
-windowH = composeAll $
+windowH = composeAll
   [ title    <=? "weechat"     --> doShift (ws 4)
   , title    <=? "IRC"         --> doShift (ws 4)
   , className =? "Thunderbird" --> doShift (ws 5)
@@ -49,7 +47,7 @@ layoutH s = avoidStruts $ irc $ gimp $ skype $ s ||| Grid
   where skype = onWorkspace (ws 6) skypeLayout
         skypeLayout = flip onLeft Grid $ simpleDrawer 0.1 0.2 $ Title "bennofs - Skype™"
         gimp = onWorkspace (ws 8) gimpLayout
-        gimpLayout = onLeft gimpToolbox $ (onRight gimpDock Grid)
+        gimpLayout = onLeft gimpToolbox $ onRight gimpDock Grid
         gimpToolbox = simpleDrawer 0.025 0.15 $ Role "gimp-toolbox"
         gimpDock = simpleDrawer 0.05 0.2 $ Role "gimp-dock"
         irc = onWorkspace (ws 4) $ Full ||| Column 1.3
@@ -59,6 +57,9 @@ logH _ = dynamicLogString defaultPP >>= xmonadPropLog
 
 hayoo :: SearchEngine
 hayoo = searchEngine "hayoo" "http://holumbus.fh-wedel.de/hayoo/hayoo.html?query="
+
+hoogle :: SearchEngine
+hoogle = searchEngine "hoogle" "http://www.haskell.org/hoogle/?hoogle="
 
 dictcc :: SearchEngine
 dictcc = searchEngine "dictcc" "http://www.dict.cc/?=DEEN&s="
@@ -83,6 +84,8 @@ bindings =
     , ("M-g"                   , promptSearchB defaultXPConfig hayoo)
     , ("M-S-g"                 , selectSearchB hayoo)
     , ("M-d"                   , promptSearchB defaultXPConfig dictcc)
+    , ("M-u"                   , promptSearchB defaultXPConfig hoogle)
+    , ("M-S-u"                 , selectSearchB hoogle)
     , ("M-f"                   , spawn "thunar")
     , ("M-c"                   , runOrRaiseNext "emacs" $ className =? "Emacs")
     , ("M-S-d"                 , selectSearchB dictcc)

@@ -9,7 +9,7 @@
   :underline nil
   :slant 'normal
   :weight 'normal
-  :height 95
+  :height 90
   :width 'normal
   :font "Inconsolata-dz for Powerline"
 )

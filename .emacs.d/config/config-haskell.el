@@ -5,7 +5,8 @@
 (setq haskell-mode-hook '(capitalized-words-mode turn-on-haskell-indent turn-on-eldoc-mode turn-on-haskell-font-lock turn-on-haskell-decl-scan format-imports-hook))
 (setq haskell-tags-on-save t)
 (setq haskell-font-lock-symbols t)
-(setq haskell-process-type 'cabal-repl)
+(setq haskell-process-type 'ghci)
+(setq haskell-process-path-ghci "/home/benno/bin/ghci-ng")
 (setq haskell-process-args-cabal-repl '("--ghc-option=-ferror-spans" "--with-ghc=/home/benno/bin/ghci-ng"))
 
 (setq haskell-indent-dont-hang (quote ("(" "[" "{")))
