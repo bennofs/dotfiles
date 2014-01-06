@@ -2,7 +2,9 @@
   (add-hook 'before-save-hook '(lambda () (if haskell-format-on-save (save-excursion (haskell-mode-format-imports) (haskell-navigate-imports) (haskell-mode-format-imports)))) t t)
 )
 
-(setq haskell-format-on-save nil)
+(defvar haskell-format-on-save nil "Run haskell-mode-format-imports on save?")
+(make-variable-buffer-local 'haskell-format-on-save)
+(add-to-list 'safe-local-variable-values '(haskell-format-on-save . t))
 (setq haskell-mode-hook '(capitalized-words-mode turn-on-haskell-indent turn-on-eldoc-mode turn-on-haskell-font-lock turn-on-haskell-decl-scan format-imports-hook))
 (setq haskell-tags-on-save t)
 (setq haskell-font-lock-symbols t)
