@@ -5,6 +5,7 @@
 
 (depends-on "assemblage-theme")
 (depends-on "auctex")
+(depends-on "bind-key")
 (depends-on "cask")
 (depends-on "cmake-mode")
 (depends-on "dash")
