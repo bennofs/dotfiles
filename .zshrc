@@ -9,7 +9,7 @@ ZSH=$HOME/.oh-my-zsh
 ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets)
 
 eval "$(hub alias -s)"
-plugins=(redis-cli gem scala systemd colored-man colorize gitignore history-search git hub command-not-found lol nix)
+plugins=(redis-cli gem scala systemd colored-man colorize gitignore history-search git hub command-not-found lol nix hoogle)
 source $ZSH/oh-my-zsh.sh
 
 source $HOME/.profile
