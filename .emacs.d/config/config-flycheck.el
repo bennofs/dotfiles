@@ -1,12 +1,12 @@
 (global-flycheck-mode 1)
-(setq flycheck-check-syntax-automatically '(save new-line mode-enabled idle-change))
+(setq flycheck-check-syntax-automatically '(save mode-enabled idle-change))
 (setq flycheck-idle-change-delay 0.5)
 
 (flycheck-define-checker haskell-hdevtools
   "A Haskell syntax and type checker using hdevtools.
 
 See URL `https://github.com/bitc/hdevtools'."
-  :command ("hdevtools" "check" source-inplace)
+  :command ("hdevtools" "-t 300" "check" source-inplace)
   :error-patterns
   ((warning line-start (file-name) ":" line ":" column ":"
             (or " " "\n    ") "Warning:" (optional "\n")
