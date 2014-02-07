@@ -99,7 +99,7 @@ conf = withUrgencyHook FocusHook $ ewmh $ defaultConfig
        , layoutHook = layoutH $ layoutHook defaultConfig
        , logHook = logH $ logHook defaultConfig
        , modMask = mod4Mask
-       , terminal = "konsole"
+       , terminal = "xfce4-terminal"
        , workspaces = myWorkspaces
        , handleEventHook = fullscreenEventHook
        } `additionalKeysP` bindings
