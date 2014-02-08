@@ -64,12 +64,6 @@ hoogle = searchEngine "hoogle" "http://www.haskell.org/hoogle/?hoogle="
 dictcc :: SearchEngine
 dictcc = searchEngine "dictcc" "http://www.dict.cc/?=DEEN&s="
 
-promptSearchB :: XPConfig -> SearchEngine -> X ()
-promptSearchB = flip promptSearchBrowser "chromium"
-
-selectSearchB :: SearchEngine -> X ()
-selectSearchB = selectSearchBrowser "chromium"
-
 bindings =
     [ ("<XF86AudioLowerVolume>", spawn "volume.sh -d 5")
     , ("<XF86AudioRaiseVolume>", spawn "volume.sh -i 5")
@@ -79,16 +73,16 @@ bindings =
     , ("M-b"                   , raiseMaybe (spawn "chromium" >> windows (W.greedyView $ ws 1)) $ className =? "Chromium")
     , ("M-x"                   , sendMessage ToggleStruts)
     , ("C-<Tab>"               , cycleRecentWS [xK_Control_L] xK_Tab xK_grave)
-    , ("M-s"                   , promptSearchB defaultXPConfig $ intelligent $ hayoo !> dictcc !> multi)
-    , ("M-S-s"                 , selectSearchB multi)
-    , ("M-g"                   , promptSearchB defaultXPConfig hayoo)
-    , ("M-S-g"                 , selectSearchB hayoo)
-    , ("M-d"                   , promptSearchB defaultXPConfig dictcc)
-    , ("M-u"                   , promptSearchB defaultXPConfig hoogle)
-    , ("M-S-u"                 , selectSearchB hoogle)
+    , ("M-s"                   , promptSearch defaultXPConfig $ intelligent $ hayoo !> dictcc !> multi)
+    , ("M-S-s"                 , selectSearch multi)
+    , ("M-g"                   , promptSearch defaultXPConfig hayoo)
+    , ("M-S-g"                 , selectSearch hayoo)
+    , ("M-d"                   , promptSearch defaultXPConfig dictcc)
+    , ("M-u"                   , promptSearch defaultXPConfig hoogle)
+    , ("M-S-u"                 , selectSearch hoogle)
     , ("M-f"                   , spawn "thunar")
     , ("M-c"                   , runOrRaiseNext "emacs" $ className =? "Emacs")
-    , ("M-S-d"                 , selectSearchB dictcc)
+    , ("M-S-d"                 , selectSearch dictcc)
     , ("<Print>"               , spawn "scrot '%y-%m-%d-%T.png' -e 'mv -b \"$f\" /home/benno/pics/screen'")
     , ("M-<Print>"             , spawn "scrot '%y-%m-%d-%T.png' -s -e 'mv -b \"$f\" /home/benno/pics/screen'")
     ] ++ zipWith (\n w -> ("M-<F" ++ show n ++ ">", windows $ W.greedyView w)) [1..] myWorkspaces

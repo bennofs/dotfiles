@@ -1,6 +1,8 @@
  !
  ! Swap Caps_Lock and Control_L
  !
- remove Lock = Caps_Lock
- keysym Caps_Lock = Control_L
- add Control = Control_L
+ clear Lock
+ clear Control
+ keycode 66 = Control_L
+ keycode 37 = Control_L
+ add Control = Control_L Control_R
