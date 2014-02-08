@@ -1,5 +1,5 @@
 (defun format-imports-hook ()
-  (add-hook 'before-save-hook '(lambda () (if haskell-format-on-save (save-excursion (haskell-mode-format-imports) (haskell-navigate-imports) (haskell-mode-format-imports)))) t t)
+  (add-hook 'before-save-hook '(lambda () (if haskell-format-on-save (save-excursion (haskell-sort-imports) (haskell-navigate-imports) (haskell-sort-imports)))) t t)
 )
 
 (defvar haskell-format-on-save nil "Run haskell-mode-format-imports on save?")
