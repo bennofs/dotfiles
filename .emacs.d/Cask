@@ -19,6 +19,7 @@
 (depends-on "git-commit-mode")
 (depends-on "git-rebase-mode")
 (depends-on "haskell-mode")
+(depends-on "lua-mode")
 (depends-on "magit")
 (depends-on "markdown-mode")
 (depends-on "mmm-mode")
