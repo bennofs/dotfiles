@@ -5,7 +5,7 @@ import           Data.Monoid
 import           XMonad
 import           XMonad.Actions.CycleRecentWS
 import           XMonad.Actions.CycleWS
-import           XMonad.Actions.Search        (SearchEngine, intelligent, multi,  promptSearchBrowser, searchEngine, selectSearchBrowser , (!>))
+import           XMonad.Actions.Search        (SearchEngine, intelligent, multi,  promptSearch, searchEngine, selectSearch , (!>))
 import           XMonad.Actions.WindowGo
 import           XMonad.Hooks.DynamicLog
 import           XMonad.Hooks.EwmhDesktops
@@ -29,6 +29,9 @@ ws = (myWorkspaces !!)
 (<=?) :: Eq a => Query [a] -> [a] -> Query Bool
 q <=? x = fmap (x `isPrefixOf`) q
 
+(*=?) :: Eq a => Query [a] -> [a] -> Query Bool
+q *=? x = fmap (x `isInfixOf`) q
+
 windowH :: ManageHook
 windowH = composeAll
   [ title    <=? "weechat"     --> doShift (ws 4)
@@ -36,6 +39,7 @@ windowH = composeAll
   , className =? "Thunderbird" --> doShift (ws 5)
   , className =? "Skype"       --> doShift (ws 6)
   , className =? "Chromium"    --> doShift (ws 1)
+  , className *=? "dwb"        --> doShift (ws 1)
   , className =? "Gimp"        --> doShift (ws 8)
   , className =? "Gimp"        --> fmap (Endo . W.sink) ask
   ]
