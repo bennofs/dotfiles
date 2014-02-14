@@ -11,7 +11,7 @@
   :weight 'normal
   :height 90
   :width 'normal
-  :font "Inconsolata-dz for Powerline"
+  :font "Source Code Pro for Powerline"
 )
 
 (set-face-attribute 'mode-line nil

@@ -5,6 +5,7 @@
 (defvar haskell-format-on-save nil "Run haskell-mode-format-imports on save?")
 (make-variable-buffer-local 'haskell-format-on-save)
 (add-to-list 'safe-local-variable-values '(haskell-format-on-save . t))
+(add-to-list 'safe-local-variable-values '(haskell-format-on-save . nil))
 (setq haskell-mode-hook '(capitalized-words-mode turn-on-haskell-indent turn-on-eldoc-mode turn-on-haskell-font-lock turn-on-haskell-decl-scan format-imports-hook))
 (setq haskell-tags-on-save t)
 (setq haskell-font-lock-symbols t)

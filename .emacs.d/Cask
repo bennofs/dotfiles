@@ -31,5 +31,6 @@
 (depends-on "s")
 (depends-on "smex")
 (depends-on "undo-tree")
+(depends-on "writegood-mode")
 (depends-on "yaml-mode")
 (depends-on "yasnippet")
