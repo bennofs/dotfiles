@@ -1,4 +1,7 @@
-.\#.*
-\#*\#
-.\#*
-default.nix
+.#*
+\#*#
+*~
+*.prof
+cabal.sandbox.config
+.cabal-sandbox
+

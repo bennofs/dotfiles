@@ -5,7 +5,7 @@
 
 (add-hook 'org-after-todo-statistics-hook 'org-summary-todo)
 
-(setq org-agenda-files (directory-files "/data/notes" t "^[^.][^.]*\.org\\'"))
+(setq org-agenda-files '("/data/notes/main.org"))
 (setq org-agenda-todo-list-sublevels nil)
 (setq org-hide-leading-stars t)
 

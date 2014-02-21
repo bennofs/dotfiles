@@ -9,11 +9,14 @@
 (cua-selection-mode 1)
 
 (setq inhibit-startup-screen t)
+(setq initial-buffer-choice "/data/notes/main.org")
+(setq inhibit-splash-screen t)
+
 (server-mode 1)
 (set-frame-parameter (selected-frame) 'alpha '(97 97))
 (add-to-list 'default-frame-alist '(alpha 97 97))
 
-(setq browse-url-browser-function 'browse-url-chromium)
+(setq browse-url-browser-function 'browse-url-xdg-open)
 
 (require 'uniquify)
 (setq uniquify-buffer-name-style 'post-forward)
