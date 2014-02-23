@@ -87,8 +87,8 @@ bindings =
     , ("M-f"                   , spawn "thunar")
     , ("M-c"                   , runOrRaiseNext "emacs" $ className =? "Emacs")
     , ("M-S-d"                 , selectSearch dictcc)
-    , ("<Print>"               , spawn "scrot '%y-%m-%d-%T.png' -e 'mv -b \"$f\" /home/benno/pics/screen'")
-    , ("M-<Print>"             , spawn "scrot '%y-%m-%d-%T.png' -s -e 'mv -b \"$f\" /home/benno/pics/screen'")
+    , ("<Print>"               , spawn "scrot '%y-%m-%d-%T.png' -e 'mv -b \"$f\" /data/pics/screen'")
+    , ("M-<Print>"             , spawn "scrot '%y-%m-%d-%T.png' -s -e 'mv -b \"$f\" /data/pics/screen'")
     ] ++ zipWith (\n w -> ("M-<F" ++ show n ++ ">", windows $ W.greedyView w)) [1..] myWorkspaces
       ++ zipWith (\n w -> ("M-S-<F" ++ show n ++ ">", windows $ W.shift w)) [1..] myWorkspaces
 
