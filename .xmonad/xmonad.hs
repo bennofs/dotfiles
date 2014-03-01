@@ -36,6 +36,8 @@ windowH :: ManageHook
 windowH = composeAll
   [ title    <=? "weechat"     --> doShift (ws 4)
   , title    <=? "IRC"         --> doShift (ws 4)
+  , title     *=? "[ Zed ]"    --> doShift (ws 0)
+  , title     =? "Zed Project Picker" --> doShift (ws 0)
   , className =? "Thunderbird" --> doShift (ws 5)
   , className =? "Skype"       --> doShift (ws 6)
   , className =? "Chromium"    --> doShift (ws 1)
