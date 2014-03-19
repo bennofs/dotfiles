@@ -13,8 +13,8 @@
 (setq inhibit-splash-screen t)
 
 (server-mode 1)
-(set-frame-parameter (selected-frame) 'alpha '(97 97))
-(add-to-list 'default-frame-alist '(alpha 97 97))
+(set-frame-parameter (selected-frame) 'alpha '(90 90))
+(add-to-list 'default-frame-alist '(alpha 90 90))
 
 (setq browse-url-browser-function 'browse-url-xdg-open)
 

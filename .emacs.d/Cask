@@ -28,6 +28,7 @@
 (depends-on "pkg-info")
 (depends-on "powerline")
 (depends-on "regex-tool")
+(depends-on "rust-mode")
 (depends-on "s")
 (depends-on "smex")
 (depends-on "undo-tree")

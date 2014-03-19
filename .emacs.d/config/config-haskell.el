@@ -46,3 +46,22 @@
     (define-key haskell-mode-map (kbd "C-c C-d") nil)))
 
 (provide 'config-haskell)
+
+;; Org mode for .prof files
+(defun haskell-prof-org ()
+  (save-excursion 
+    (goto-char (point-min))
+    (search-forward "COST CENTRE")
+    (search-forward "COST CENTRE")
+    (forward-line 1)
+    (while (= (forward-line 1) 0)
+      (beginning-of-line)
+      (skip-chars-forward " ")
+      (let ((stop-point (point)))
+        (beginning-of-line)
+        (while (search-forward " " stop-point t)
+          (replace-match "*" t t)))
+      (insert "* ")))
+  (org-mode)
+  (hl-line-mode)
+  (save-buffer))
