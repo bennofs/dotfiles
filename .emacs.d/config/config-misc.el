@@ -16,6 +16,8 @@
 (set-frame-parameter (selected-frame) 'alpha '(90 90))
 (add-to-list 'default-frame-alist '(alpha 90 90))
 
+(setq show-trailing-whitespace t)
+
 (setq browse-url-browser-function 'browse-url-xdg-open)
 
 (require 'uniquify)

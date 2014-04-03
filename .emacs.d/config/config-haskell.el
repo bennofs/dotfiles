@@ -3,7 +3,15 @@
 (autoload 'hare-init "hare" nil t)
 
 (defun format-imports-hook ()
-  (add-hook 'before-save-hook '(lambda () (if haskell-format-on-save (save-excursion (haskell-sort-imports) (haskell-navigate-imports) (haskell-sort-imports)))) t t)
+  (add-hook 'before-save-hook '(lambda () 
+    (if haskell-format-on-save (save-excursion (haskell-sort-imports) (haskell-navigate-imports) (haskell-sort-imports)))
+  ) t t)
+)
+
+(defun whitespace-clean-hook ()
+  (add-hook 'before-save-hook '(lambda ()
+    (whitespace-cleanup)
+  ) t t)
 )
 
 (defvar haskell-format-on-save nil "Run haskell-mode-format-imports on save?")
@@ -11,7 +19,7 @@
 (add-to-list 'safe-local-variable-values '(haskell-format-on-save . t))
 (add-to-list 'safe-local-variable-values '(haskell-format-on-save . nil))
 
-(setq haskell-mode-hook '(capitalized-words-mode turn-on-haskell-indent turn-on-eldoc-mode turn-on-haskell-font-lock turn-on-haskell-decl-scan format-imports-hook (lambda () (hare-init))))
+(setq haskell-mode-hook '(capitalized-words-mode turn-on-haskell-indent turn-on-eldoc-mode turn-on-haskell-font-lock turn-on-haskell-decl-scan format-imports-hook whitespace-clean-hook (lambda () (hare-init))))
 (setq haskell-tags-on-save t)
 (setq haskell-font-lock-symbols t)
 (setq haskell-process-type 'ghci)
