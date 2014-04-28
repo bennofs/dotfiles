@@ -10,7 +10,7 @@
 
 (defun whitespace-clean-hook ()
   (add-hook 'before-save-hook '(lambda ()
-    (whitespace-cleanup)
+    (delete-trailing-whitespace)
   ) t t)
 )
 

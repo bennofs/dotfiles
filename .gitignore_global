@@ -3,6 +3,10 @@
 *~
 *.prof
 cabal.sandbox.config
-.cabal-sandbox
+/.cabal-sandbox*
 .zedstate
-
+result
+/dist
+/nix-*
+/--*
+/Setup
