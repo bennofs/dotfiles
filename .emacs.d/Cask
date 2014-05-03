@@ -6,6 +6,7 @@
 (depends-on "bind-key")
 (depends-on "cmake-mode")
 (depends-on "dired+")
+(depends-on "flx-ido")
 (depends-on "flycheck")
 (depends-on "git-commit-mode")
 (depends-on "git-rebase-mode")

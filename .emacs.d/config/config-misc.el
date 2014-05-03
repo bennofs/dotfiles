@@ -24,5 +24,12 @@
 (setq linum-format " %3d ")
 
 (diredp-toggle-find-file-reuse-dir 1)
+(projectile-global-mode 1)
+
+(defadvice ido-find-file (after find-file-sudo activate)
+  "Find file as root if necessary."
+  (unless (and buffer-file-name
+               (file-writable-p buffer-file-name))
+    (find-alternate-file (concat "/sudo:root@localhost:" buffer-file-name))))
 
 (provide 'config-misc)
