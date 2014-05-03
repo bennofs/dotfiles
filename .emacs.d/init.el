@@ -1,11 +1,14 @@
-(require 'cask "~/progs/cask/cask.el")
+(add-to-list 'load-path "~/.emacs.d/config")
+(add-to-list 'load-path "~/.emacs.d/lib")
+
+(require 'cask "~/.cask/cask.el")
 (cask-initialize)
+
+(byte-recompile-directory (expand-file-name "~/.emacs.d") 0)
 
 (require 'pallet)
 (require 'nix-mode)
 
-(add-to-list 'load-path "~/.emacs.d/config")
-(add-to-list 'load-path "~/.emacs.d/lib")
 (require 'config-theme)
 (require 'config-faces)
 (require 'config-misc)

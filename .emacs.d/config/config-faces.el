@@ -1,7 +1,5 @@
 (set-face-attribute 'default nil 
   :stipple nil
-  :background "#000C0C"
-  :foreground "#F9F9F9"
   :inverse-video nil
   :box nil
   :strike-through nil
@@ -15,10 +13,30 @@
 )
 
 (set-face-attribute 'mode-line nil
-  :background "grey75"
-  :foreground "black"
-  :box '(:line-width -1 :style released-button)
-  :height 0.9
+                    :foreground "#fdf6e3"
+                    :background "#2aa198"
+                    :box nil)
+(set-face-attribute 'mode-line-inactive nil
+                    :box nil)
+
+(set-face-attribute 'powerline-active1 nil
+		    :background "#073642"
+		    :box nil
+)
+
+(set-face-attribute 'powerline-active2 nil
+		    :background "#002b36"
+		    :box nil
+)
+
+(set-face-attribute 'powerline-inactive1 nil
+		    :background "#073642"
+		    :box nil
+)
+
+(set-face-attribute 'powerline-inactive2 nil
+		    :background "#002b36"
+		    :box nil
 )
 
 (provide 'config-faces)

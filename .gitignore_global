@@ -10,3 +10,4 @@ result
 /nix-*
 /--*
 /Setup
+*.elc
