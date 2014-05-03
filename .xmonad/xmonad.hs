@@ -99,7 +99,7 @@ conf = withUrgencyHook FocusHook $ ewmh $ defaultConfig
        , layoutHook = layoutH $ layoutHook defaultConfig
        , logHook = logH $ logHook defaultConfig
        , modMask = mod4Mask
-       , terminal = "urxvt"
+       , terminal = "urxvtc"
        , workspaces = myWorkspaces
        , handleEventHook = fullscreenEventHook
        } `additionalKeysP` bindings
