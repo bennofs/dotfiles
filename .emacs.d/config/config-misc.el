@@ -12,8 +12,8 @@
 (setq initial-buffer-choice "/data/notes/main.org")
 (setq inhibit-splash-screen t)
 
-(set-frame-parameter (selected-frame) 'alpha '(90 90))
-(add-to-list 'default-frame-alist '(alpha 90 90))
+(set-frame-parameter (selected-frame) 'alpha '(91 91))
+(add-to-list 'default-frame-alist '(alpha 95 95))
 
 (setq show-trailing-whitespace t)
 

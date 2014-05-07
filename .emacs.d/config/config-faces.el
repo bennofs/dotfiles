@@ -13,9 +13,14 @@
 )
 
 (set-face-attribute 'mode-line nil
-                    :foreground "#fdf6e3"
+		    :foreground "#ddd6d3"
                     :background "#2aa198"
                     :box nil)
+
+(set-face-attribute 'mode-line-buffer-id nil
+		    :foreground "#ddd6d3"
+		    :box nil)
+
 (set-face-attribute 'mode-line-inactive nil
                     :box nil)
 

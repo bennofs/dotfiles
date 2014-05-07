@@ -10,14 +10,18 @@
 
 (defun whitespace-clean-hook ()
   (add-hook 'before-save-hook '(lambda ()
-    (delete-trailing-whitespace)
+    (if haskell-whitespace-on-save (delete-trailing-whitespace))
   ) t t)
 )
 
 (defvar haskell-format-on-save nil "Run haskell-mode-format-imports on save?")
 (make-variable-buffer-local 'haskell-format-on-save)
+(make-variable-buffer-local 'haskell-whitespace-on-save)
+(setq-default haskell-whitespace-on-save t)
 (add-to-list 'safe-local-variable-values '(haskell-format-on-save . t))
 (add-to-list 'safe-local-variable-values '(haskell-format-on-save . nil))
+(add-to-list 'safe-local-variable-values '(haskell-whitespace-on-save . t))
+(add-to-list 'safe-local-variable-values '(haskell-whitespace-on-save . nil))
 
 (setq haskell-mode-hook '(capitalized-words-mode turn-on-haskell-indent turn-on-eldoc-mode turn-on-haskell-font-lock turn-on-haskell-decl-scan format-imports-hook whitespace-clean-hook (lambda () (hare-init))))
 (setq haskell-tags-on-save t)
