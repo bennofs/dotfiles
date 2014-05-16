@@ -10,7 +10,7 @@ Config { font = "xft:Source Code Pro for Powerline:size=8:antialias=false"
                     , Run Date "%d.%m.%Y %H:%M:%S" "date" 10
                     , Run Battery ["-t","<left>% [<timeleft>]", "-l","#dc322f","-h","#859900","-p","3"] 10
                     , Run XMonadLog
-		    , Run MPD ["-t", "> <fc=#3399ff><artist> - <title></fc>", "-a", "l"] 10
+		    , Run MPD ["-t", "> <fc=#3399aa><artist> - <title></fc>", "-a", "l"] 10
                     ]
        , sepChar = "%"
        , template = "%XMonadLog% }{ %mpd% < %cpu% | %memory% | %dynnetwork% | %battery% | <fc=#cb4b16>%date%</fc> %EDDC% "
