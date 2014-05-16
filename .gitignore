@@ -20,6 +20,9 @@
 /.xmonad/*
 !/.xmonad/xmonad.hs
 
+!/.xmobarrc
+!/.ghci
+
 !/.zshrc
 !/.xmodmap
 !/.Xresources
