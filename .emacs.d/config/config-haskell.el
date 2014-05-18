@@ -1,5 +1,4 @@
 (add-to-list 'load-path "~/.emacs.d/plugins/hare")
-(require 'hare)
 (autoload 'hare-init "hare" nil t)
 
 (defun format-imports-hook ()
