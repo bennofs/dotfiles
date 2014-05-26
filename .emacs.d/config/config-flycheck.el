@@ -5,7 +5,7 @@
 (flycheck-define-checker haskell-ghc-server
   "A Haskell syntax and type checker using hdevtools.
 
-See URL `https://github.com/bitc/hdevtools'."
+See URL `https://github.com/bennofs/ghc-server'."
   :command ("ghc-server" "-t 300" "check" source-inplace)
   :error-patterns
   ((warning line-start (file-name) ":" line ":" column ":"
