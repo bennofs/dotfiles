@@ -7,6 +7,7 @@
 (global-linum-mode 1)
 (column-number-mode 1)
 (cua-selection-mode 1)
+(setq-default cursor-type 'bar)
 
 (setq inhibit-startup-screen t)
 (setq initial-buffer-choice "/data/notes/main.org")
