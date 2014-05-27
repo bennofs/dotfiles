@@ -2,6 +2,7 @@
 {-# OPTIONS_GHC -fno-warn-type-defaults -fno-warn-missing-signatures #-}
 import           Data.List
 import           Data.Monoid
+import           Data.Ratio
 import           XMonad
 import           XMonad.Actions.CycleRecentWS
 import           XMonad.Actions.CycleWS
@@ -14,6 +15,7 @@ import           XMonad.Hooks.SetWMName
 import           XMonad.Hooks.UrgencyHook
 import           XMonad.Layout.Column
 import           XMonad.Layout.Drawer
+import           XMonad.Layout.IM
 import           XMonad.Layout.Grid
 import           XMonad.Layout.PerWorkspace
 import           XMonad.Prompt
@@ -49,13 +51,14 @@ windowH = composeAll
 manageH :: ManageHook -> ManageHook
 manageH s = manageDocks <+> windowH <+> s
 
-layoutH s = avoidStruts $ irc $ gimp $ skype $ s ||| Grid
+layoutH s = avoidStruts $ emacs $ irc $ gimp $ skype $ s ||| Grid
   where skype = onWorkspace (ws 6) skypeLayout
         skypeLayout = flip onLeft Grid $ simpleDrawer 0.1 0.2 $ Title "bennofs - Skype™"
         gimp = onWorkspace (ws 8) gimpLayout
         gimpLayout = onLeft gimpToolbox $ onRight gimpDock Grid
         gimpToolbox = simpleDrawer 0.025 0.15 $ Role "gimp-toolbox"
         gimpDock = simpleDrawer 0.05 0.2 $ Role "gimp-dock"
+        emacs = withIM (1%6) (Title "Speedbar 1.0")
         irc = onWorkspace (ws 4) $ Full ||| Column 1.3
 
 logH :: X () -> X ()
