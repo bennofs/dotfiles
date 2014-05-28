@@ -19,5 +19,6 @@
 (global-set-key (kbd "C-x <down>") '(lambda () (interactive) (enlarge-window (- (/ (frame-height) 3) (window-height)))))
 (global-set-key (kbd "M-x") 'smex)
 (global-set-key (kbd "C-c w") 'writegood-mode)
+(global-set-key (kbd "C-M-<backspace>") 'backward-kill-sexp)
 
 (provide 'config-keybindings)
