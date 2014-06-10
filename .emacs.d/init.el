@@ -4,7 +4,7 @@
 (require 'cask "~/.cask/cask.el")
 (cask-initialize)
 
-(byte-recompile-directory (expand-file-name "~/.emacs.d") 0)
+(byte-recompile-directory (expand-file-name "~/.emacs.d/config") 0)
 
 (require 'pallet)
 (require 'nix-mode)
@@ -17,7 +17,7 @@
 (require 'config-haskell)
 (require 'config-filetypes)
 (require 'config-keybindings)
-(require 'config-flycheck)
+;;(require 'config-flycheck)
 (require 'config-org)
 (require 'config-yasnippet)
 (require 'config-auctex)

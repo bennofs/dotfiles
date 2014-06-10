@@ -17,6 +17,7 @@
 (add-to-list 'default-frame-alist '(alpha 95 95))
 
 (setq show-trailing-whitespace t)
+(setq indent-tabs-mode nil)
 
 (setq browse-url-browser-function 'browse-url-xdg-open)
 
@@ -32,5 +33,13 @@
   (unless (and buffer-file-name
                (file-writable-p buffer-file-name))
     (find-alternate-file (concat "/sudo:root@localhost:" buffer-file-name))))
+
+(defvar whitespace-on-save t "Automatically clean whitespaces when saving?")
+(make-variable-buffer-local 'whitespace-on-save)
+(add-to-list 'safe-local-variable-values '(whitespace-on-save . t))
+(add-to-list 'safe-local-variable-values '(whitespace-on-save . nil))
+(add-hook 'before-save-hook '(lambda ()
+    (if whitespace-on-save (delete-trailing-whitespace))
+  ))
 
 (provide 'config-misc)

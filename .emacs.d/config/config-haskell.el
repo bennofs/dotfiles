@@ -2,36 +2,38 @@
 (autoload 'hare-init "hare" nil t)
 
 (defun format-imports-hook ()
-  (add-hook 'before-save-hook '(lambda () 
+  (add-hook 'before-save-hook '(lambda ()
     (if haskell-format-on-save (save-excursion (haskell-sort-imports) (haskell-navigate-imports) (haskell-sort-imports)))
   ) t t)
 )
 
-(defun whitespace-clean-hook ()
-  (add-hook 'before-save-hook '(lambda ()
-    (if haskell-whitespace-on-save (delete-trailing-whitespace))
-  ) t t)
+(defun load-hook ()
+  (add-hook 'after-save-hook 'haskell-process-load-or-reload t t)
 )
 
-(defvar haskell-format-on-save nil "Run haskell-mode-format-imports on save?")
+(defvar haskell-format-on-save nil "Run haskell-mode-format-imports when saving?")
 (make-variable-buffer-local 'haskell-format-on-save)
-(make-variable-buffer-local 'haskell-whitespace-on-save)
-(setq-default haskell-whitespace-on-save t)
 (add-to-list 'safe-local-variable-values '(haskell-format-on-save . t))
 (add-to-list 'safe-local-variable-values '(haskell-format-on-save . nil))
-(add-to-list 'safe-local-variable-values '(haskell-whitespace-on-save . t))
-(add-to-list 'safe-local-variable-values '(haskell-whitespace-on-save . nil))
 
-(setq haskell-mode-hook '(capitalized-words-mode turn-on-haskell-indent turn-on-eldoc-mode turn-on-haskell-font-lock turn-on-haskell-decl-scan format-imports-hook whitespace-clean-hook (lambda () (hare-init))))
+(setq haskell-mode-hook
+  '(capitalized-words-mode
+    turn-on-haskell-simple-indent
+    turn-on-eldoc-mode
+    turn-on-haskell-font-lock
+    turn-on-haskell-decl-scan
+    format-imports-hook
+    load-hook
+    (lambda () (hare-init))))
+
 (setq haskell-tags-on-save t)
 (setq haskell-font-lock-symbols t)
 (setq haskell-process-type 'ghci)
-(setq haskell-process-path-ghci "/home/bin/ghci-ng")
-(setq haskell-process-args-cabal-repl '("--ghc-option=-ferror-spans" "--with-ghc=/home/bin/ghci-ng"))
+(setq haskell-process-path-ghci "/home/bin/nix-ghci")
 
 (setq haskell-indent-dont-hang (quote ("(" "[" "{")))
 (setq haskell-indent-offset 2)
-(setq haskell-process-log t)
+;; (setq haskell-process-log t)
 
 (require 'haskell-session)
 
@@ -47,7 +49,7 @@
     (define-key haskell-mode-map (kbd "C-c b")   'haskell-interactive-switch)
     (define-key haskell-mode-map (kbd "C-c c")   'haskell-cabal-visit-file)
     (define-key haskell-mode-map (kbd "C-c h")   'hayoo)
-    (define-key haskell-mode-map (kbd "C-c g")   '(lambda () 
+    (define-key haskell-mode-map (kbd "C-c g")   '(lambda ()
       (interactive)
       (let ((session (haskell-session)))
            (funcall (in-console '(lambda () (switch-to-buffer (haskell-session-interactive-buffer session)))))
@@ -60,7 +62,7 @@
 
 ;; Org mode for .prof files
 (defun haskell-prof-org ()
-  (save-excursion 
+  (save-excursion
     (goto-char (point-min))
     (search-forward "COST CENTRE")
     (search-forward "COST CENTRE")
