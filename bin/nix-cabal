@@ -44,4 +44,4 @@ for env in $preserveEnvs; do
 done
 
 # Run nix-shell.
-nix-shell -I nixpkgs=/home/nixpkgs --command "bash -c \"${setupEnv}$command\"" --pure --indirect --add-root .nix-7.6/dep -E "$expr"
+nix-shell -I nixpkgs=/home/channel --command "bash -c \"${setupEnv}$command\"" --pure --indirect --add-root .nix-7.6/dep -E "$expr"

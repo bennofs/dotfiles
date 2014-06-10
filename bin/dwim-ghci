@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+if [ -f default.nix ]; then
+  if [ -f *.cabal ]; then
+    /home/bin/nix-cabal repl --ghc-options="$*"
+  else
+    /home/bin/nix-ghci "$@"
+  fi
+else
+  ghci "$@"
+fi

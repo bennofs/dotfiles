@@ -1,2 +1,2 @@
 #!/usr/bin/env bash
-nix-shell --command "ghci $@" --pure --indirect --add-root .nix-7.6/dep --arg haskellPackages "import /etc/nixos/expr/hs-7.6 {}"
+nix-shell -I nixpkgs=/home/channel --command "ghci $@" --pure --indirect --add-root .nix-7.6/dep --arg haskellPackages "import /etc/nixos/expr/hs-7.6 {}"
