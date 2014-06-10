@@ -7,8 +7,7 @@ cabal.sandbox.config
 .zedstate
 result
 /dist
-/nix-*
-/--*
+/.nix-*
 /Setup
 *.elc
 /default.nix
