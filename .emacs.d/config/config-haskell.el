@@ -28,8 +28,9 @@
 
 (setq haskell-tags-on-save t)
 (setq haskell-font-lock-symbols t)
-(setq haskell-process-type 'ghci)
+(setq haskell-process-type 'cabal-repl)
 (setq haskell-process-path-ghci "/home/bin/nix-ghci")
+(setq haskell-process-path-cabal "/home/bin/nix-cabal")
 
 (setq haskell-indent-dont-hang (quote ("(" "[" "{")))
 (setq haskell-indent-offset 2)

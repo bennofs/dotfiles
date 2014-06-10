@@ -1,0 +1,3 @@
+#!/usr/bin/env sh
+export NIX_GHC_LIBDIR=/run/current-system/sw/lib/ghc-7.6.3
+exec ~/progs/ghc-server/bin/ghc-server "$@"
