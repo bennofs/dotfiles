@@ -27,7 +27,7 @@ let f = import ./.;
               then f { haskellPackages = import /etc/nixos/expr/hs-7.6 {}; }
               else f;
 in lib.overrideDerivation deriv (old: {
-     buildInputs = old.buildInputs ++ [ haskellPackages.cabalInstall ];
+     buildInputs = old.buildInputs ++ [ haskellPackages.cabalInstall haskellPackages.Cabal_1_20_0_1 ];
    })
 EOF
 )
