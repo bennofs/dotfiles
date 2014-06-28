@@ -12,3 +12,4 @@ result
 *.elc
 /default.nix
 flycheck_*
+.dir-locals.el
