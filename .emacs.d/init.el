@@ -17,7 +17,7 @@
 (require 'config-haskell)
 (require 'config-filetypes)
 (require 'config-keybindings)
-;;(require 'config-flycheck)
+(require 'config-flycheck)
 (require 'config-org)
 (require 'config-yasnippet)
 (require 'config-auctex)

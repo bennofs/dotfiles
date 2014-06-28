@@ -11,3 +11,4 @@ result
 /Setup
 *.elc
 /default.nix
+flycheck_*

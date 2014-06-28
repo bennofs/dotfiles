@@ -26,5 +26,6 @@
 (global-set-key (kbd "C-c w") 'writegood-mode)
 (global-set-key (kbd "C-M-<backspace>") 'backward-kill-sexp)
 (global-set-key (kbd "<f6>") 'set-indent)
+(global-set-key (kbd "C-h C-f") 'find-function)
 
 (provide 'config-keybindings)

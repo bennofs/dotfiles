@@ -1,31 +1,21 @@
 (global-flycheck-mode 1)
 (setq flycheck-check-syntax-automatically '(save mode-enabled idle-change))
 (setq flycheck-idle-change-delay 0.5)
+(setq-default flycheck-disabled-checkers '(haskell-ghc))
 
-(flycheck-define-checker haskell-ghc-server
-  "A Haskell syntax and type checker using hdevtools.
+(defvar-local flycheck-external-errors nil
+  "Flycheck errors provided by external libraries.")
 
-See URL `https://github.com/bennofs/ghc-server'."
-  :command ("ghc-server" "-t 300" "check" source-inplace)
-  :error-patterns
-  ((warning line-start (file-name) ":" line ":" column ":"
-            (or " " "\n    ") "Warning:" (optional "\n")
-            (one-or-more " ")
-            (message (one-or-more not-newline)
-                     (zero-or-more "\n"
-                                   (one-or-more " ")
-                                   (one-or-more not-newline)))
-            line-end)
-   (error line-start (file-name) ":" line ":" column ":"
-          (or (message (one-or-more not-newline))
-              (and "\n" (one-or-more " ")
-                   (message (one-or-more not-newline)
-                            (zero-or-more "\n"
-                                          (one-or-more " ")
-                                          (one-or-more not-newline)))))
-          line-end))
-  :modes (haskell-mode literate-haskell-mode)
-  :next-checkers ((warnings-only . haskell-hlint)))
-(add-to-list 'flycheck-checkers 'haskell-ghc-server)
+
+(eval-after-load "flycheck" #'(progn
+  (defun flycheck-clear-errors ()
+    "Remove all error information from the current buffer."
+    (setq flycheck-current-errors flycheck-external-errors)
+    (flycheck-report-status ""))
+  (add-hook 'flycheck-after-syntax-check-hook (lambda ()
+   (--each flycheck-external-errors (run-hook-with-args-until-success 'flycheck-process-error-functions it))
+  ))
+))
+
 
 (provide 'config-flycheck)

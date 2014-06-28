@@ -9,6 +9,7 @@
 
 (defun load-hook ()
   (add-hook 'after-save-hook 'haskell-process-load-or-reload t t)
+  (add-hook 'auto-save-hook  'save-buffer                    t t)
 )
 
 (defvar haskell-format-on-save nil "Run haskell-mode-format-imports when saving?")

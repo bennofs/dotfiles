@@ -1,4 +1,4 @@
-(set-face-attribute 'default nil 
+(set-face-attribute 'default nil
   :stipple nil
   :inverse-video nil
   :box nil
@@ -15,6 +15,7 @@
 (set-face-attribute 'mode-line nil
 		    :foreground "#ddd6d3"
                     :background "#2aa198"
+		    :underline nil
                     :box nil)
 
 (set-face-attribute 'mode-line-buffer-id nil
