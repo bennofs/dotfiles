@@ -7,8 +7,13 @@
   ) t t)
 )
 
+(defun haskell-check-hook ()
+  (let ((session (haskell-session-maybe)))
+    (when session (haskell-process-reload-file))))
+
+
 (defun load-hook ()
-  (add-hook 'after-save-hook 'haskell-process-load-or-reload t t)
+  (add-hook 'after-save-hook 'haskell-check-hook             t t)
   (add-hook 'auto-save-hook  'save-buffer                    t t)
 )
 
