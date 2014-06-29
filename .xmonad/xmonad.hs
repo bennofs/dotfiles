@@ -43,6 +43,7 @@ windowH = composeAll
   , className =? "Thunderbird" --> doShift (ws 5)
   , className =? "Skype"       --> doShift (ws 6)
   , className =? "Chromium"    --> doShift (ws 1)
+  , className =? ".jumanji-wrapped" --> doShift (ws 1)
   , className *=? "dwb"        --> doShift (ws 1)
   , className =? "Gimp"        --> doShift (ws 8)
   , className =? "Gimp"        --> fmap (Endo . W.sink) ask
@@ -79,7 +80,7 @@ bindings =
     , ("<XF86AudioMute>"       , spawn "volume.sh -t"  )
     , ("M-<Up>"                , nextWS                )
     , ("M-<Down>"              , prevWS                )
-    , ("M-b"                   , raiseMaybe (spawn "chromium" >> windows (W.greedyView $ ws 1)) $ className =? "Chromium")
+    , ("M-b"                   , raiseMaybe (spawn "jumanji" >> windows (W.greedyView $ ws 1)) $ className =? "Chromium")
     , ("M-x"                   , sendMessage ToggleStruts)
     , ("C-<Tab>"               , cycleRecentWS [xK_Control_L] xK_Tab xK_grave)
     , ("M-s"                   , promptSearch defaultXPConfig $ intelligent $ hayoo !> dictcc !> multi)
