@@ -10,6 +10,7 @@
   :height 90
   :width 'normal
   :font "Source Code Pro for Powerline"
+  :background "#000e16"
 )
 
 (set-face-attribute 'mode-line nil
