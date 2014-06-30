@@ -13,6 +13,9 @@
   :background "#000e16"
 )
 
+(set-face-attribute 'fringe nil :background "#000e16")
+(set-face-attribute 'linum  nil :background "#000e16")
+
 (set-face-attribute 'mode-line nil
 		    :foreground "#ddd6d3"
                     :background "#2aa198"
