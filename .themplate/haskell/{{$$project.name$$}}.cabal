@@ -8,7 +8,7 @@ maintainer:    {{$$user.name$$}} <{{$$user.email$$}}>
 stability:     experimental
 {{homepage:      http://github.com/??github.user??/$$project.name$$/}}
 {{bug-reports:   http://github.com/??github.user??/$$project.name$$/issues}}
-copyright:     Copyright (C) 2013 {{$$user.name$$}}
+copyright:     Copyright (C) 2014 {{$$user.name$$}}
 synopsis:      {{$$project.name$$}}
 description:   {{$$project.name$$}}
 build-type:    Custom
