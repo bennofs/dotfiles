@@ -20,11 +20,11 @@ IFS=' '
 # This expression loads default.nix, but also takes care of adding cabalInstall to
 # buildInputs, because we want to use cabal inside our shell. It works if default.nix contains
 # a function and also if it contains a function that still requires haskellPackages as an argument.
-expr=$(cat <<'EOF'
+expr=$(cat <<EOF
 with (import <nixpkgs> {});
 let f = import ./.;
     deriv = if builtins.isFunction f
-              then f { haskellPackages = import /etc/nixos/expr/hs-7.6 {}; }
+              then f { haskellPackages = import /etc/nixos/expr/hs-${NIXHS:-7.6} {}; }
               else f;
 in lib.overrideDerivation deriv (old: {
      buildInputs = old.buildInputs ++ [ haskellPackages.cabalInstall haskellPackages.Cabal_1_20_0_1 ];
