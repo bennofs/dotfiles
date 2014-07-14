@@ -62,7 +62,13 @@
       )
     ))
     (define-key haskell-mode-map (kbd "C-c M-.") nil)
-    (define-key haskell-mode-map (kbd "C-c C-d") nil)))
+    (define-key haskell-mode-map (kbd "C-c C-d") nil)
+    (define-key haskell-mode-map (kbd "C-c r") 'haskell-process-restart)
+))
+
+(eval-after-load "haskell-interactive-mode" '(progn
+  (define-key haskell-interactive-mode-map (kbd "C-c r") 'haskell-process-restart)
+))
 
 (provide 'config-haskell)
 
