@@ -39,7 +39,7 @@
 
 (setq haskell-indent-dont-hang (quote ("(" "[" "{")))
 (setq haskell-indent-offset 2)
-;; (setq haskell-process-log t)
+(setq haskell-process-log t)
 
 (require 'haskell-session)
 
@@ -68,6 +68,9 @@
 
 (eval-after-load "haskell-interactive-mode" '(progn
   (define-key haskell-interactive-mode-map (kbd "C-c r") 'haskell-process-restart)
+  (define-key haskell-interactive-mode-map (kbd "C-c l") (lambda ()
+    (interactive)
+    (switch-to-buffer "*haskell-process-log*")))
 ))
 
 (provide 'config-haskell)
