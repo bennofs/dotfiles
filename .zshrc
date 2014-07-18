@@ -16,5 +16,7 @@ source $HOME/.profile
 bindkey "^[[1;3C" forward-word 
 bindkey "^[[1;3D" backward-word
 
+source $HOME/.zshcomp
+
 # make git reset HEAD^ etc work
 setopt NO_NOMATCH
