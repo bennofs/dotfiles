@@ -1,2 +1,2 @@
-(import /etc/nixos/expr/util.nix).autoHaskell ./. (hs: {
-})
+(import /etc/nixos/expr/util.nix).autoHaskell ./. {
+}
