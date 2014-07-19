@@ -13,6 +13,7 @@
 
 (add-hook 'LaTeX-mode-hook 'visual-line-mode)
 (add-hook 'LaTeX-mode-hook 'LaTeX-math-mode)
+(add-hook 'doc-view-mode-hook 'auto-revert-mode)
 
 (setq TeX-PDF-mode t)
 (setq TeX-auto-save t)
