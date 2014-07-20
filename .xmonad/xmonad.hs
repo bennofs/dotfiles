@@ -81,10 +81,10 @@ promptConfig :: XPConfig
 promptConfig = defaultXPConfig
   { font = "xft:Source Code Pro-8"
   , fgColor = "#f5f5f5"
-  , bgColor = "#1f2f2f"
-  , bgHLight = "#1f2f2f"
+  , bgColor = "#001e20"
+  , bgHLight = "#002525"
   , fgHLight = "#ffc125"
-  , borderColor = "#000010"
+  , borderColor = "#004466"
   }
 
 promptSearchRaise engines = promptSearch promptConfig engines >> raise dwbP
