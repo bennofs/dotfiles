@@ -8,6 +8,8 @@
 (column-number-mode 1)
 (cua-selection-mode 1)
 (setq-default cursor-type 'bar)
+(setq sml/theme 'respectful)
+(sml/setup)
 
 (setq inhibit-startup-screen t)
 (setq initial-buffer-choice "/data/notes/main.org")
