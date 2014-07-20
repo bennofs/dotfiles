@@ -5,6 +5,7 @@ import           Data.Monoid
 import           Data.Ratio
 import           XMonad
 import           XMonad.Actions.CycleRecentWS
+import           XMonad.Prompt.Shell
 import           XMonad.Actions.CycleWS
 import           XMonad.Actions.Search        (SearchEngine, intelligent, multi,  promptSearch, searchEngine, selectSearch , (!>))
 import           XMonad.Actions.WindowGo
@@ -65,7 +66,7 @@ logH :: X () -> X ()
 logH _ = dynamicLogString defaultPP >>= xmonadPropLog
 
 hayoo :: SearchEngine
-hayoo = searchEngine "hayoo" "http://holumbus.fh-wedel.de/hayoo/hayoo.html?query="
+hayoo = searchEngine "hayoo" "http://hayoo2.fh-wedel.de/?query="
 
 hoogle :: SearchEngine
 hoogle = searchEngine "hoogle" "http://www.haskell.org/hoogle/?hoogle="
@@ -73,28 +74,44 @@ hoogle = searchEngine "hoogle" "http://www.haskell.org/hoogle/?hoogle="
 dictcc :: SearchEngine
 dictcc = searchEngine "dictcc" "http://www.dict.cc/?=DEEN&s="
 
+dwbP :: Query Bool
+dwbP = className *=? "dwb"
+
+promptConfig :: XPConfig
+promptConfig = defaultXPConfig
+  { font = "xft:Source Code Pro-8"
+  , fgColor = "#f5f5f5"
+  , bgColor = "#1f2f2f"
+  , bgHLight = "#1f2f2f"
+  , fgHLight = "#ffc125"
+  , borderColor = "#000010"
+  }
+
+promptSearchRaise engines = promptSearch promptConfig engines >> raise dwbP
+selectSearchRaise engines = selectSearch engines >> raise dwbP
+
 bindings =
     [ ("<XF86AudioLowerVolume>", spawn "volume.sh -d 5")
     , ("<XF86AudioRaiseVolume>", spawn "volume.sh -i 5")
     , ("<XF86AudioMute>"       , spawn "volume.sh -t"  )
     , ("M-<Up>"                , nextWS                )
     , ("M-<Down>"              , prevWS                )
-    , ("M-b"                   , raiseMaybe (spawn "dwb" >> windows (W.greedyView $ ws 1)) $ className =? "dwb")
+    , ("M-b"                   , raiseMaybe (spawn "dwb") dwbP)
     , ("M-x"                   , sendMessage ToggleStruts)
     , ("C-<Tab>"               , cycleRecentWS [xK_Control_L] xK_Tab xK_grave)
-    , ("M-s"                   , promptSearch defaultXPConfig $ intelligent $ hayoo !> dictcc !> multi)
-    , ("M-S-s"                 , selectSearch multi)
-    , ("M-g"                   , promptSearch defaultXPConfig hayoo)
-    , ("M-S-g"                 , selectSearch hayoo)
-    , ("M-d"                   , promptSearch defaultXPConfig dictcc)
-    , ("M-u"                   , promptSearch defaultXPConfig hoogle)
-    , ("M-S-u"                 , selectSearch hoogle)
+    , ("M-s"                   , promptSearchRaise $ intelligent $ hayoo !> dictcc !> multi)
+    , ("M-S-s"                 , selectSearchRaise multi)
+    , ("M-g"                   , promptSearchRaise hayoo)
+    , ("M-S-g"                 , selectSearchRaise hayoo)
+    , ("M-d"                   , promptSearchRaise dictcc)
+    , ("M-S-d"                 , selectSearchRaise dictcc)
+    , ("M-u"                   , promptSearchRaise hoogle)
+    , ("M-S-u"                 , selectSearchRaise hoogle)
     , ("M-f"                   , spawn "thunar")
+    , ("M-p"                   , shellPrompt promptConfig)
     , ("M-c"                   , runOrRaiseNext "emacs" $ className =? "Emacs")
-    , ("M-S-d"                 , selectSearch dictcc)
     , ("<Print>"               , spawn "scrot '%y-%m-%d-%T.png' -e 'mv -b \"$f\" /data/pics/screen'")
     , ("M-<Print>"             , spawn "scrot '%y-%m-%d-%T.png' -s -e 'mv -b \"$f\" /data/pics/screen'")
-    , ("M-p"                   , spawn "dmenu_run -fn 'Source Code Pro-9'")
     ] ++ zipWith (\n w -> ("M-<F" ++ show n ++ ">", windows $ W.greedyView w)) [1..] myWorkspaces
       ++ zipWith (\n w -> ("M-S-<F" ++ show n ++ ">", windows $ W.shift w)) [1..] myWorkspaces
 
