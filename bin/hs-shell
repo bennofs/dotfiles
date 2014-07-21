@@ -1,0 +1,56 @@
+#!/usr/bin/env bash
+
+# Script to start a nix-shell which also contains the cabal-install tool
+# for a haskell project.
+# The script assumes that there is a default.nix file in the current directory
+# that takes one argument, haskellPackages.
+# All options are passed through to nix-shell.
+#
+# You can set the HS_SHELL_HOOK environment variable to run
+# additional commands after the shell is started.
+#
+# Author: Benno Fünfstück
+
+# We want some environment variables to be preserved, even when using --pure. Because nix-shell doesn't currenlty
+# support that natively, we just export them ourselves before invoking cabal.
+# These environment variables are useful to test haskell code using the network or interfacing with nix
+# inside a nix-shell.
+#
+# SSL vars: those are needed if we want to fetch SSL signed pages inside nix-shell
+# NIX_REMOTE: allows to use nix inside nix-shell
+preserveEnvs="CURL_CA_BUNDLE GIT_SSL_CAINFO OPENSSL_X509_CERT_FILE NIX_REMOTE"
+setupEnv=""
+for env in $preserveEnvs; do
+  setupEnv="${setupEnv}export $env=${!env}; "
+done
+
+# This expression loads default.nix, but also takes care of adding cabalInstall to
+# buildInputs, because we want to use cabal inside our shell. It works if default.nix contains
+# already a derviation, but also if it contains a function that still requires haskellPackages as
+# an argument.
+
+# Because only haskell libraries are GHC-version specific, we'll always use cabal install built
+# by GHC 7.8.3, because that's what in the binary cache so we avoid rebuilding. We cannot do the same
+# for the Cabal library though, unfortunaly, because it must be built for the GHC that's available
+# in the sandbox (we cannot use a Cabal library built for GHC 7.8.3 if we only have GHC 7.6.3 in the sandbox).
+read -r -d '' expr <<EOF
+let pkgs = (import <nixpkgs> {}); in
+{ haskellPackages ? pkgs.haskellPackages }:
+pkgs.lib.overrideDerivation (import ./. { inherit haskellPackages; }) (old: {
+  buildInputs = old.buildInputs ++ [ pkgs.haskellPackages.cabalInstall haskellPackages.Cabal_1_20_0_1 ];
+  shellHook = ''
+    $setupEnv
+    export TERM=xterm # otherwise, ghc-pkg returns an error
+    eval "$HS_SHELL_HOOK"
+  '';
+})
+EOF
+
+# Run once to determine the GHC version that we're going to use. This is used to determine
+# the directory name for the GC roots.
+# Note: --command should come last, because later --command arguments override earlier ones
+ghcVersion=$(nix-shell "$@" -I nixpkgs=/home/channel --pure --command "ghc --numeric-version")
+echo "Using GHC version: $ghcVersion" >&2
+
+# Now run nix-shell for the user.
+exec nix-shell "$@" -I nixpkgs=/home/channel --pure --indirect --add-root ".nix-$ghcVersion/dep" -E "$expr"

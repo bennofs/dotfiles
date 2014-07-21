@@ -1,14 +1,14 @@
 #!/usr/bin/env bash
 if [ -f default.nix ]; then
   if [ -f *.cabal ]; then
-    /home/bin/nix-cabal repl --ghc-options="$* -fobject-code"
+    exec /home/bin/hs-cabal repl --ghc-options="$* -fobject-code"
   else
-    /home/bin/nix-ghci "$@"
+    exec /home/bin/hs-ghci "$@"
   fi
 else
   if [ -f *.cabal ]; then
-    cabal repl --ghc-options="$* -fobject-code"
+    exec cabal repl --ghc-options="$* -fobject-code"
   else
-    ghci "$@"
+    exec ghci "$@"
   fi
 fi

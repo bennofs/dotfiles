@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+
+# Script to run cabal inside a nix-shell.
+# Author: Benno Fünfstück
+
+# We pass command line arguments via xargs to allow spaces inside arguments
+# To do that, we need to use newlines as separator ($* will expand to $1\n$2\n...)
+IFS='
+'
+
+# The command that invokes cabal. We pass the path to GHC explicitly, because
+# cabal caches this path in setup-config, but it changes everytime we change
+# the nix expression. If we don't do this, sometimes not all dependencies will get
+# picked up if we add to buildDepends without changing the cabal file.
+command="exec xargs -a <(echo '$*$IFS--with-ghc=\$ghc/bin/ghc') -d '$IFS' cabal"
+
+# Reset IFS
+IFS=' '
+
+# Run hs-shell.
+export HS_SHELL_HOOK="$command"
+exec hs-shell
