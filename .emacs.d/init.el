@@ -1,15 +1,18 @@
 (add-to-list 'load-path "~/.emacs.d/config")
 (add-to-list 'load-path "~/.emacs.d/lib")
+(add-to-list 'custom-theme-load-path "~/.emacs.d/themes")
 
 (require 'cask "~/.cask/cask.el")
 (cask-initialize)
 
+(require 'config-theme)
+
 (byte-recompile-directory (expand-file-name "~/.emacs.d/config") 0)
+(byte-recompile-directory (expand-file-name "~/.emacs.d/themes") 0)
 
 (require 'pallet)
 (require 'nix-mode)
 
-(require 'config-theme)
 (require 'config-faces)
 (require 'config-misc)
 (require 'config-ido)
