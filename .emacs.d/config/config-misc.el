@@ -18,7 +18,8 @@
 (set-frame-parameter (selected-frame) 'alpha '(93 93))
 (add-to-list 'default-frame-alist '(alpha 95 95))
 
-(setq-default show-trailing-whitespace t)
+(setq whitespace-style '(trailing face indentation empty))
+(global-whitespace-mode 1)
 (setq indent-tabs-mode nil)
 
 (setq browse-url-browser-function 'browse-url-xdg-open)
