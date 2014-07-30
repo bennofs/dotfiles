@@ -4,6 +4,12 @@
 !/.gitignore
 !/.gitignore_global
 
+!/.config
+/.config/*
+!/.config/fish
+/.config/fish/fish_history
+/.config/fish/fishd.*
+
 !/.emacs.d
 /.emacs.d/*
 !/.emacs.d/config
