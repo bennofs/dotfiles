@@ -29,6 +29,13 @@ end
 
 eval (hub alias -s)
 
+function make_completion --argument alias command
+    complete -c $alias -xa "(
+        set -l cmd (commandline -pc | sed -e 's/^ *\S\+ *//' );
+        complete -C\"$command \$cmd\";
+    )"
+end
+
 # git aliases
 alias gst="git status -sb"
 alias gp="git push"
@@ -36,3 +43,6 @@ alias gup="git pull"
 alias glo="git log --oneline --color --decorate"
 alias gd="git diff"
 alias gcam="git commit -am"
+alias gco="git checkout"
+
+make_completion gco "git checkout"
