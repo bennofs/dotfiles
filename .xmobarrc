@@ -6,7 +6,7 @@ Config { font = "xft:Source Code Pro for Powerline:size=8:antialias=true"
        , commands = [ Run Weather "EDDC" ["-t","<tempC>C","-L","18","-H","25","--normal","#859900","--high","#dc322f","--low","#268bd2"] 36000
                     , Run DynNetwork ["-L","0","-H","32","--normal","#859900","--high","#dc322f", "-m", "4", "-t", "<rx>↓ <tx>↑", "-a", "l", "-c", " "] 10
                     , Run Cpu ["-L","3","-H","50","--normal","#859900","--high","#dc322f", "-p", "3", "-t", "<total>%", "-c", " "] 10
-                    , Run Memory ["-t","<usedratio>%","--normal", "#859900","--high", "#dc322f", "--H", "85", "-p", "2", "-a", "r", "-c", "0"] 10
+                    , Run Memory ["-t","<usedratio>%","--normal", "#859900","--high", "#dc322f", "--H", "85", "-p", "2", "-a", "l", "-c", " "] 10
                     , Run Date "%d.%m.%Y %H:%M:%S" "date" 10
                     , Run Battery ["-t","<left>% [<timeleft>]", "-l","#dc322f","-h","#859900","-p","3"] 10
                     , Run XMonadLog

@@ -24,7 +24,15 @@ for env in $preserveEnvs; do
   setupEnv="${setupEnv}export $env=${!env}; "
 done
 
-# This expression loads default.nix, but also takes care of adding cabalInstall to
+# Some projects provide a default.nix file that doesn't support our system. For this
+# use case, we allow a .auto.nix file to override default.nix, but fallback to default.nix
+# if no such file exists.
+HS_SHELL_FILE="default.nix"
+if [ -e .auto.nix ]; then
+  HS_SHELL_FILE=".auto.nix"
+fi
+
+# This expression loads $HS_SHELL_FILE, but also takes care of adding cabalInstall to
 # buildInputs, because we want to use cabal inside our shell. It works if default.nix contains
 # already a derviation, but also if it contains a function that still requires haskellPackages as
 # an argument.
@@ -36,7 +44,7 @@ done
 read -r -d '' expr <<EOF
 let pkgs = (import <nixpkgs> {}); in
 { haskellPackages ? pkgs.haskellPackages }:
-pkgs.lib.overrideDerivation (import ./. { inherit haskellPackages; }) (old: {
+pkgs.lib.overrideDerivation (import ./$HS_SHELL_FILE { inherit haskellPackages; }) (old: {
   buildInputs = old.buildInputs ++ [ pkgs.haskellPackages.cabalInstall haskellPackages.Cabal_1_20_0_1 ];
   shellHook = ''
     $setupEnv
@@ -46,10 +54,11 @@ pkgs.lib.overrideDerivation (import ./. { inherit haskellPackages; }) (old: {
 })
 EOF
 
-# Run once to determine the GHC version that we're going to use. This is used to determine
+# Run once to determine the GHC version that we're going to use. This is used to construct
 # the directory name for the GC roots.
 # Note: --command should come last, because later --command arguments override earlier ones
-ghcVersion=$(nix-shell "$@" -I nixpkgs=/home/channel --pure --command "ghc --numeric-version")
+# and we want to override any --command options the user gave.
+ghcVersion=$(nix-shell "$@" -I nixpkgs=/home/channel --pure --command "ghc --numeric-version" $HS_SHELL_FILE)
 echo "Using GHC version: $ghcVersion" >&2
 
 # Now run nix-shell for the user.
