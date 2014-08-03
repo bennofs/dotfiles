@@ -1,0 +1,2 @@
+#!/usr/bin/env bash
+chromium $(nix-build --no-out-link '<nixpkgs>' -A haskellPackages."$1")/share/doc/x86_64*/*/html/index.html
