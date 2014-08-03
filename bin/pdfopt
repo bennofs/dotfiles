@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+
+k2pdfopt -ui- -x -w 750 -h 960 -dpi 212 -idpi -2 -om 0.02,0.02,0.02,0.02 "$@"
