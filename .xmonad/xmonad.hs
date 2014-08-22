@@ -22,6 +22,7 @@ import           XMonad.Layout.PerWorkspace
 import           XMonad.Prompt
 import qualified XMonad.StackSet              as W
 import           XMonad.Util.EZConfig
+import           XMonad.Util.XSelection
 
 myWorkspaces :: [String]
 myWorkspaces = zipWith (++) (map show [1..]) ["emacs","web","free", "free", "chat","mail","skype","music","gimp","free", "free", "free"]
@@ -68,8 +69,8 @@ logH _ = dynamicLogString defaultPP >>= xmonadPropLog
 hayoo :: SearchEngine
 hayoo = searchEngine "hayoo" "http://hayoo2.fh-wedel.de/?query="
 
-hoogle :: SearchEngine
-hoogle = searchEngine "hoogle" "http://www.haskell.org/hoogle/?hoogle="
+hackage :: SearchEngine
+hackage = searchEngine "hackage" "http://hackage.haskell.org/packages/search?terms="
 
 dictcc :: SearchEngine
 dictcc = searchEngine "dictcc" "http://www.dict.cc/?=DEEN&s="
@@ -91,22 +92,24 @@ promptSearchRaise engines = promptSearch promptConfig engines >> raise dwbP
 selectSearchRaise engines = selectSearch engines >> raise dwbP
 
 bindings =
-    [ ("<XF86AudioLowerVolume>", spawn "volume.sh -d 5")
-    , ("<XF86AudioRaiseVolume>", spawn "volume.sh -i 5")
-    , ("<XF86AudioMute>"       , spawn "volume.sh -t"  )
+    [ ("<XF86AudioLowerVolume>", spawn "amixer set Master 1-")
+    , ("<XF86AudioRaiseVolume>", spawn "amixer set Master 1+")
+    , ("<XF86AudioMute>"       , spawn "amixer set Master toggle"  )
     , ("M-<Up>"                , nextWS                )
     , ("M-<Down>"              , prevWS                )
+    , ("M-<Right>"             , nextScreen            )
+    , ("M-<Left>"              , prevScreen            )
+    , ("M-y"                   , moveTo Next EmptyWS   )
     , ("M-b"                   , raiseMaybe (spawn "dwb") dwbP)
     , ("M-x"                   , sendMessage ToggleStruts)
     , ("C-<Tab>"               , cycleRecentWS [xK_Control_L] xK_Tab xK_grave)
-    , ("M-s"                   , promptSearchRaise $ intelligent $ hayoo !> dictcc !> multi)
+    , ("M-s"                   , promptSearchRaise $ intelligent $ hayoo !> dictcc !> hackage !> multi)
     , ("M-S-s"                 , selectSearchRaise multi)
     , ("M-g"                   , promptSearchRaise hayoo)
     , ("M-S-g"                 , selectSearchRaise hayoo)
     , ("M-d"                   , promptSearchRaise dictcc)
     , ("M-S-d"                 , selectSearchRaise dictcc)
-    , ("M-u"                   , promptSearchRaise hoogle)
-    , ("M-S-u"                 , selectSearchRaise hoogle)
+    , ("M-S-o"                 , promptSelection "xdg-open")
     , ("M-f"                   , spawn "thunar")
     , ("M-p"                   , shellPrompt promptConfig)
     , ("M-c"                   , runOrRaiseNext "emacs" $ className =? "Emacs")

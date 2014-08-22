@@ -2,6 +2,8 @@
 \#*#
 *~
 *.prof
+*.o
+*.hi
 cabal.sandbox.config
 /.cabal-sandbox*
 .zedstate

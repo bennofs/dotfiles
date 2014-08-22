@@ -20,6 +20,12 @@ function fish_prompt
   set_color normal
 end
 
+function nix-git-channel
+  cd $HOME/channel
+  git fetch nixos
+  git reset --hard (cut -d'.' -f2 /nix/var/nix/profiles/per-user/root/channels/nixos/nixpkgs/svn-revision)
+end
+
 # fish calls command-not-found with an additional argument,
 # which is not supported by NixOS command-not-found script.
 # This function strips that argument.
@@ -46,3 +52,7 @@ alias gcam="git commit -am"
 alias gco="git checkout"
 
 make_completion gco "git checkout"
+make_completion glo "git log"
+make_completion gd "git diff"
+make_completion gup "git pull"
+make_completion gp "git push"

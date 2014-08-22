@@ -45,7 +45,7 @@ read -r -d '' expr <<EOF
 let pkgs = (import <nixpkgs> {}); in
 { haskellPackages ? pkgs.haskellPackages }:
 pkgs.lib.overrideDerivation (import ./$HS_SHELL_FILE { inherit haskellPackages; }) (old: {
-  buildInputs = old.buildInputs ++ [ pkgs.haskellPackages.cabalInstall haskellPackages.Cabal_1_20_0_1 ];
+  buildInputs = old.buildInputs ++ [ pkgs.haskellPackages.cabalInstall haskellPackages.Cabal_1_20_0_2 haskellPackages.ghcCore pkgs.less ];
   shellHook = ''
     $setupEnv
     export TERM=xterm # otherwise, ghc-pkg returns an error

@@ -6,10 +6,9 @@
   :overline nil
   :underline nil
   :slant 'normal
-  :weight 'normal
   :height 90
   :width 'normal
-  :font "Source Code Pro for Powerline"
+  :font "Source Code Pro"
 )
 
 (provide 'config-faces)

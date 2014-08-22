@@ -1,4 +1,4 @@
-Config { font = "xft:Source Code Pro for Powerline:size=8:antialias=true"
+Config { font = "xft:Source Code Pro:size=8:antialias=true"
        , bgColor = "#001212"
        , fgColor = "#93a1a1"
        , position = TopW L 90

@@ -36,6 +36,7 @@
 (setq haskell-font-lock-symbols t)
 (setq haskell-process-type 'ghci)
 (setq haskell-process-path-ghci "/home/bin/dwim-ghci")
+(setq haskell-process-suggest-restart nil)
 
 (setq haskell-indent-dont-hang (quote ("(" "[" "{")))
 (setq haskell-indent-offset 2)
