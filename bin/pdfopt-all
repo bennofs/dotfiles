@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+
+for i in *.pdf; do
+  tmp=${i%.pdf}
+  target=${tmp%_k2opt}_k2opt.pdf
+  if [ ! -e "$target" ] ; then
+      pdfopt "$i"
+  fi
+done
