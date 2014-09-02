@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
-if [ -f *.cabal ]; then
+echo "$@"
+if [ -f default.nix -o -f .auto.nix ]; then
   exec /home/bin/hs-cabal repl --ghc-options="$*"
 else
-  exec /home/bin/hs-ghci "$@"
+  exec ghci "$@"
 fi

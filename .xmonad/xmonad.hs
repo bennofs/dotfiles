@@ -55,7 +55,7 @@ manageH s = manageDocks <+> windowH <+> s
 
 layoutH s = avoidStruts $ emacs $ irc $ gimp $ skype $ s ||| Grid
   where skype = onWorkspace (ws 6) skypeLayout
-        skypeLayout = flip onLeft Grid $ simpleDrawer 0.1 0.2 $ Title "bennofs - Skype™"
+        skypeLayout = flip onLeft Grid $ simpleDrawer 0.2 0.2 $ Title "bennofs - Skype™"
         gimp = onWorkspace (ws 8) gimpLayout
         gimpLayout = onLeft gimpToolbox $ onRight gimpDock Grid
         gimpToolbox = simpleDrawer 0.025 0.15 $ Role "gimp-toolbox"

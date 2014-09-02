@@ -1,6 +1,7 @@
 (add-to-list 'load-path "~/.emacs.d/config")
 (add-to-list 'load-path "~/.emacs.d/lib")
 (add-to-list 'custom-theme-load-path "~/.emacs.d/themes")
+(setq shell-file-name "/run/current-system/sw/bin/bash")
 
 (require 'cask "~/.cask/cask.el")
 (cask-initialize)

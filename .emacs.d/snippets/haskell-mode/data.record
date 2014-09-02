@@ -1,7 +1,7 @@
 # -*- mode: snippet -*-
 # key: data
 # name: record data
-# condition: (= (length "data") (current-column))
+# condition: (bolp)
 # contributor: Luke Hoersten <luke@hoersten.org>
 # --
 data ${1:Type} = $1

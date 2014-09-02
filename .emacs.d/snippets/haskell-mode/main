@@ -1,7 +1,7 @@
 # -*- mode: snippet -*-
 # key: main
 # name: main module
-# condition: (= (length "main") (current-column))
+# condition: (bolp)
 # expand-env: ((yas-indent-line 'fixed))
 # contributor: Luke Hoersten <luke@hoersten.org>
 # --
