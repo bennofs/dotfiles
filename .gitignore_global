@@ -8,12 +8,12 @@ cabal.sandbox.config
 /.cabal-sandbox*
 .zedstate
 result
-/dist
-/dist-*
-/.nix-*
+dist
+dist-*
+.nix-*
 /Setup
 *.elc
-/default.nix
+default.nix
 /.auto.nix
 flycheck_*
 .dir-locals.el
