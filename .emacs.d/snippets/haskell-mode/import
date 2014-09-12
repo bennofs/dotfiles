@@ -1,7 +1,7 @@
 # -*- mode: snippet -*-
 # key: imp
 # name: simple import
-# condition: (bolp)
+# condition: (= (length "imp") (current-column))
 # contributor: Luke Hoersten <luke@hoersten.org>
 # --
 import           ${1:Module}$0

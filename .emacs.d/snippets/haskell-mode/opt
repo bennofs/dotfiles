@@ -1,7 +1,6 @@
 # -*- mode: snippet -*-
 # key: opt
 # name: ghc option
-# condition: (bolp)
 # contributor: Luke Hoersten <luke@hoersten.org>
 # --
 {-# OPTIONS_GHC ${1:option} #-}

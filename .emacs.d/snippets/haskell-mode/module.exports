@@ -1,7 +1,7 @@
 # -*- mode: snippet -*-
 # key: mod
 # name: exports module
-# condition: (bolp)
+# condition: (= (length "mod") (current-column))
 # expand-env: ((yas-indent-line 'fixed))
 # contributor: Luke Hoersten <luke@hoersten.org>
 # --

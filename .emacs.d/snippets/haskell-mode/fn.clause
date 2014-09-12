@@ -1,7 +1,7 @@
 # -*- mode: snippet -*-
 # key: fn
 # name: clause function
-# condition: (bolp)
+# condition: (= (length "fn") (current-column))
 # expand-env: ((yas-indent-line 'fixed))
 # contributor: Luke Hoersten <luke@hoersten.org>
 # --
