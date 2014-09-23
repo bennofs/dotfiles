@@ -25,7 +25,7 @@ import           XMonad.Util.EZConfig
 import           XMonad.Util.XSelection
 
 myWorkspaces :: [String]
-myWorkspaces = zipWith (++) (map show [1..]) ["emacs","web","free", "free", "chat","mail","skype","music","gimp","free", "free", "free"]
+myWorkspaces = zipWith (++) (map show [1..]) ["emacs","web","free", "free", "chat","hipchat","skype","music","gimp","free", "free", "free"]
 
 ws :: Int -> String
 ws = (myWorkspaces !!)
@@ -48,6 +48,7 @@ windowH = composeAll
   , className *=? "dwb"        --> doShift (ws 1)
   , className =? "Gimp"        --> doShift (ws 8)
   , className =? "Gimp"        --> fmap (Endo . W.sink) ask
+  , className =? "HipChat"     --> doShift (ws 5)
   ]
 
 manageH :: ManageHook -> ManageHook
