@@ -16,13 +16,14 @@ import           XMonad.Hooks.SetWMName
 import           XMonad.Hooks.UrgencyHook
 import           XMonad.Layout.Column
 import           XMonad.Layout.Drawer
-import           XMonad.Layout.IM
 import           XMonad.Layout.Grid
 import           XMonad.Layout.PerWorkspace
+import           XMonad.Layout.Tabbed
 import           XMonad.Prompt
 import qualified XMonad.StackSet              as W
 import           XMonad.Util.EZConfig
 import           XMonad.Util.XSelection
+import           XMonad.Util.Themes
 
 myWorkspaces :: [String]
 myWorkspaces = zipWith (++) (map show [1..]) ["emacs","web","free", "free", "chat","hipchat","skype","music","gimp","free", "free", "free"]
@@ -45,7 +46,7 @@ windowH = composeAll
   , className =? "Thunderbird" --> doShift (ws 5)
   , className =? "Skype"       --> doShift (ws 6)
   , className =? "Chromium"    --> doShift (ws 1)
-  , className *=? "dwb"        --> doShift (ws 1)
+  , browserP                   --> doShift (ws 1)
   , className =? "Gimp"        --> doShift (ws 8)
   , className =? "Gimp"        --> fmap (Endo . W.sink) ask
   , className =? "HipChat"     --> doShift (ws 5)
@@ -54,15 +55,15 @@ windowH = composeAll
 manageH :: ManageHook -> ManageHook
 manageH s = manageDocks <+> windowH <+> s
 
-layoutH s = avoidStruts $ emacs $ irc $ gimp $ skype $ s ||| Grid
+layoutH s = avoidStruts $ browser $ irc $ gimp $ skype $ s ||| Grid
   where skype = onWorkspace (ws 6) skypeLayout
         skypeLayout = flip onLeft Grid $ simpleDrawer 0.2 0.2 $ Title "bennofs - Skype™"
         gimp = onWorkspace (ws 8) gimpLayout
         gimpLayout = onLeft gimpToolbox $ onRight gimpDock Grid
         gimpToolbox = simpleDrawer 0.025 0.15 $ Role "gimp-toolbox"
         gimpDock = simpleDrawer 0.05 0.2 $ Role "gimp-dock"
-        emacs = withIM (1%6) (Title "Speedbar 1.0")
-        irc = onWorkspace (ws 4) $ Full ||| Column 1.3
+        irc = onWorkspace (ws 4) $ tabbed shrinkText (theme wfarrTheme)
+        browser = onWorkspace (ws 1) $ tabbed shrinkText (theme wfarrTheme)
 
 logH :: X () -> X ()
 logH _ = dynamicLogString defaultPP >>= xmonadPropLog
@@ -76,8 +77,8 @@ hackage = searchEngine "hackage" "http://hackage.haskell.org/packages/search?ter
 dictcc :: SearchEngine
 dictcc = searchEngine "dictcc" "http://www.dict.cc/?=DEEN&s="
 
-dwbP :: Query Bool
-dwbP = className *=? "dwb"
+browserP :: Query Bool
+browserP = stringProperty "WM_WINDOW_ROLE" =? "browser"
 
 promptConfig :: XPConfig
 promptConfig = defaultXPConfig
@@ -89,8 +90,8 @@ promptConfig = defaultXPConfig
   , borderColor = "#004466"
   }
 
-promptSearchRaise engines = promptSearch promptConfig engines >> raise dwbP
-selectSearchRaise engines = selectSearch engines >> raise dwbP
+promptSearchRaise engines = promptSearch promptConfig engines >> raise browserP
+selectSearchRaise engines = selectSearch engines >> raise browserP
 
 bindings =
     [ ("<XF86AudioLowerVolume>", spawn "amixer set Master 1-")
@@ -101,7 +102,9 @@ bindings =
     , ("M-<Right>"             , nextScreen            )
     , ("M-<Left>"              , prevScreen            )
     , ("M-y"                   , moveTo Next EmptyWS   )
-    , ("M-b"                   , raiseMaybe (spawn "dwb") dwbP)
+    , ("M-j"                   , windows W.focusUp     )
+    , ("M-k"                   , windows W.focusDown   )
+    , ("M-b"                   , raiseMaybe (spawn "uzbl-browser") browserP)
     , ("M-x"                   , sendMessage ToggleStruts)
     , ("C-<Tab>"               , cycleRecentWS [xK_Control_L] xK_Tab xK_grave)
     , ("M-s"                   , promptSearchRaise $ intelligent $ hayoo !> dictcc !> hackage !> multi)

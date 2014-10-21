@@ -44,13 +44,34 @@ fi
 read -r -d '' expr <<EOF
 let pkgs = (import <nixpkgs> {}); in
 { haskellPackages ? pkgs.haskellPackages }:
-pkgs.lib.overrideDerivation (import ./$HS_SHELL_FILE { inherit haskellPackages; }) (old: {
+
+let
+  inherit (import <nixpkgs> {}) lib;
+  filterHaskellSrc = src:
+    let
+      ignoredDirs = [ ".git" ];
+      ignoredFiles = [ "cabal.sandbox.config" ];
+      predicate = path: type:
+           !( type == "unknown"
+           || type == "directory" && (builtins.elem (baseNameOf path) ignoredDirs
+                                   || lib.hasPrefix ".nix" (baseNameOf path)
+                                   || lib.hasPrefix "dist" (baseNameOf path)
+                                   || lib.hasSuffix "cabal-sandbox" (baseNameOf path)
+                                   )
+           || type == "regular" && builtins.elem (baseNameOf path) ignoredFiles
+           || type == "symlink"
+           );
+    in if builtins.typeOf src == "path"
+      then builtins.filterSource predicate src
+      else src;
+in pkgs.lib.overrideDerivation (import ./$HS_SHELL_FILE { inherit haskellPackages; }) (old: {
   buildInputs = old.buildInputs ++ [ pkgs.haskellPackages.cabalInstall haskellPackages.Cabal_1_20_0_2 haskellPackages.ghcCore pkgs.less ];
   shellHook = ''
     $setupEnv
     export TERM=xterm # otherwise, ghc-pkg returns an error
     eval "$HS_SHELL_HOOK"
   '';
+  src = filterHaskellSrc old.src;
 })
 EOF
 

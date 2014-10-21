@@ -1,2 +1,2 @@
-(import /etc/nixos/expr/util.nix).autoHaskell ./. {
-}
+{ haskellPackages ? (import <nixpkgs> {}).haskellPackages }:
+haskellPackages.buildLocalCabal ./. "{{$$project.name$$}}"
