@@ -65,7 +65,7 @@ let
       then builtins.filterSource predicate src
       else src;
 in pkgs.lib.overrideDerivation (import ./$HS_SHELL_FILE { inherit haskellPackages; }) (old: {
-  buildInputs = old.buildInputs ++ [ pkgs.haskellPackages.cabalInstall haskellPackages.Cabal_1_20_0_2 haskellPackages.ghcCore pkgs.less ];
+  buildInputs = old.buildInputs ++ [ pkgs.haskellPackages.cabalInstall haskellPackages.Cabal_1_20_0_2 haskellPackages.ghcCore pkgs.haskellPackages.cabalBounds pkgs.less ];
   shellHook = ''
     $setupEnv
     export TERM=xterm # otherwise, ghc-pkg returns an error
