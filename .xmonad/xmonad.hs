@@ -1,5 +1,6 @@
 {-# LANGUAGE NoMonomorphismRestriction #-}
 {-# OPTIONS_GHC -fno-warn-type-defaults -fno-warn-missing-signatures #-}
+import           Control.Monad
 import           Data.List
 import           Data.Monoid
 import           Data.Ratio
@@ -14,6 +15,7 @@ import           XMonad.Hooks.EwmhDesktops
 import           XMonad.Hooks.ManageDocks
 import           XMonad.Hooks.SetWMName
 import           XMonad.Hooks.UrgencyHook
+import           XMonad.Hooks.ManageHelpers
 import           XMonad.Layout.Column
 import           XMonad.Layout.Drawer
 import           XMonad.Layout.Grid
@@ -50,7 +52,14 @@ windowH = composeAll
   , className =? "Gimp"        --> doShift (ws 8)
   , className =? "Gimp"        --> fmap (Endo . W.sink) ask
   , className =? "HipChat"     --> doShift (ws 5)
+  -- Hide HipChat "Signing in ..." window.
+  , className =? "HipChat" <&&> isDialog <&&> title =? "HipChat" --> hideMappedWindow >> doIgnore
   ]
+
+-- | Hide a window, without unmapping it. This is needed to work around a bug in hipchat
+-- where the appliction crashes when the signing in window is unmapped.
+hideMappedWindow :: Query ()
+hideMappedWindow = ask >>= \w -> liftX . tileWindow w $ Rectangle 0 0 0 0
 
 manageH :: ManageHook -> ManageHook
 manageH s = manageDocks <+> windowH <+> s

@@ -28,6 +28,9 @@ done
 # use case, we allow a .auto.nix file to override default.nix, but fallback to default.nix
 # if no such file exists.
 HS_SHELL_FILE="default.nix"
+if [ -e shell.nix ]; then
+  HS_SHELL_FILE="shell.nix"
+fi
 if [ -e .auto.nix ]; then
   HS_SHELL_FILE=".auto.nix"
 fi
@@ -64,14 +67,16 @@ let
     in if builtins.typeOf src == "path"
       then builtins.filterSource predicate src
       else src;
-in pkgs.lib.overrideDerivation (import ./$HS_SHELL_FILE { inherit haskellPackages; }) (old: {
+  myHaskellPackages = haskellPackages // {
+    cabal = { mkDerivation = args: args // { src = filterHaskellSrc args.src; }; };
+  };
+in pkgs.lib.overrideDerivation (import ./$HS_SHELL_FILE { haskellPackages = myHaskellPackages; }) (old: {
   buildInputs = old.buildInputs ++ [ pkgs.haskellPackages.cabalInstall haskellPackages.Cabal_1_20_0_2 haskellPackages.ghcCore pkgs.haskellPackages.cabalBounds pkgs.less ];
   shellHook = ''
     $setupEnv
     export TERM=xterm # otherwise, ghc-pkg returns an error
     eval "$HS_SHELL_HOOK"
   '';
-  src = filterHaskellSrc old.src;
 })
 EOF
 
