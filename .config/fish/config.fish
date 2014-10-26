@@ -13,6 +13,10 @@ set __fish_git_prompt_char_upstream_behind '↓'
 
 function fish_prompt
   set last_status $status
+  if [ -n "$NIX_SHELL_PROJECT" ];
+    set_color blue
+    printf "$NIX_SHELL_PROJECT:"
+  end
   set_color $fish_color_cwd
   printf '%s' (prompt_pwd)
   set_color normal

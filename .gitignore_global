@@ -18,3 +18,5 @@ default.nix
 flycheck_*
 .dir-locals.el
 *.bak
+shell.nix
+Setup

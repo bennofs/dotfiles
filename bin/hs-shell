@@ -18,7 +18,8 @@
 #
 # SSL vars: those are needed if we want to fetch SSL signed pages inside nix-shell
 # NIX_REMOTE: allows to use nix inside nix-shell
-preserveEnvs="CURL_CA_BUNDLE GIT_SSL_CAINFO OPENSSL_X509_CERT_FILE NIX_REMOTE"
+# GTK_PATH, GTK2_RC_FILES: for theming inside nix-shell
+preserveEnvs="CURL_CA_BUNDLE GIT_SSL_CAINFO OPENSSL_X509_CERT_FILE NIX_REMOTE GTK_PATH GTK2_RC_FILES"
 setupEnv=""
 for env in $preserveEnvs; do
   setupEnv="${setupEnv}export $env=${!env}; "
@@ -27,13 +28,18 @@ done
 # Some projects provide a default.nix file that doesn't support our system. For this
 # use case, we allow a .auto.nix file to override default.nix, but fallback to default.nix
 # if no such file exists.
-HS_SHELL_FILE="default.nix"
+HS_SHELL_FILE_DEF="default.nix"
 if [ -e shell.nix ]; then
-  HS_SHELL_FILE="shell.nix"
+  HS_SHELL_FILE_DEF="shell.nix"
 fi
 if [ -e .auto.nix ]; then
-  HS_SHELL_FILE=".auto.nix"
+  HS_SHELL_FILE_DEF=".auto.nix"
 fi
+HS_SHELL_FILE=${HS_SHELL_FILE:-$HS_SHELL_FILE_DEF}
+
+# Get the project name (assumed to be the name of the current directory)
+# This is used for creating the prompt in the nix-shell
+projectName=${PWD##*/}
 
 # This expression loads $HS_SHELL_FILE, but also takes care of adding cabalInstall to
 # buildInputs, because we want to use cabal inside our shell. It works if default.nix contains
@@ -71,12 +77,14 @@ let
     cabal = { mkDerivation = args: args // { src = filterHaskellSrc args.src; }; };
   };
 in pkgs.lib.overrideDerivation (import ./$HS_SHELL_FILE { haskellPackages = myHaskellPackages; }) (old: {
-  buildInputs = old.buildInputs ++ [ pkgs.haskellPackages.cabalInstall haskellPackages.Cabal_1_20_0_2 haskellPackages.ghcCore pkgs.haskellPackages.cabalBounds pkgs.less ];
+  buildInputs = old.buildInputs ++ [ pkgs.haskellPackages.cabalInstall haskellPackages.Cabal_1_20_0_2 haskellPackages.ghcCore pkgs.haskellPackages.cabalBounds pkgs.less pkgs.git pkgs.mercurial pkgs.fish pkgs.gitAndTools.hub pkgs.utillinux pkgs.bc pkgs.man pkgs.man_db];
   shellHook = ''
     $setupEnv
     export TERM=xterm # otherwise, ghc-pkg returns an error
+    export NIX_SHELL_PROJECT="$projectName" # Can be used by shells to set the prompt for example
     eval "$HS_SHELL_HOOK"
   '';
+  ghcPackages = old.ghc.GHCPackages;
 })
 EOF
 
@@ -88,4 +96,4 @@ ghcVersion=$(nix-shell "$@" -I nixpkgs=/home/channel --pure --command "ghc --num
 echo "Using GHC version: $ghcVersion" >&2
 
 # Now run nix-shell for the user.
-exec nix-shell "$@" -I nixpkgs=/home/channel --pure --indirect --add-root ".nix-$ghcVersion/dep" -E "$expr"
+exec nix-shell --command "exec fish" "$@" -I nixpkgs=/home/channel --pure --indirect --add-root ".nix-$ghcVersion/dep" -E "$expr"
