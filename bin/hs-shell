@@ -73,14 +73,20 @@ let
     in if builtins.typeOf src == "path"
       then builtins.filterSource predicate src
       else src;
-  myHaskellPackages = haskellPackages // {
-    cabal = { mkDerivation = args: args // { src = filterHaskellSrc args.src; }; };
+  myHaskellPackages = haskellPackages.override {
+    extension = _: super: {
+      cabal = super.cabal.override (old: {
+         extension = self: super: let nsuper = super // old.extension self super; in { src = filterHaskellSrc nsuper.src; };
+      });
+      buildLocalCabal = src: name: super.buildLocalCabal (filterHaskellSrc src) name;
+    };
   };
 in pkgs.lib.overrideDerivation (import ./$HS_SHELL_FILE { haskellPackages = myHaskellPackages; }) (old: {
-  buildInputs = old.buildInputs ++ [ pkgs.haskellPackages.cabalInstall haskellPackages.Cabal_1_20_0_2 haskellPackages.ghcCore pkgs.haskellPackages.cabalBounds pkgs.less pkgs.git pkgs.mercurial pkgs.fish pkgs.gitAndTools.hub pkgs.utillinux pkgs.bc pkgs.man pkgs.man_db];
+  buildInputs = old.buildInputs ++ [ pkgs.haskellPackages.cabalInstall haskellPackages.Cabal_1_20_0_2 haskellPackages.ghcCore pkgs.haskellPackages.cabalBounds pkgs.less pkgs.git pkgs.mercurial pkgs.fish pkgs.gitAndTools.hub pkgs.utillinux pkgs.bc pkgs.man pkgs.man_db pkgs.nano pkgs.openssh ];
   shellHook = ''
     $setupEnv
     export TERM=xterm # otherwise, ghc-pkg returns an error
+    export EDITOR=nano # for git
     export NIX_SHELL_PROJECT="$projectName" # Can be used by shells to set the prompt for example
     eval "$HS_SHELL_HOOK"
   '';
@@ -92,7 +98,7 @@ EOF
 # the directory name for the GC roots.
 # Note: --command should come last, because later --command arguments override earlier ones
 # and we want to override any --command options the user gave.
-ghcVersion=$(nix-shell "$@" -I nixpkgs=/home/channel --pure --command "ghc --numeric-version" $HS_SHELL_FILE)
+ghcVersion=$(nix-shell "$@" -I nixpkgs=/home/channel --pure --command "ghc --numeric-version" -E "$expr")
 echo "Using GHC version: $ghcVersion" >&2
 
 # Now run nix-shell for the user.
