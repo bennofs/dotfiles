@@ -1,15 +1,34 @@
 #!/usr/bin/env bash
 
-# Script to start a nix-shell which also contains the cabal-install tool
-# for a haskell project.
+################################################################################
+# Script to start a nix-shell for a haskell project.
+#
+# Features:
+#
+# - Support SSL in shell (useful for testing network applications)
+# - Support nix in shell (for example, allows you to run a nix-shell inside a nix-shell)
+# - Preserve GTK theme in shell
+# - Registers GC roots so that the dependencies are preserved on next GC run
+#   (one GC root per GHC version)
+# - Allows using a different shell
+# - Filter a few useless directories from src (like .git, dist/, etc)
+#
+# Of course, the disadvantage is that these features make the shell a bit less pure.
+#
 # The script assumes that there is a default.nix file in the current directory
-# that takes one argument, haskellPackages.
-# All options are passed through to nix-shell.
+# that contains a function which takes one argument, haskellPackages and returns
+# either a derivation or a set of derivations.
+#
+# All command-line arguments are passed to through to the invocation of nix-shell,
+# so you can use the same arguments as to nix-shell.
 #
 # You can set the HS_SHELL_HOOK environment variable to run
-# additional commands after the shell is started.
+# additional commands after the shell is started. Note that HS_SHELL_HOOK
+# runs quite early in the shell setup process, so the environment might
+# not be fully initialized yet. Use it only to set environment variables, etc.
 #
 # Author: Benno Fünfstück
+################################################################################
 
 # We want some environment variables to be preserved, even when using --pure. Because nix-shell doesn't currenlty
 # support that natively, we just export them ourselves before invoking cabal.
@@ -25,8 +44,8 @@ for env in $preserveEnvs; do
   setupEnv="${setupEnv}export $env=${!env}; "
 done
 
-# Some projects provide a default.nix file that doesn't support our system. For this
-# use case, we allow a .auto.nix file to override default.nix, but fallback to default.nix
+# Some projects provide a default.nix/shell.nix file that doesn't support our system. For this
+# use case, we allow a .auto.nix file to override default.nix/shell.nix, but fallback to default.nix/shell.nix
 # if no such file exists.
 HS_SHELL_FILE_DEF="default.nix"
 if [ -e shell.nix ]; then
@@ -38,18 +57,15 @@ fi
 HS_SHELL_FILE=${HS_SHELL_FILE:-$HS_SHELL_FILE_DEF}
 
 # Get the project name (assumed to be the name of the current directory)
-# This is used for creating the prompt in the nix-shell
+# This is exposed via the NIX_SHELL_PROJECT environment variable inside the
+# shell, so it can be used to create a custom prompt.
 projectName=${PWD##*/}
 
-# This expression loads $HS_SHELL_FILE, but also takes care of adding cabalInstall to
-# buildInputs, because we want to use cabal inside our shell. It works if default.nix contains
-# already a derviation, but also if it contains a function that still requires haskellPackages as
-# an argument.
+# Packages that should be available inside the shell
+extraPackages="haskellPackages.cabalInstall haskellPackages.cabalBounds less\
+   git mercurial fish gitAndTools.hub utillinux bc man man_db nano openssh"
 
-# Because only haskell libraries are GHC-version specific, we'll always use cabal install built
-# by GHC 7.8.3, because that's what in the binary cache so we avoid rebuilding. We cannot do the same
-# for the Cabal library though, unfortunaly, because it must be built for the GHC that's available
-# in the sandbox (we cannot use a Cabal library built for GHC 7.8.3 if we only have GHC 7.6.3 in the sandbox).
+# This expression loads $HS_SHELL_FILE.
 read -r -d '' expr <<EOF
 let pkgs = (import <nixpkgs> {}); in
 { haskellPackages ? pkgs.haskellPackages }:
@@ -81,8 +97,19 @@ let
       buildLocalCabal = src: name: super.buildLocalCabal (filterHaskellSrc src) name;
     };
   };
-in pkgs.lib.overrideDerivation (import ./$HS_SHELL_FILE { haskellPackages = myHaskellPackages; }) (old: {
-  buildInputs = old.buildInputs ++ [ pkgs.haskellPackages.cabalInstall haskellPackages.Cabal_1_20_0_2 haskellPackages.ghcCore pkgs.haskellPackages.cabalBounds pkgs.less pkgs.git pkgs.mercurial pkgs.fish pkgs.gitAndTools.hub pkgs.utillinux pkgs.bc pkgs.man pkgs.man_db pkgs.nano pkgs.openssh ];
+  overrideEach = xs: f: if builtins.isFunction xs
+    then overrideEach (xs { haskellPackages = myHaskellPackages; }) f
+    else if pkgs.lib.isDerivation xs
+      then pkgs.lib.overrideDerivation xs f
+      else (pkgs.lib.mapAttrs (_: p: overrideEach p f) xs);
+in overrideEach (import ./$HS_SHELL_FILE) (old: {
+  buildInputs = old.buildInputs
+    # The following packages must be compiled for the GHC version that we're using in the
+    # shell, because they're either haskell libraries or use the GHC library.
+    ++ [ haskellPackages.Cabal_1_20_0_2 haskellPackages.ghcCore ]
+
+    # Add the user packages.
+    ++ (with pkgs; [ $extraPackages ]);
   shellHook = ''
     $setupEnv
     export TERM=xterm # otherwise, ghc-pkg returns an error

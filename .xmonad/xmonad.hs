@@ -26,6 +26,7 @@ import qualified XMonad.StackSet              as W
 import           XMonad.Util.EZConfig
 import           XMonad.Util.XSelection
 import           XMonad.Util.Themes
+import           XMonad.Util.Cursor
 
 myWorkspaces :: [String]
 myWorkspaces = zipWith (++) (map show [1..]) ["emacs","web","free", "free", "chat","hipchat","skype","music","gimp","free", "free", "free"]
@@ -141,5 +142,10 @@ conf = withUrgencyHook FocusHook $ ewmh $ defaultConfig
        , handleEventHook = fullscreenEventHook
        } `additionalKeysP` bindings
 
+startup :: X ()
+startup = do
+  setWMName "LG3D"
+  setDefaultCursor xC_left_ptr
+
 main :: IO ()
-main = xmonad conf { startupHook = startupHook conf >> setWMName "LG3D" }
+main = xmonad conf { startupHook = startupHook conf >> startup }
