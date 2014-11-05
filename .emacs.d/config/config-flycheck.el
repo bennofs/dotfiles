@@ -1,4 +1,3 @@
-(global-flycheck-mode 1)
 (setq flycheck-check-syntax-automatically '(save mode-enabled idle-change))
 (setq flycheck-idle-change-delay 0.5)
 (setq-default flycheck-disabled-checkers '(haskell-ghc))

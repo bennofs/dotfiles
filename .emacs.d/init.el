@@ -27,6 +27,7 @@
 (require 'config-auctex)
 (require 'config-magit)
 (require 'config-eshell)
+(require 'config-pg)
 
 (setq custom-file "~/.emacs.d/config/config-customize.el")
 (load custom-file)
