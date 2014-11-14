@@ -1,5 +1,5 @@
 (global-set-key (kbd "C-x g") 'magit-status)
-(setq electric-indent-mode 0)
+(electric-indent-mode 0)
 
 (defun set-indent (n)
   (interactive "NTab width: ")

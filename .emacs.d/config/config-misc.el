@@ -36,6 +36,7 @@
   (unless (and buffer-file-name
                (file-writable-p buffer-file-name))
     (find-alternate-file (concat "/sudo:root@localhost:" buffer-file-name))))
+(setq dired-listing-switches "-aBhl  --group-directories-first")
 
 (defvar whitespace-on-save nil "Automatically clean whitespaces when saving?")
 (make-variable-buffer-local 'whitespace-on-save)
