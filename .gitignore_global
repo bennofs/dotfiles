@@ -13,7 +13,7 @@ dist-*
 .nix-*
 /Setup
 *.elc
-default.nix
+/default.nix
 /.auto.nix
 flycheck_*
 .dir-locals.el
