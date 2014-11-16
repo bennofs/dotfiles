@@ -138,7 +138,7 @@ workspaceKeys =
   , ("M-<Down>", prevWS)
   , ("M-<Right>", nextScreen)
   , ("M-<Left>", prevScreen)
-  , ("M-y", moveTo Next EmptyWS)
+  , ("M-n", moveTo Next EmptyWS)
   , ("C-<Tab>", cycleRecentWS [xK_Control_L] xK_Tab xK_grave)
   ] ++ zipWith (\n w -> ("M-<F" ++ show n ++ ">", windows $ W.greedyView w)) [1..] myWorkspaces
     ++ zipWith (\n w -> ("M-" ++ show n, windows $ W.greedyView w)) [1..9] myWorkspaces
@@ -159,7 +159,7 @@ spawnKeys :: [(String, X ())]
 spawnKeys =
   [ ("M-S-<Return>", spawn $ terminal conf)
   , ("M-S-o", promptSelection "xdg-open")
-  , ("M-S-o", prompt "xdg-open" promptConfig)
+  , ("M-o", prompt "xdg-open" promptConfig)
   , ("M-p", shellPrompt promptConfig)
   , ("M-f", spawn "thunar")
   , ("M-e", runOrRaiseNext "emacs" $ className =? "Emacs")
@@ -168,12 +168,12 @@ spawnKeys =
   , ("M-<Print>", spawn "scrot '%y-%m-%d-%T.png' -s -e 'mv -b \"$f\" /data/pics/screen'")
   ]
 
-
 miscKeys :: [(String, X ())]
 miscKeys =
   [ ("M-S-q"                 , io (exitWith ExitSuccess))
   , ("M-q"                   , spawn "xmonad --recompile && xmonad --restart")
-  , ("M-x"                   , sendMessage ToggleStruts)
+  , ("M-a"                   , sendMessage ToggleStruts)
+  , ("M-x", spawn "xsel -op | xsel -ib")
   ]
 
 searchKeys :: [(String, S.SearchEngine)]
