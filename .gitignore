@@ -9,6 +9,7 @@
 !/.config/fish
 /.config/fish/fish_history
 /.config/fish/fishd.*
+!/.config/uzbl
 
 !/.emacs.d
 /.emacs.d/*

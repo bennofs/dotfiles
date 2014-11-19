@@ -129,7 +129,7 @@ layoutKeys =
   , ("M-S-,"         , sendMessage (ToEnclosing $ SomeMessage $ IncMasterN 1))
   , ("M-."           , sendMessage (IncMasterN (-1)))
   , ("M-S-."         , sendMessage (ToEnclosing $ SomeMessage $ IncMasterN (-1)))
-  , ("M-S-c"         , kill)
+  , ("M-d"           , kill)
   ]
 
 workspaceKeys :: [(String, X ())]
@@ -166,6 +166,7 @@ spawnKeys =
   , ("M-b", runOrRaiseNext "uzbl-browser" browserP)
   , ("<Print>", spawn "scrot '%y-%m-%d-%T.png' -e 'mv -b \"$f\" /data/pics/screen'")
   , ("M-<Print>", spawn "scrot '%y-%m-%d-%T.png' -s -e 'mv -b \"$f\" /data/pics/screen'")
+  , ("M-x", spawn "xsel -op | xsel -ib")
   ]
 
 miscKeys :: [(String, X ())]
@@ -173,7 +174,6 @@ miscKeys =
   [ ("M-S-q"                 , io (exitWith ExitSuccess))
   , ("M-q"                   , spawn "xmonad --recompile && xmonad --restart")
   , ("M-a"                   , sendMessage ToggleStruts)
-  , ("M-x", spawn "xsel -op | xsel -ib")
   ]
 
 searchKeys :: [(String, S.SearchEngine)]
