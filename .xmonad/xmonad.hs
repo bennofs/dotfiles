@@ -167,6 +167,7 @@ spawnKeys =
   , ("<Print>", spawn "scrot '%y-%m-%d-%T.png' -e 'mv -b \"$f\" /data/pics/screen'")
   , ("M-<Print>", spawn "scrot '%y-%m-%d-%T.png' -s -e 'mv -b \"$f\" /data/pics/screen'")
   , ("M-x", spawn "xsel -op | xsel -ib")
+  , ("M-y", spawn "xsel -ob | xsel -ip")
   ]
 
 miscKeys :: [(String, X ())]
