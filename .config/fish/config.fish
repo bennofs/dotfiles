@@ -25,8 +25,9 @@ function fish_prompt
 end
 
 function nix-git-channel
-  cd $HOME/channel
+  cd $HOME/nixpkgs
   git fetch nixos
+  git checkout channel
   git reset --hard (cut -d'.' -f2 /nix/var/nix/profiles/per-user/root/channels/nixos/nixpkgs/svn-revision)
 end
 
