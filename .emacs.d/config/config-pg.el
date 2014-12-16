@@ -8,10 +8,25 @@
   ))
 
 (eval-after-load 'proof-script #'(progn
+  (defun electric-space ()
+    (when (char-after)
+      (unless (char-equal (char-syntax (char-after)) ?\s)
+	(save-excursion (insert " ")))))
+
   (define-key proof-mode-map (kbd "M-<down>") 'proof-assert-next-command-interactive)
   (define-key proof-mode-map (kbd "M-<up>")   'proof-undo-last-successful-command)
   (define-key proof-mode-map (kbd "M-RET")    'proof-assert-until-point-interactive)
-  (define-key proof-mode-map (kbd ".") #'(progn (interactive) (indent-according-to-mode) (proof-electric-terminator)))
+  (advice-add 'proof-electric-terminator :before
+	      #'(lambda (&rest args) (indent-according-to-mode) (electric-space)))
   ))
+
+(eval-after-load 'coq #'(progn
+  (define-key coq-mode-map (kbd "M-#")
+    #'(lambda ()
+	(interactive)
+	(coq-end-Section)
+	(indent-according-to-mode)))))
+
+(add-hook 'coq-mode-hook 'electric-indent-local-mode)
 
 (provide 'config-pg)
