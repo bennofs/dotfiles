@@ -203,6 +203,8 @@ conf = withUrgencyHook FocusHook $ ewmh $ defaultConfig
        , workspaces = myWorkspaces
        , handleEventHook = fullscreenEventHook
        , keys = \c -> mkKeymap c bindings
+       , focusedBorderColor = "steelblue"
+       , normalBorderColor = "#333333"
        }
 
 startup :: X ()
