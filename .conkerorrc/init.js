@@ -24,6 +24,7 @@ user_pref("conkeror.load.bindings/default/bindings", 0);
 require("keybindings/bindings");
 
 // Middle mouse button
+var clicks_in_new_buffer_target = OPEN_NEW_WINDOW;
 require("clicks-in-new-buffer.js");
 
 // Hide minibuffer
