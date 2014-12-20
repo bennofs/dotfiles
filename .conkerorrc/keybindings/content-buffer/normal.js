@@ -7,8 +7,6 @@
  * COPYING file.
 **/
 
-define_key(content_buffer_normal_keymap, "C-z", content_buffer_normal_keymap);
-
 bind_scroll_keys(content_buffer_normal_keymap);
 bind_selection_keys(content_buffer_normal_keymap);
 
@@ -68,4 +66,17 @@ for(var qm in quickmarks) {
     (content_buffer_normal_keymap,
      "g " + qm.split('').join(' '),
      "open-quickmark-" + qm);
+
+  interactive
+    ("open-quickmark-" + qm + "-new-window",
+     "Go to quickmark " + qm,
+     "find-url-new-window",
+     $browser_object = quickmarks[qm]);
+  define_key
+    (content_buffer_normal_keymap,
+     "G " + qm.split('').join(' '),
+     "open-quickmark-" + qm + "-new-window");
+
 }
+
+define_key(content_buffer_normal_keymap, "C-z", content_buffer_normal_keymap);

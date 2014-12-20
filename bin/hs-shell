@@ -125,8 +125,8 @@ EOF
 # the directory name for the GC roots.
 # Note: --command should come last, because later --command arguments override earlier ones
 # and we want to override any --command options the user gave.
-ghcVersion=$(nix-shell "$@" -I nixpkgs=/home/channel --pure --command "ghc --numeric-version" -E "$expr")
+ghcVersion=$(nix-shell "$@" --pure --command "ghc --numeric-version" -E "$expr")
 echo "Using GHC version: $ghcVersion" >&2
 
 # Now run nix-shell for the user.
-exec nix-shell --command "exec fish" "$@" -I nixpkgs=/home/channel --pure --indirect --add-root ".nix-$ghcVersion/dep" -E "$expr"
+exec nix-shell --command "exec fish" "$@" --pure --indirect --add-root ".nix-$ghcVersion/dep" -E "$expr"

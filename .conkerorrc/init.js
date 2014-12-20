@@ -4,7 +4,7 @@ let (path = get_home_directory()) {
   load_paths.unshift(make_uri(path).spec);
 }
 
-// Set $HOME/ndownloads as download directory
+// Set $HOME/downloads as download directory
 let (path = get_home_directory()) {
   path.appendRelativePath("downloads");
   cwd = make_file(path);
@@ -22,6 +22,8 @@ var hints_auto_exit_delay = 500;
 // Custom keybindings
 user_pref("conkeror.load.bindings/default/bindings", 0);
 require("keybindings/bindings");
+
+var browser_default_open_target = OPEN_NEW_WINDOW;
 
 // Middle mouse button
 var clicks_in_new_buffer_target = OPEN_NEW_WINDOW;
