@@ -26,8 +26,8 @@ require("keybindings/bindings");
 var browser_default_open_target = OPEN_NEW_WINDOW;
 
 // Middle mouse button
-var clicks_in_new_buffer_target = OPEN_NEW_WINDOW;
 require("clicks-in-new-buffer.js");
+var clicks_in_new_buffer_target = OPEN_NEW_WINDOW;
 
 // Hide minibuffer
 var minibuffer_autohide_message_timeout = 3000; //milliseconds to show messages

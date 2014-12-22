@@ -62,7 +62,7 @@ HS_SHELL_FILE=${HS_SHELL_FILE:-$HS_SHELL_FILE_DEF}
 projectName=${PWD##*/}
 
 # Packages that should be available inside the shell
-extraPackages="haskellPackages.cabalInstall haskellPackages.cabalBounds less\
+extraPackages="haskellPackages.cabalInstall less\
    git mercurial fish gitAndTools.hub utillinux bc man man_db nano openssh"
 
 # This expression loads $HS_SHELL_FILE.

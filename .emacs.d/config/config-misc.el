@@ -15,9 +15,6 @@
 (setq initial-buffer-choice "/data/notes/main.org")
 (setq inhibit-splash-screen t)
 
-(set-frame-parameter (selected-frame) 'alpha '(93 93))
-(add-to-list 'default-frame-alist '(alpha 95 95))
-
 (setq whitespace-style '(trailing face indentation empty))
 (global-whitespace-mode 1)
 (setq indent-tabs-mode nil)
