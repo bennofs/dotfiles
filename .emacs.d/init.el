@@ -7,6 +7,8 @@
 (cask-initialize)
 
 (require 'config-theme)
+(require 'config-faces)
+(require 'config-powerline)
 
 (byte-recompile-directory (expand-file-name "~/.emacs.d/config") 0)
 (byte-recompile-directory (expand-file-name "~/.emacs.d/themes") 0)
@@ -14,10 +16,8 @@
 (require 'pallet)
 (require 'nix-mode)
 
-(require 'config-faces)
 (require 'config-misc)
-(require 'config-ido)
-(require 'config-powerline)
+(require 'config-helm)
 (require 'config-haskell)
 (require 'config-filetypes)
 (require 'config-keybindings)
@@ -28,6 +28,7 @@
 (require 'config-magit)
 (require 'config-eshell)
 (require 'config-pg)
+(require 'config-ido)
 
 (setq custom-file "~/.emacs.d/config/config-customize.el")
 (load custom-file)

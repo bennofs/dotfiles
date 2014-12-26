@@ -18,6 +18,7 @@
 (setq whitespace-style '(trailing face indentation empty))
 (global-whitespace-mode 1)
 (setq indent-tabs-mode nil)
+(setq prog-mode-hook 'clean-aindent-mode)
 
 (setq browse-url-browser-function 'browse-url-xdg-open)
 
@@ -28,12 +29,8 @@
 (diredp-toggle-find-file-reuse-dir 1)
 (projectile-global-mode 1)
 
-(defadvice ido-find-file (after find-file-sudo activate)
-  "Find file as root if necessary."
-  (unless (and buffer-file-name
-               (file-writable-p buffer-file-name))
-    (find-alternate-file (concat "/sudo:root@localhost:" buffer-file-name))))
 (setq dired-listing-switches "-aBhl  --group-directories-first")
+(add-to-list 'completion-ignored-extensions ".hi")
 
 (defvar whitespace-on-save nil "Automatically clean whitespaces when saving?")
 (make-variable-buffer-local 'whitespace-on-save)
