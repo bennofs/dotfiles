@@ -26,9 +26,9 @@ end
 
 function nix-git-channel
   cd $HOME/nixpkgs
-  git fetch nixos
-  git checkout channel
-  git reset --hard (cut -d'.' -f2 /nix/var/nix/profiles/per-user/root/channels/nixos/nixpkgs/svn-revision)
+  git checkout master # Only master contains the update-channel script
+  ./maintainers/scripts/update-channel-branches.sh
+  git checkout channels/remotes/nixos-unstable
 end
 
 # fish calls command-not-found with an additional argument,

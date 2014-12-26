@@ -63,7 +63,8 @@ projectName=${PWD##*/}
 
 # Packages that should be available inside the shell
 extraPackages="haskellPackages.cabalInstall less\
-   git mercurial fish gitAndTools.hub utillinux bc man man_db nano openssh"
+   git mercurial fish gitAndTools.hub utillinux bc man man_db nano openssh\
+   haskellPackages.cabalBounds haskellPackages.codex haskellPackages.hasktags"
 
 # This expression loads $HS_SHELL_FILE.
 read -r -d '' expr <<EOF

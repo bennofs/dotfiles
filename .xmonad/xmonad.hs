@@ -32,7 +32,7 @@ import           XMonad.Util.Themes
 import           XMonad.Util.Cursor
 
 myWorkspaces :: [String]
-myWorkspaces = zipWith (++) (map show [1..]) ["emacs","web","free", "free", "chat","hipchat","skype","music","gimp","free", "free", "free"]
+myWorkspaces = zipWith (++) (map show [1..]) ["emacs","web","free", "free", "free","hipchat","skype","music","gimp","weechat", "free", "free"]
 
 ws :: Int -> String
 ws = (myWorkspaces !!)
@@ -45,13 +45,9 @@ q *=? x = fmap (x `isInfixOf`) q
 
 windowH :: ManageHook
 windowH = composeAll
-  [ title    <=? "weechat"     --> doShift (ws 4)
-  , title    <=? "IRC"         --> doShift (ws 4)
-  , title     *=? "[ Zed ]"    --> doShift (ws 0)
-  , title     =? "Zed Project Picker" --> doShift (ws 0)
-  , className =? "Thunderbird" --> doShift (ws 5)
+  [ title    <=? "weechat"     --> doShift (ws 9)
+  , title    <=? "IRC"         --> doShift (ws 9)
   , className =? "Skype"       --> doShift (ws 6)
-  , className =? "Chromium"    --> doShift (ws 1)
   , browserP                   --> doShift (ws 1)
   , className =? "Gimp"        --> doShift (ws 8)
   , className =? "Gimp"        --> fmap (Endo . W.sink) ask
