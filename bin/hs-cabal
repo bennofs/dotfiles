@@ -12,11 +12,10 @@ IFS='
 # cabal caches this path in setup-config, but it changes everytime we change
 # the nix expression. If we don't do this, sometimes not all dependencies will get
 # picked up if we add to buildDepends without changing the cabal file.
-command="exec xargs -a <(echo '$*$IFS--with-ghc=\$ghc/bin/ghc') -d '$IFS' cabal"
+command="exec xargs -a <(echo \"$*$IFS--with-ghc=\$ghc/bin/ghc\") -d '$IFS' cabal"
 
 # Reset IFS
 IFS=' '
 
 # Run hs-shell.
-export HS_SHELL_HOOK="$command"
-exec hs-shell
+exec hs-shell --command "$command"

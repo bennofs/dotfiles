@@ -40,4 +40,7 @@
     (if whitespace-on-save (delete-trailing-whitespace))
   ))
 
+(setq backup-directory-alist '(("" . "/data/backup/emacs/")))
+(setq auto-save-file-name-transforms '(("" "/data/backup/emacs/" t)))
+
 (provide 'config-misc)

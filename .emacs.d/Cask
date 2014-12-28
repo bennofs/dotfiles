@@ -30,6 +30,7 @@
 (depends-on "pallet")
 (depends-on "projectile")
 (depends-on "regex-tool")
+(depends-on "rich-minority")
 (depends-on "rust-mode")
 (depends-on "shut-up")
 (depends-on "smart-mode-line")

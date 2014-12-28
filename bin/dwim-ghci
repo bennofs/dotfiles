@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
-echo "$@"
 if [ -f default.nix -o -f .auto.nix ]; then
   exec /home/bin/hs-cabal repl --ghc-options="$*"
 else

@@ -11,6 +11,7 @@
 (setq helm-split-window-in-side-p           t) ; open helm buffer inside current window, not occupy whole other window
 (setq helm-move-to-line-cycle-in-source     t) ; move to end or beginning of source when reaching top or bottom of source.
 (setq helm-ff-skip-boring-files             t)
+(setq helm-ff-file-name-history-use-recentf t)
 
 (helm-mode 1)
 (global-set-key (kbd "C-c g")   'helm-google-suggest)
@@ -19,14 +20,28 @@
  (kbd "C-x b")
  #'(lambda ()
      (interactive)
-     (helm-other-buffer
-      '(helm-source-buffers-list
-	helm-source-file-name-history
-	helm-source-buffer-not-found
-	)
-      "*helm-buffers*")))
+     (unless helm-source-buffers-list
+       (setq helm-source-buffers-list
+	     (helm-make-source "Buffers" 'helm-source-buffers)))
+     (let ((helm-ff-transformer-show-only-basename nil))
+       (helm :sources '(helm-source-buffers-list
+			helm-source-ido-virtual-buffers
+			helm-source-recentf
+			helm-source-buffer-not-found)
+	     :buffer "*helm-buffers*"
+	     :keymap helm-buffer-map
+	     :truncate-lines t))))
+
+(setq helm-boring-file-regexp-list
+      (mapcar (lambda (f)
+		(concat
+		 (rx-to-string
+		  (replace-regexp-in-string
+		   "/$" "" f) t) "$"))
+	      completion-ignored-extensions))
 
 (require 'helm-projectile)
+(require 'helm-buffers)
 (helm-projectile-on)
 
 (provide 'config-helm)
