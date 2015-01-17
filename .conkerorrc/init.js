@@ -41,3 +41,6 @@ function possibly_valid_url (str) {
 
 // Use google as default
 read_url_handler_list = [read_url_make_default_webjump_handler("google")];
+
+// Zathura for pdf
+external_content_handlers.set("application/pdf", "zathura");

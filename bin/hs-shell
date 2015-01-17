@@ -107,7 +107,7 @@ in overrideEach (import ./$HS_SHELL_FILE) (old: {
   buildInputs = old.buildInputs
     # The following packages must be compiled for the GHC version that we're using in the
     # shell, because they're either haskell libraries or use the GHC library.
-    ++ [ haskellPackages.Cabal_1_20_0_2 haskellPackages.ghcCore ]
+    ++ [ haskellPackages.Cabal_1_22_0_0 haskellPackages.ghcCore ]
 
     # Add the user packages.
     ++ (with pkgs; [ $extraPackages ]);

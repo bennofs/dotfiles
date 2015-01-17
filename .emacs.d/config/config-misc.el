@@ -41,6 +41,7 @@
   ))
 
 (setq backup-directory-alist '(("" . "/data/backup/emacs/")))
-(setq auto-save-file-name-transforms '(("" "/data/backup/emacs/" t)))
+(setq auto-save-file-name-transforms '((".*" "/data/backup/emacs/" t)))
+(auto-save-mode 1)
 
 (provide 'config-misc)
