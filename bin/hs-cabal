@@ -8,11 +8,8 @@
 IFS='
 '
 
-# The command that invokes cabal. We pass the path to GHC explicitly, because
-# cabal caches this path in setup-config, but it changes everytime we change
-# the nix expression. If we don't do this, sometimes not all dependencies will get
-# picked up if we add to buildDepends without changing the cabal file.
-command="exec xargs -a <(echo \"$*$IFS--with-ghc=\$ghc/bin/ghc\") -d '$IFS' cabal"
+# The command that invokes cabal. 
+command="exec xargs -a <(echo \"$*\") -d '$IFS' cabal"
 
 # Reset IFS
 IFS=' '

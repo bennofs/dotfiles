@@ -38,7 +38,7 @@
 # SSL vars: those are needed if we want to fetch SSL signed pages inside nix-shell
 # NIX_REMOTE: allows to use nix inside nix-shell
 # GTK_PATH, GTK2_RC_FILES: for theming inside nix-shell
-preserveEnvs="CURL_CA_BUNDLE GIT_SSL_CAINFO OPENSSL_X509_CERT_FILE NIX_REMOTE GTK_PATH GTK2_RC_FILES"
+preserveEnvs="CURL_CA_BUNDLE GIT_SSL_CAINFO OPENSSL_X509_CERT_FILE NIX_REMOTE GTK_PATH GTK2_RC_FILES LANG"
 setupEnv=""
 for env in $preserveEnvs; do
   setupEnv="${setupEnv}export $env=${!env}; "
@@ -69,57 +69,39 @@ extraPackages="haskellPackages.cabalInstall less\
 # This expression loads $HS_SHELL_FILE.
 read -r -d '' expr <<EOF
 let pkgs = (import <nixpkgs> {}); in
-{ haskellPackages ? pkgs.haskellPackages }:
+{ haskellngPackages ? pkgs.haskellngPackages }:
 
 let
   inherit (import <nixpkgs> {}) lib;
-  filterHaskellSrc = src:
-    let
-      ignoredDirs = [ ".git" ];
-      ignoredFiles = [ "cabal.sandbox.config" ];
-      predicate = path: type:
-           !( type == "unknown"
-           || type == "directory" && (builtins.elem (baseNameOf path) ignoredDirs
-                                   || lib.hasPrefix ".nix" (baseNameOf path)
-                                   || lib.hasPrefix "dist" (baseNameOf path)
-                                   || lib.hasSuffix "cabal-sandbox" (baseNameOf path)
-                                   )
-           || type == "regular" && builtins.elem (baseNameOf path) ignoredFiles
-           || type == "symlink"
-           );
-    in if builtins.typeOf src == "path"
-      then builtins.filterSource predicate src
-      else src;
-  myHaskellPackages = haskellPackages.override {
-    extension = _: super: {
-      cabal = super.cabal.override (old: {
-         extension = self: super: let nsuper = super // old.extension self super; in { src = filterHaskellSrc nsuper.src; };
-      });
-      buildLocalCabal = src: name: super.buildLocalCabal (filterHaskellSrc src) name;
-    };
-  };
   overrideEach = xs: f: if builtins.isFunction xs
-    then overrideEach (xs { haskellPackages = myHaskellPackages; }) f
+    then overrideEach (xs { inherit haskellngPackages; }) f
     else if pkgs.lib.isDerivation xs
-      then pkgs.lib.overrideDerivation xs f
+      then pkgs.lib.overrideDerivation (xs.override f.argumentOverrides) f.derivationOverrides
       else (pkgs.lib.mapAttrs (_: p: overrideEach p f) xs);
-in overrideEach (import ./$HS_SHELL_FILE) (old: {
-  buildInputs = old.buildInputs
-    # The following packages must be compiled for the GHC version that we're using in the
-    # shell, because they're either haskell libraries or use the GHC library.
-    ++ [ haskellPackages.Cabal_1_22_0_0 haskellPackages.ghcCore ]
+in overrideEach (import ./$HS_SHELL_FILE) {
+  derivationOverrides = old: {
+    buildInputs = old.buildInputs
+      # The following packages must be compiled for the GHC version that we're using in the
+      # shell, because they're either haskell libraries or use the GHC library.
+      ++ [ haskellngPackages.ghc-core ]
 
-    # Add the user packages.
-    ++ (with pkgs; [ $extraPackages ]);
-  shellHook = ''
-    $setupEnv
-    export TERM=xterm # otherwise, ghc-pkg returns an error
-    export EDITOR=nano # for git
-    export NIX_SHELL_PROJECT="$projectName" # Can be used by shells to set the prompt for example
-    eval "$HS_SHELL_HOOK"
-  '';
-  ghcPackages = old.ghc.GHCPackages;
-})
+      # Add the user packages.
+      ++ (with pkgs; [ $extraPackages ]);
+    shellHook = ''
+      $setupEnv
+      \${old.shellHook or ""}
+      export TERM=xterm # otherwise, ghc-pkg returns an error
+      export EDITOR=nano # for git
+      export NIX_SHELL_PROJECT="$projectName" # Can be used by shells to set the prompt for example
+      eval "$HS_SHELL_HOOK"
+    '';
+  };
+  argumentOverrides = old: {
+    mkDerivation = args:  old.mkDerivation (args // {
+      buildDepends = [ haskellngPackages.Cabal_1_22_0_0 ] ++ args.buildDepends or [];
+    });
+  };
+}
 EOF
 
 # Run once to determine the GHC version that we're going to use. This is used to construct
@@ -130,4 +112,4 @@ ghcVersion=$(nix-shell "$@" --pure --command "ghc --numeric-version" -E "$expr")
 echo "Using GHC version: $ghcVersion" >&2
 
 # Now run nix-shell for the user.
-exec nix-shell --command "exec fish" "$@" --pure --indirect --add-root ".nix-$ghcVersion/dep" -E "$expr"
+exec nix-shell --command "exec env LOCALE_ARCHIVE=/run/current-system/sw/lib/locale/locale-archive fish" "$@" --pure --indirect --add-root ".nix-$ghcVersion/dep" -E "$expr"
