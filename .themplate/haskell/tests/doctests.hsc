@@ -13,12 +13,8 @@
 -----------------------------------------------------------------------------
 module Main where
 
-import Build_doctests (deps)
-import Control.Applicative
+import Build_doctests (doctestTargets)
 import Control.Monad
-import Data.List
-import System.Directory
-import System.FilePath
 import Test.DocTest
 
 ##ifdef mingw32_HOST_ARCH
@@ -50,25 +46,16 @@ withUnicode m = m
 ##endif
 
 main :: IO ()
-main = withUnicode $ forM_ deps $ \(dirs, dep) -> do
-    putStrLn $ ":: Running doctests for source directories: " ++ intercalate " " dirs
-    mapM getSources dirs >>= \sources -> doctest $
+main = withUnicode $ do
+  forM_ doctestTargets $ \(name, mods, dirs, dep) -> do
+    putStrLn $ ":: Running doctests for " ++ name
+    doctest $
         "-idist/build/autogen"
+      : "-idist/build"
       : "-optP-include"
       : "-optPdist/build/autogen/cabal_macros.h"
+      : "-package-dbdist/package.conf.inplace"
       : "-hide-all-packages"
       : map ("-package="++) dep
-        ++ map ("-i"++) dirs 
-        ++ join sources 
-
-getSources :: FilePath -> IO [FilePath]
-getSources d = filter (isSuffixOf ".hs") <$> go d
-  where
-    go dir = do
-      (dirs, files) <- getFilesAndDirectories dir
-      (files ++) . concat <$> mapM go dirs
-
-getFilesAndDirectories :: FilePath -> IO ([FilePath], [FilePath])
-getFilesAndDirectories dir = do
-  c <- map (dir </>) . filter (`notElem` ["..", "."]) <$> getDirectoryContents dir
-  (,) <$> filterM doesDirectoryExist c <*> filterM doesFileExist c
+        ++ map ("-i"++) dirs
+        ++ mods
