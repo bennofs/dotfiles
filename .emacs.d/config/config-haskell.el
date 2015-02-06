@@ -1,6 +1,3 @@
-(add-to-list 'load-path "~/.emacs.d/plugins/hare")
-(autoload 'hare-init "hare" nil t)
-
 (defun format-imports-hook ()
   (add-hook 'before-save-hook '(lambda ()
     (if haskell-format-on-save (save-excursion (haskell-sort-imports) (haskell-navigate-imports) (haskell-sort-imports)))
@@ -29,8 +26,7 @@
     turn-on-haskell-font-lock
     turn-on-haskell-decl-scan
     format-imports-hook
-    load-hook
-    (lambda () (hare-init))))
+    load-hook))
 
 (setq haskell-tags-on-save t)
 (setq haskell-font-lock-symbols t)
