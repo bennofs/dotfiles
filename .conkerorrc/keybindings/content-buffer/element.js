@@ -33,7 +33,7 @@ define_key(content_buffer_normal_keymap, "^",
 
 
 define_key(content_buffer_normal_keymap, "f", "follow");
-define_key(content_buffer_normal_keymap, "F", "focus");
+define_key(content_buffer_normal_keymap, "F", "follow-new-buffer");
 define_key(content_buffer_normal_keymap, "t", "follow-top");
 define_key(content_buffer_normal_keymap, "s", "save");
 define_key(content_buffer_normal_keymap, "c", "copy");
