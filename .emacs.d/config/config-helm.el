@@ -1,6 +1,6 @@
 (require 'helm-config)
 
-(eval-after-load 'helm 
+(eval-after-load 'helm
   #'(progn
       (define-key helm-map (kbd "<tab>") 'helm-execute-persistent-action) ; rebind tab to run persistent action
       (define-key helm-map (kbd "C-z")   'helm-select-action))) ; list actions using C-z
@@ -39,6 +39,7 @@
 		  (replace-regexp-in-string
 		   "/$" "" f) t) "$"))
 	      completion-ignored-extensions))
+(global-set-key (kbd "C-x i") 'helm-imenu)
 
 (require 'helm-projectile)
 (require 'helm-buffers)

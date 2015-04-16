@@ -53,7 +53,7 @@ var quickmarks =
   , "soh": "http://stackoverflow.com/questions/tagged/haskell?sort=newest&pageSize=50"
   , "bb": "https://bitbucket.org/"
   , "hn": "https://news.ycombinator.com/"
-  , "gm": "https://gmail.com"
+  , "gm": "https://inbox.google.com"
   };
 
 for(var qm in quickmarks) {

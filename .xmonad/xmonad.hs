@@ -51,6 +51,7 @@ windowH = composeAll
   , browserP                   --> doShift (ws 1)
   , className =? "Gimp"        --> doShift (ws 8)
   , className =? "Gimp"        --> fmap (Endo . W.sink) ask
+  , className =? "sc-SoftwareChallengeGUI" <&&> fmap not (title <=? "Software Challenge") --> fmap (Endo . W.sink) ask
   , className =? "HipChat"     --> doShift (ws 5)
   -- Hide HipChat "Signing in ..." window.
   , className =? "HipChat" <&&> isDialog <&&> title =? "HipChat" --> hideMappedWindow >> doIgnore
@@ -68,14 +69,14 @@ browserLayout = group (tabbed shrinkText (theme wfarrTheme)) layouts where
   tiled = Tall 1 (3/100) (1/2)
   layouts = Grid ||| tiled ||| Mirror tiled ||| Full
 
-layoutH s = avoidStruts $ browser $ irc $ gimp $ skype $ s ||| Grid
+layoutH s = avoidStruts $ browser $ tab $ gimp $ skype $ s ||| Grid
   where skype = onWorkspace (ws 6) skypeLayout
         skypeLayout = flip onLeft Grid $ simpleDrawer 0.2 0.2 $ Title "bennofs - Skype™"
         gimp = onWorkspace (ws 8) gimpLayout
         gimpLayout = onLeft gimpToolbox $ onRight gimpDock Grid
         gimpToolbox = simpleDrawer 0.025 0.15 $ Role "gimp-toolbox"
         gimpDock = simpleDrawer 0.05 0.2 $ Role "gimp-dock"
-        irc = onWorkspace (ws 4) $ tabbed shrinkText (theme wfarrTheme)
+        tab = onWorkspace (ws 4) browserLayout
         browser = onWorkspace (ws 1) browserLayout
 
 logH :: X () -> X ()
@@ -161,7 +162,7 @@ spawnKeys =
   , ("M-e", runOrRaiseNext "emacs" $ className =? "Emacs")
   , ("M-b", runOrRaiseNext "conkeror" browserP)
   , ("<Print>", spawn "scrot '%y-%m-%d-%T.png' -e 'mv -b \"$f\" /data/pics/screen'")
-  , ("M-<Print>", spawn "scrot '%y-%m-%d-%T.png' -s -e 'mv -b \"$f\" /data/pics/screen'")
+  , ("M-<Print>", spawn "sleep 2; scrot '%y-%m-%d-%T.png' -s -e 'mv -b \"$f\" /data/pics/screen'")
   , ("M-x", spawn "xsel -op | xsel -ib")
   , ("M-y", spawn "xsel -ob | xsel -ip")
   ]

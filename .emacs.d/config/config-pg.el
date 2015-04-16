@@ -1,5 +1,6 @@
 (require 'proof-site "ProofGeneral/generic/proof-site")
 (setq proof-splash-enable nil)
+(setq proof-disappearing-proofs t)
 (setq coq-one-command-per-line nil)
 (eval-after-load 'proof-faces #'(progn
   (set-face-attribute 'proof-eager-annotation-face nil :background "#733105")
@@ -16,9 +17,11 @@
   (define-key proof-mode-map (kbd "M-<down>") 'proof-assert-next-command-interactive)
   (define-key proof-mode-map (kbd "M-<up>")   'proof-undo-last-successful-command)
   (define-key proof-mode-map (kbd "M-RET")    'proof-assert-until-point-interactive)
+  (define-key proof-mode-map (kbd "C-RET")    'complete)
   (define-key proof-mode-map (kbd "C-.")      (lambda () (interactive) (insert ".")))
   (advice-add 'proof-electric-terminator :before
 	      #'(lambda (&rest args) (indent-according-to-mode) (electric-space)))
+  (add-hook 'proof-ready-for-assistant-hook (lambda () (show-paren-mode 0)))
   ))
 
 (eval-after-load 'coq #'(progn

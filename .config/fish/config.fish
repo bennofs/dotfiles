@@ -47,6 +47,9 @@ function make_completion --argument alias command
     )"
 end
 
+functions -c ls lss 
+alias ls="lss --group-directories-first"
+
 # git aliases
 alias gst="git status -sb"
 alias gp="git push"

@@ -16,7 +16,7 @@
 # Of course, the disadvantage is that these features make the shell a bit less pure.
 #
 # The script assumes that there is a default.nix file in the current directory
-# that contains a function which takes one argument, haskellPackages and returns
+# that contains a function which takes one argument, haskellngPackages and returns
 # either a derivation or a set of derivations.
 #
 # All command-line arguments are passed to through to the invocation of nix-shell,
@@ -62,9 +62,9 @@ HS_SHELL_FILE=${HS_SHELL_FILE:-$HS_SHELL_FILE_DEF}
 projectName=${PWD##*/}
 
 # Packages that should be available inside the shell
-extraPackages="haskellPackages.cabalInstall less\
+extraPackages="less\
    git mercurial fish gitAndTools.hub utillinux bc man man_db nano openssh\
-   haskellPackages.cabalBounds haskellPackages.codex haskellPackages.hasktags"
+   pkgs.haskellngPackages.codex pkgs.haskellngPackages.hasktags"
 
 # This expression loads $HS_SHELL_FILE.
 read -r -d '' expr <<EOF
@@ -98,7 +98,7 @@ in overrideEach (import ./$HS_SHELL_FILE) {
   };
   argumentOverrides = old: {
     mkDerivation = args:  old.mkDerivation (args // {
-      buildDepends = [ haskellngPackages.Cabal_1_22_0_0 ] ++ args.buildDepends or [];
+      buildDepends = [ haskellngPackages.foreign-store ] ++ args.buildDepends or [];
     });
   };
 }

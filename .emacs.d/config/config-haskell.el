@@ -44,6 +44,7 @@
   '(progn
     (define-key haskell-mode-map (kbd "C-c C-z") 'haskell-interactive-switch)
     (define-key haskell-mode-map (kbd "C-c C-l") 'haskell-process-load-file)
+    (define-key haskell-mode-map (kbd "C-c x")   'haskell-process-reload-file)
     (define-key haskell-mode-map (kbd "C-c C-b") 'haskell-interactive-switch)
     (define-key haskell-mode-map (kbd "C-c C-t") 'haskell-process-do-type)
     (define-key haskell-mode-map (kbd "C-c C-i") 'haskell-process-do-info)
@@ -63,6 +64,7 @@
 
 (eval-after-load "haskell-interactive-mode" '(progn
   (define-key haskell-interactive-mode-map (kbd "C-c r") 'haskell-process-restart)
+  (define-key haskell-mode-map (kbd "C-c x")   'haskell-process-reload-file)
   (define-key haskell-interactive-mode-map (kbd "C-c l") (lambda ()
     (interactive)
     (switch-to-buffer "*haskell-process-log*")))
@@ -87,4 +89,5 @@
       (insert "* ")))
   (org-mode)
   (hl-line-mode)
+  (font-lock-mode 0)
   (save-buffer))

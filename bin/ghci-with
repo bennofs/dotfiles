@@ -1,3 +1,3 @@
 #!/usr/bin/env bash
 
-nix-shell -p "haskellPackages.ghcWithPackages (hs: with hs; [$*])" -I nixpkgs=$HOME/channel --command "ghci"
+nix-shell -p "haskellngPackages.ghcWithPackages (hs: with hs; [$*])" --command "ghci"

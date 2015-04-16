@@ -15,7 +15,7 @@
 (setq initial-buffer-choice "/data/notes/main.org")
 (setq inhibit-splash-screen t)
 
-(setq whitespace-style '(trailing face indentation empty))
+(setq whitespace-style '(face indentation empty))
 (global-whitespace-mode 1)
 (setq indent-tabs-mode nil)
 (setq prog-mode-hook 'clean-aindent-mode)
@@ -42,6 +42,43 @@
 
 (setq backup-directory-alist '(("" . "/data/backup/emacs/")))
 (setq auto-save-file-name-transforms '((".*" "/data/backup/emacs/" t)))
+(setq backup-by-copying t)
+(setq delete-old-versions t
+  kept-new-versions 6
+  kept-old-versions 2
+  version-control t)
 (auto-save-mode 1)
+
+(define-minor-mode sensitive-mode
+  "For sensitive files like password lists.
+It disables backup creation and auto saving.
+
+With no argument, this command toggles the mode.
+Non-null prefix argument turns on the mode.
+Null prefix argument turns off the mode."
+  ;; The initial value.
+  nil
+  ;; The indicator for the mode line.
+  " Sensitive"
+  ;; The minor mode bindings.
+  nil
+  (if (symbol-value sensitive-mode)
+      (progn
+	;; disable backups
+	(set (make-local-variable 'backup-inhibited) t)	
+	;; disable auto-save
+	(if auto-save-default
+	    (auto-save-mode -1)))
+    ;resort to default value of backup-inhibited
+    (kill-local-variable 'backup-inhibited)
+    ;resort to default auto save setting
+    (if auto-save-default
+	(auto-save-mode 1))))
+(setq auto-mode-alist
+ (append '(("\\.gpg$" . sensitive-mode)
+	   ("^/etc/nixos/conf/accounts" . sensitive-mode)
+	   ("^/sudo:" . sensitive-mode)
+	   ("sudo:" . sensitive-mode))
+	 auto-mode-alist))
 
 (provide 'config-misc)

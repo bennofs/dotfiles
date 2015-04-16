@@ -20,3 +20,4 @@ flycheck_*
 *.bak
 shell.nix
 Setup
+/cabal
