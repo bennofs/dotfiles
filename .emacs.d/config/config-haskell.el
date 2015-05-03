@@ -23,7 +23,6 @@
   '(capitalized-words-mode
     turn-on-hi2
     turn-on-eldoc-mode
-    turn-on-haskell-font-lock
     turn-on-haskell-decl-scan
     format-imports-hook
     load-hook))

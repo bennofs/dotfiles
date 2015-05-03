@@ -1,6 +1,0 @@
-# -*- mode: snippet -*-
-# key: opt
-# name: ghc option
-# contributor: Luke Hoersten <luke@hoersten.org>
-# --
-{-# OPTIONS_GHC ${1:option} #-}

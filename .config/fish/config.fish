@@ -57,6 +57,7 @@ alias gup="git pull"
 alias glo="git log --oneline --color --decorate"
 alias gd="git diff"
 alias gcam="git commit -am"
+alias gc="git commit"
 alias gco="git checkout"
 
 make_completion gco "git checkout"
