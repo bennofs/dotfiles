@@ -64,7 +64,8 @@ projectName=${PWD##*/}
 # Packages that should be available inside the shell
 extraPackages="less\
    git mercurial fish gitAndTools.hub utillinux bc man man_db nano openssh\
-   pkgs.haskellngPackages.codex pkgs.haskellngPackages.hasktags"
+   "
+#   pkgs.haskellngPackages.codex pkgs.haskellngPackages.hasktags"
 
 # This expression loads $HS_SHELL_FILE.
 read -r -d '' expr <<EOF
@@ -104,6 +105,7 @@ in overrideEach (import ./$HS_SHELL_FILE) {
 }
 EOF
 
+set -e
 # Run once to determine the GHC version that we're going to use. This is used to construct
 # the directory name for the GC roots.
 # Note: --command should come last, because later --command arguments override earlier ones
