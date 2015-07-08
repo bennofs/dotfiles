@@ -31,6 +31,14 @@ function nix-git-channel
   git checkout channels/remotes/nixos-unstable
 end
 
+# fish redefines man to use manpath, which is not available on NixOS
+function man --description 'Format and display the on-line manual pages'
+  set -l fish_manpath (dirname $__fish_datadir)/fish/man
+  set -lx MANPATH "$fish_manpath"
+  command man $argv
+  return
+end      
+
 # fish calls command-not-found with an additional argument,
 # which is not supported by NixOS command-not-found script.
 # This function strips that argument.
