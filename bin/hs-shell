@@ -64,6 +64,7 @@ projectName=${PWD##*/}
 # Packages that should be available inside the shell
 extraPackages="less\
    git mercurial fish gitAndTools.hub utillinux bc man man_db nano openssh\
+   haskellngPackages.cabal-bounds
    "
 #   pkgs.haskellngPackages.codex pkgs.haskellngPackages.hasktags"
 
