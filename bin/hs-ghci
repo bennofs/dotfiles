@@ -1,2 +1,2 @@
 #!/usr/bin/env bash
-hs-shell --command "ghci $@"
+dev-shell --command "ghci $@"

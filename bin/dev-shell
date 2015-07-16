@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+
+################################################################################
+#
+# Wrapper script to start a nix-shell.
+# Adds GC roots, and uses fish for the nix-shell.
+#
+################################################################################
+
+# Get the project name (assumed to be the name of the current directory)
+# This is exposed via the NIX_SHELL_PROJECT environment variable inside the
+# shell, so it can be used to create a custom prompt.
+export NIX_SHELL_PROJECT=${PWD##*/}
+
+set -e
+rm .nix -rf
+exec nix-shell --command "exec env LOCALE_ARCHIVE=/run/current-system/sw/lib/locale/locale-archive fish" "$@" --pure --indirect --add-root ".nix/dep"
+
