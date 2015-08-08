@@ -1,7 +1,7 @@
 { haskellngPackages ? (import <nixpkgs> {}).haskellngPackages }:
 let
   nativePkgs = import <nixpkgs> {};
-  cabalExpr = nativePkgs.stdenv.mkDerivation ({
+  expr = nativePkgs.stdenv.mkDerivation ({
     name = "project.nix";
     buildCommand = ''
       ${nativePkgs.haskellngPackages.cabal2nix}/bin/cabal2nix ${./.} > $out
@@ -14,5 +14,5 @@ let
     overrides = self: oldsuper: let super = oldsuper // (old.overrides or (_:_:{})) self oldsuper; in super // {
     };
   });
-  pkg = hs.callPackage (import cabalExpr) {};
-in pkg.env // { override = f: (pkg.override f).env; build = pkg; }
+  pkg = hs.callPackage (import expr) {};
+in pkg // { inherit hs expr; }

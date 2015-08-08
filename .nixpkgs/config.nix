@@ -8,16 +8,15 @@ with (import <nixpkgs/lib>); let
     "NIX_REMOTE"
     "GTK_PATH"
     "GTK2_RC_FILES"
-    "LANG"
+    "LANG" "LOCALE_ARCHIVE"
     "NIX_SHELL_PROJECT"
     "TERM" "TERMINFO" "TERMINFO_DIRS"
   ];
   devPkgs = pkgs: with pkgs; [
     less git mercurial fish gitAndTools.hub utillinux bc man manpages
-    nano openssh
+    nano openssh haskellPackages.cabal-bounds
   ];
   setupEnv = concatStringsSep "\n" (map (x: "export ${x}=${getEnv x}") preservedEnvvars);
-  inNixShell = getEnv "IN_NIX_SHELL" == "1";
   localSourceFilter = path: type:
     let base = baseNameOf path;
     in type != "unknown" &&
@@ -28,8 +27,11 @@ with (import <nixpkgs/lib>); let
   systemConf = import /etc/nixos/conf/nixpkgs.nix;
 in systemConf // {
   allowBroken = true;
+  haskellPackageOverrides = self: super: {
+    localPackage = s: self.callPackage (import s {}).expr;
+  };
   packageOverrides = pkgs: systemConf.packageOverrides pkgs // rec {
-    stdenv = pkgs.stdenv // {
+    stdenv = pkgs.stdenv // rec {
       mkDerivation = args:
         let
           shellHook = old: ''
@@ -39,18 +41,30 @@ in systemConf // {
           noLocalSrc = !(args ? src) || pkgs.lib.isDerivation args.src;
           newArgs =
             if noLocalSrc then args else args // {
-              src = builtins.filterSource localSourceFilter args.src;
-              passthru.env = let oldEnv = args.passthru.env or result; in
-               pkgs.lib.overrideDerivation oldEnv (envArgs: {
-                buildInputs = devPkgs pkgs ++ oldEnv.buildInputs or [];
-                shellHook = shellHook oldEnv;
-               }
-              ) // { build = result; };
+              src =
+                if hasPrefix builtins.storeDir (builtins.toString args.src)
+                  then args.src
+                  else builtins.filterSource localSourceFilter args.src;
+              passthru = (args.passthru or {}) // {
+                oldEnv = args.passthru.env;
+                env = let oldEnv = args.passthru.env or result; in
+                 pkgs.lib.overrideDerivation oldEnv (envArgs: {
+                  buildInputs = devPkgs pkgs ++ oldEnv.buildInputs or [];
+                  src = null;
+                  shellHook = shellHook oldEnv;
+                 }
+                 ) // {
+                   build = result;
+                   override = f: (result.override f).build;
+                   env = result.env;
+                 };
+              };
             };
           result = pkgs.stdenv.mkDerivation newArgs;
         in result;
     };
-    haskellngPackages = pkgs.haskellngPackages.override (old: { pkgs = old.pkgs // { inherit stdenv; }; });
+    haskellPackages = pkgs.haskellPackages.override (old: { pkgs = old.pkgs // { inherit stdenv; }; });
+    haskellngPackages = haskellPackages;
   };
 }
 

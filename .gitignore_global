@@ -21,3 +21,4 @@ flycheck_*
 shell.nix
 Setup
 /cabal
+/.nix

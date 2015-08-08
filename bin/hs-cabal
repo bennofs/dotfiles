@@ -14,5 +14,4 @@ command="exec xargs -a <(echo \"$*\") -d '$IFS' cabal"
 # Reset IFS
 IFS=' '
 
-# Run hs-shell.
-exec hs-shell --command "$command"
+exec dev-shell --command "$command"
