@@ -73,3 +73,5 @@ make_completion glo "git log"
 make_completion gd "git diff"
 make_completion gup "git pull"
 make_completion gp "git push"
+
+fish_vi_key_bindings

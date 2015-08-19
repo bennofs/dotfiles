@@ -14,7 +14,7 @@ with (import <nixpkgs/lib>); let
   ];
   devPkgs = pkgs: with pkgs; [
     less git mercurial fish gitAndTools.hub utillinux bc man manpages
-    nano openssh haskellPackages.cabal-bounds
+    nano openssh haskellPackages.cabal-bounds neovim
   ];
   setupEnv = concatStringsSep "\n" (map (x: "export ${x}=${getEnv x}") preservedEnvvars);
   localSourceFilter = path: type:
