@@ -31,6 +31,7 @@ import           XMonad.Util.EZConfig
 import           XMonad.Util.XSelection
 import           XMonad.Util.Themes
 import           XMonad.Util.Cursor
+import           XMonad.Layout.Spacing
 
 myWorkspaces :: [String]
 myWorkspaces = zipWith (++) (map show [1..]) ["emacs","web","free", "free", "free","hipchat","skype","music","gimp","weechat", "free", "free"]
@@ -67,10 +68,10 @@ manageH :: ManageHook -> ManageHook
 manageH s = manageDocks <+> windowH <+> s
 
 browserLayout = group (tabbed shrinkText (theme wfarrTheme)) layouts where
-  tiled = Tall 1 (3/100) (1/2)
+  tiled = smartSpacing 1 $ Tall 1 (3/100) (1/2)
   layouts = Grid ||| tiled ||| Mirror tiled ||| Full
 
-layoutH s = avoidStruts $ browser $ tab $ gimp $ skype $ s ||| Grid
+layoutH s = avoidStruts . browser . tab . gimp . skype $ s ||| Grid
   where skype = onWorkspace (ws 6) skypeLayout
         skypeLayout = flip onLeft Grid $ simpleDrawer 0.2 0.2 $ Title "bennofs - Skype™"
         gimp = onWorkspace (ws 8) gimpLayout
@@ -202,7 +203,8 @@ conf = withUrgencyHook FocusHook $ ewmh $ defaultConfig
        , handleEventHook = fullscreenEventHook
        , keys = \c -> mkKeymap c bindings
        , focusedBorderColor = "steelblue"
-       , normalBorderColor = "#333333"
+       , normalBorderColor = "#dddddd"
+       , borderWidth = 1
        }
 
 startup :: X ()
