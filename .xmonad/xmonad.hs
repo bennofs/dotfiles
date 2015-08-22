@@ -68,8 +68,8 @@ manageH :: ManageHook -> ManageHook
 manageH s = manageDocks <+> windowH <+> s
 
 browserLayout = group (tabbed shrinkText (theme wfarrTheme)) layouts where
-  tiled = smartSpacing 1 $ Tall 1 (3/100) (1/2)
-  layouts = Grid ||| tiled ||| Mirror tiled ||| Full
+  tiled = Tall 1 (3/100) (1/2)
+  layouts = smartSpacing 1 $ Grid ||| tiled ||| Mirror tiled ||| Full
 
 layoutH s = avoidStruts . browser . tab . gimp . skype $ s ||| Grid
   where skype = onWorkspace (ws 6) skypeLayout
