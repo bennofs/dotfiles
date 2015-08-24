@@ -43,13 +43,14 @@ in systemConf // {
           localOverrides = { 
             src = filterLocal args.src;
             passthru.env = overrideDerivation baseEnv (baseArgs: {
-              nativeBuildInputs = devPkgs pkgs ++ baseArgs.nativeBuildInputs or [];
+              buildInputs = devPkgs pkgs ++ baseArgs.buildInputs or [];
               src = null;
               shellHook = ''
                 ${baseArgs.shellHook or ""}
                 ${setupEnv}
               '';
             });
+            passthru.baseEnv = baseEnv;
           };
           result = pkgs.stdenv.mkDerivation (recursiveUpdate args extraArgs);
         in result;
