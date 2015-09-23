@@ -54,6 +54,7 @@ var quickmarks =
   , "bb": "https://bitbucket.org/"
   , "hn": "https://news.ycombinator.com/"
   , "gm": "https://inbox.google.com"
+  , "lg": "http://littlegolem.net"
   };
 
 for(var qm in quickmarks) {
