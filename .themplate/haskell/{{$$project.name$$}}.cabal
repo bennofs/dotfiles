@@ -8,7 +8,7 @@ maintainer:    {{$$user.name$$}} <{{$$user.email$$}}>
 stability:     experimental
 {{homepage:      http://github.com/??github.user??/$$project.name$$/}}
 {{bug-reports:   http://github.com/??github.user??/$$project.name$$/issues}}
-copyright:     Copyright (C) 2014 {{$$user.name$$}}
+copyright:     Copyright (C) 2015 {{$$user.name$$}}
 synopsis:      {{$$project.name$$}}
 description:   {{$$project.name$$}}
 build-type:    Custom
@@ -17,7 +17,6 @@ extra-source-files:
   .ghci
   .gitignore
   .travis.yml
-  .vim.custom
   README.md
 
 {{source-repository head
