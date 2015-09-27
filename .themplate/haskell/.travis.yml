@@ -1,29 +1,33 @@
+language: c
 sudo: false
 cache:
   directories:
-    - $HOME/hlint
-env:
-
-before_install:
- - travis_retry cabal-$CABALVER update
- - export PATH=/opt/ghc/$GHCVER/bin:/opt/happy/1.19.5/bin:/opt/alex/3.1.4/bin:~/hlint/bin:$PATH
- - travis/install-hlint.sh
-
-install:
- - cabal-$CABALVER install --only-dependencies --enable-tests --enable-benchmarks -j
-
-script:
- - travis/script.sh
- - hlint src
-
+    - $HOME/.cabsnap
+    - $HOME/.cabal/packages
+    - $HOME/tools
+before_cache:
+  - rm -f $HOME/.cabal/packages/hackage.haskell.org/build-reports.log
+  - rm -f $HOME/.cabal/packages/hackage.haskell.org/00-index.tar
+before_install: source travis/setup.sh
+install: travis/install.sh
+script: travis/script.sh
 matrix:
   include:
     - env: GHCVER=7.4.2 CABALVER=1.16
-      addons: {apt: {packages: [cabal-install-1.16, ghc-7.4.2 alex-3.1.4, happy-1.19.5], sources: [hvr-ghc]}}
+      compiler: ": #GHC 7.4.2"
+      addons: {apt: {packages: [cabal-install-1.16, ghc-7.4.2, alex-3.1.4, happy-1.19.5], sources: [hvr-ghc]}}
     - env: GHCVER=7.6.3 CABALVER=1.18
+      compiler: ": #GHC 7.6.3"
       addons: {apt: {packages: [cabal-install-1.18, ghc-7.6.3, alex-3.1.4, happy-1.19.5], sources: [hvr-ghc]}}
-    - env: GHCVER=7.8.4 CABALVER=1.22
+    - env: GHCVER=7.8.4 CABALVER=1.18
+      compiler: ": #GHC 7.8.4"
       addons: {apt: {packages: [cabal-install-1.18, ghc-7.8.4, alex-3.1.4, happy-1.19.5], sources: [hvr-ghc]}}
-    - env: GHCVER=7.10.1 CABALVER=1.22
-      addons: {apt: {packages: [cabal-install-1.18, ghc-7.10.1, alex-3.1.4, happy-1.19.5], sources: [hvr-ghc]}}
+    - env: GHCVER=7.10.2 CABALVER=1.22 ROOT=1
+      compiler: ": #GHC 7.10.2"
+      addons: {apt: {packages: [cabal-install-1.22, ghc-7.10.2, alex-3.1.4, happy-1.19.5], sources: [hvr-ghc]}}
+    - env: GHCVER=head CABALVER=head ALLOW_NEWER="template-haskell"
+      compiler: ": #GHC head"
+      addons: {apt: {packages: [cabal-install-head, ghc-head, alex-3.1.4, happy-1.19.5], sources: [hvr-ghc]}}
+  allow_failures:
+    - compiler: ": #GHC head"
   fast_finish: true
