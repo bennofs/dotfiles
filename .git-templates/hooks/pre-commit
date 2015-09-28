@@ -24,4 +24,4 @@ rm -f $tmpdiff
 trap - EXIT
 
 # Check that there are any changes left after whitespace fixing
-! git diff --cached --exit-code || { echo "pre-commit: no changes to commit after fixing whitespace. exit"; exit 1; }
+! git diff --cached --quiet || { echo "pre-commit: no changes to commit after fixing whitespace. exit"; exit 1; }
