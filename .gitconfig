@@ -1,0 +1,20 @@
+[user]
+	email = benno.fuenfstueck@gmail.com
+	name = Benno Fünfstück
+[push]
+	default = simple
+[core]
+	pager = less -F -X
+	excludesfile = /home/.gitignore_global
+[pull]
+	rebase = true
+[color]
+	ui = 1
+[merge]
+	conflictstyle = diff3
+[rerere]
+	enabled = 1
+[url "git://github.com/ghc/packages-"]
+	insteadOf = git://github.com/ghc/packages/
+[init]
+	templatedir = ~/.git-templates

@@ -3,6 +3,8 @@
 
 !/.gitignore
 !/.gitignore_global
+!/.git-templates
+!/.gitconfig
 
 !/.config
 /.config/*

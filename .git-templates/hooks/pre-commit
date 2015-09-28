@@ -1,0 +1,27 @@
+#!/usr/bin/env bash
+
+set -e
+
+if git rev-parse --verify HEAD >/dev/null 2>&1
+then
+	against=HEAD
+else
+	# Initial commit: diff against an empty tree object
+	against=4b825dc642cb6eb9a060e54bf8d69288fbee4904
+fi
+
+exec 1>&2
+
+# Fix whitespace
+tmpdiff=$(mktemp)
+trap "rm -f $tmpdiff" EXIT
+git diff --cached --no-color | filterdiff -I $GIT_DIR/info/no-whitespace-files > $tmpdiff
+if [ -s $tmpdiff ]; then # if the patch is empty, git apply fails
+  git apply --index -R $tmpdiff
+  git apply --index --whitespace=fix $tmpdiff 2>&1 | sed -e '/trailing whitespace.$/ { N; d }' -re '/warning: [[:digit:]]+ lines? applied after fixing whitespace errors./d'
+fi
+rm -f $tmpdiff
+trap - EXIT
+
+# Check that there are any changes left after whitespace fixing
+! git diff --cached --exit-code || { echo "pre-commit: no changes to commit after fixing whitespace. exit"; exit 1; }
