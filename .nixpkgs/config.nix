@@ -5,7 +5,7 @@ with (import <nixpkgs/lib>); with builtins; let
     "CURL_CA_BUNDLE"
     "GIT_SSL_CAINFO"
     "OPENSS_X509_CERT_FILE"
-    "NIX_REMOTE"
+    "NIX_REMOTE" "NIX_PATH" "EDITOR"
     "GTK_PATH"
     "GTK2_RC_FILES"
     "LANG" "LOCALE_ARCHIVE"
@@ -15,6 +15,7 @@ with (import <nixpkgs/lib>); with builtins; let
   devPkgs = pkgs: with pkgs; [
     less git mercurial fish gitAndTools.hub utillinux bc man manpages
     nano openssh haskellPackages.cabal-bounds vimHugeX nix haskellPackages.ghc-mod
+    haskellPackages.cabal-install
   ];
   setupEnv = concatStringsSep "\n" (map (x: "export ${x}=${getEnv x}") preservedEnvvars);
   localSourceFilter = path: type:
