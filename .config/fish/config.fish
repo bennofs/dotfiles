@@ -34,7 +34,7 @@ end
 # fish redefines man to use manpath, which is not available on NixOS
 function man --description 'Format and display the on-line manual pages'
   set -l fish_manpath (dirname $__fish_datadir)/fish/man
-  set -lx MANPATH "$fish_manpath"
+  set -lx MANPATH "$fish_manpath:"(command man -W)
   command man $argv
   return
 end      
