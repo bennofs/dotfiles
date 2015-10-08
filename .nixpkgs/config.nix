@@ -1,6 +1,6 @@
 with (import <nixpkgs/lib>); with builtins; let
   inherit (builtins) getEnv;
-  ignoredDirectories = [".git" ".hg" "build" "dist"];
+  ignoredDirectories = [".git" ".hg" "build" "dist" ".nix"];
   preservedEnvvars = [
     "CURL_CA_BUNDLE"
     "GIT_SSL_CAINFO"
@@ -15,7 +15,7 @@ with (import <nixpkgs/lib>); with builtins; let
   devPkgs = pkgs: with pkgs; [
     less git mercurial fish gitAndTools.hub utillinux bc man manpages
     nano openssh haskellPackages.cabal-bounds vimHugeX nix haskellPackages.ghc-mod
-    haskellPackages.cabal-install
+    haskellPackages.cabal-install patchutils haskellPackages.hscolour
   ];
   setupEnv = concatStringsSep "\n" (map (x: "export ${x}=${getEnv x}") preservedEnvvars);
   localSourceFilter = path: type:
