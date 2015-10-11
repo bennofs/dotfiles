@@ -11,7 +11,15 @@
 !/.config/fish
 /.config/fish/fish_history
 /.config/fish/fishd.*
+!/.config/systemd
+!/.config/user-dirs.dirs
 !/.conkerorrc
+
+!/.local
+/.local/*
+!/.local/share
+/.local/share/*
+!/.local/share/systemd
 
 !/.emacs.d
 /.emacs.d/*
@@ -23,7 +31,10 @@
 !/.emacs.d/snippets
 
 !/.themplate
-/.themplate/config.cfg
+
+!/.weechat
+/.weechat/*.log
+/.weechat/logs
 
 !/.xmonad
 /.xmonad/*
