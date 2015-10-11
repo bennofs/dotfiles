@@ -1,5 +1,4 @@
 Config { font = "xft:Source Code Pro:size=10:antialias=true"
-       , alpha = 130
        , bgColor = "#eee8d5"
        , fgColor = "#323044"
        , position = TopW L 90
