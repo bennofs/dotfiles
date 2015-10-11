@@ -34,7 +34,7 @@ import           XMonad.Util.Cursor
 import           XMonad.Layout.Spacing
 
 myWorkspaces :: [String]
-myWorkspaces = zipWith (++) (map show [1..]) ["emacs","web","free", "free", "free","hipchat","skype","music","gimp","weechat", "free", "free"]
+myWorkspaces = zipWith (++) (map show [1..]) ["","web","", "", "","hipchat","skype","music","gimp","weechat", "", ""]
 
 ws :: Int -> String
 ws = (myWorkspaces !!)
@@ -81,8 +81,13 @@ layoutH s = avoidStruts . browser . tab . gimp . skype $ s ||| Grid
         tab = onWorkspace (ws 4) browserLayout
         browser = onWorkspace (ws 1) browserLayout
 
+ppLog :: PP
+ppLog = defaultPP
+  { ppOrder = \[ws,_layout,title] -> [ws, title]
+  }
+
 logH :: X () -> X ()
-logH _ = dynamicLogString defaultPP >>= xmonadPropLog
+logH _ = dynamicLogString ppLog >>= xmonadPropLog
 
 browserP :: Query Bool
 browserP = stringProperty "WM_WINDOW_ROLE" =? "browser"
@@ -146,12 +151,14 @@ workspaceKeys =
 
 mediaKeys :: [(String, X ())]
 mediaKeys =
-  [ ("<XF86AudioLowerVolume>", spawn "amixer set Master 1-")
-  , ("<XF86AudioRaiseVolume>", spawn "amixer set Master 1+")
-  , ("<XF86AudioMute>"       , spawn "amixer set Master toggle")
-  , ("<XF86AudioPlay>"       , spawn "mpc toggle")
-  , ("<XF86AudioPrev>"       , spawn "mpc prev")
-  , ("<XF86AudioNext>"       , spawn "mpc next")
+  [ ("<XF86AudioLowerVolume>" , spawn "amixer set Master 1%-")
+  , ("<XF86AudioRaiseVolume>" , spawn "amixer set Master 1%+")
+  , ("<XF86AudioMute>"        , spawn "amixer set Master toggle")
+  , ("<XF86AudioPlay>"        , spawn "mpc toggle")
+  , ("<XF86AudioPrev>"        , spawn "mpc prev")
+  , ("<XF86AudioNext>"        , spawn "mpc next")
+  , ("<XF86MonBrightnessDown>", spawn "xbacklight -dec 5")
+  , ("<XF86MonBrightnessUp>"  , spawn "xbacklight -inc 5")
   ]
 
 spawnKeys :: [(String, X ())]
@@ -165,8 +172,6 @@ spawnKeys =
   , ("M-b", runOrRaiseNext "conkeror" browserP)
   , ("<Print>", spawn "scrot '%y-%m-%d-%T.png' -e 'mv -b \"$f\" /data/pics/screen'")
   , ("M-<Print>", spawn "sleep 2; scrot '%y-%m-%d-%T.png' -s -e 'mv -b \"$f\" /data/pics/screen'")
-  , ("M-x", spawn "xsel -op | xsel -ib")
-  , ("M-y", spawn "xsel -ob | xsel -ip")
   ]
 
 miscKeys :: [(String, X ())]
