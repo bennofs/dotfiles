@@ -5,7 +5,9 @@ import           Control.Monad
 import           Data.List hiding (group)
 import           Data.Monoid
 import           Data.Ratio
+import qualified Data.Map as M
 import           System.Exit
+import           Graphics.X11.Xlib.Extras
 import           XMonad
 import           XMonad.Actions.CycleRecentWS
 import           XMonad.Prompt.Shell
@@ -32,6 +34,7 @@ import           XMonad.Util.XSelection
 import           XMonad.Util.Themes
 import           XMonad.Util.Cursor
 import           XMonad.Layout.Spacing
+import           XMonad.Util.Loggers
 
 myWorkspaces :: [String]
 myWorkspaces = zipWith (++) (map show [1..]) ["","web","", "", "","hipchat","skype","music","gimp","weechat", "", ""]
@@ -87,7 +90,15 @@ ppLog = defaultPP
   }
 
 logH :: X () -> X ()
-logH _ = dynamicLogString ppLog >>= xmonadPropLog
+logH _ = do
+  logStr <- dynamicLogString ppLog
+  isLocked <- fmap (== Just [1]) $ withDisplay $ \dpy -> do
+    isLockedAtom <- getAtom "_SCREEN_LOCKED"
+    root <- asks theRoot
+    io $ getWindowProperty8 dpy isLockedAtom root
+  xmonadPropLog $ if isLocked
+    then "!!  LOCKED  !!"
+    else logStr
 
 browserP :: Query Bool
 browserP = stringProperty "WM_WINDOW_ROLE" =? "browser"
@@ -107,15 +118,15 @@ selectSearchRaise engines = S.selectSearch engines >> raise browserP
 
 layoutKeys :: [(String, X ())]
 layoutKeys =
-  [ ("M-j"           , Group.focusUp)
-  , ("M-S-j"         , Group.swapUp)
+  [ ("M-j"           , Group.focusDown)
+  , ("M-S-j"         , Group.swapDown)
   , ("M-u"           , Group.focusGroupUp)
   , ("M-S-u"         , Group.moveToGroupUp False)
   , ("M-S-<Tab>"     , Group.focusUp)
-  , ("M-k"           , Group.focusDown)
-  , ("M-S-k"         , Group.swapDown)
-  , ("M-i"           , Group.focusGroupDown)
-  , ("M-S-i"         , Group.moveToGroupDown False)
+  , ("M-k"           , Group.focusUp)
+  , ("M-S-k"         , Group.swapUp)
+  , ("M-i"           , Group.focusGroupUp)
+  , ("M-S-i"         , Group.moveToGroupUp False)
   , ("M-<Tab>"       , Group.focusDown)
   , ("M-<Return>"    , Group.swapMaster)
   , ("M-<Backspace>" , Group.swapGroupMaster)
@@ -157,8 +168,8 @@ mediaKeys =
   , ("<XF86AudioPlay>"        , spawn "mpc toggle")
   , ("<XF86AudioPrev>"        , spawn "mpc prev")
   , ("<XF86AudioNext>"        , spawn "mpc next")
-  , ("<XF86MonBrightnessDown>", spawn "xbacklight -dec 5")
-  , ("<XF86MonBrightnessUp>"  , spawn "xbacklight -inc 5")
+  , ("<XF86MonBrightnessDown>", spawn "xbacklight -dec 1")
+  , ("<XF86MonBrightnessUp>"  , spawn "xbacklight -inc 1")
   ]
 
 spawnKeys :: [(String, X ())]
