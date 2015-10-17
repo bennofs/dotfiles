@@ -89,8 +89,8 @@ ppLog = defaultPP
   { ppOrder = \[ws,_layout,title] -> [ws, title]
   }
 
-logH :: X () -> X ()
-logH _ = do
+logH :: X ()
+logH = do
   logStr <- dynamicLogString ppLog
   isLocked <- fmap (== Just [1]) $ withDisplay $ \dpy -> do
     isLockedAtom <- getAtom "_SCREEN_LOCKED"
@@ -188,6 +188,7 @@ miscKeys =
   [ ("M-S-q"                 , io (exitWith ExitSuccess))
   , ("M-q"                   , spawn "xmonad --recompile && xmonad --restart")
   , ("M-a"                   , sendMessage ToggleStruts)
+  , ("M1-M-C-l"              , logH)
   ]
 
 searchKeys :: [(String, S.SearchEngine)]
@@ -210,7 +211,7 @@ bindings = layoutKeys ++ workspaceKeys ++ mediaKeys ++ spawnKeys ++ miscKeys
 conf = withUrgencyHook FocusHook $ ewmh $ defaultConfig
        { manageHook = manageH $ manageHook defaultConfig
        , layoutHook = layoutH $ layoutHook defaultConfig
-       , logHook = logH $ logHook defaultConfig
+       , logHook = logH
        , modMask = mod4Mask
        , terminal = "urxvtc"
        , workspaces = myWorkspaces
