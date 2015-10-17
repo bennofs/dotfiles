@@ -96,9 +96,7 @@ logH _ = do
     isLockedAtom <- getAtom "_SCREEN_LOCKED"
     root <- asks theRoot
     io $ getWindowProperty8 dpy isLockedAtom root
-  xmonadPropLog $ if isLocked
-    then "!!  LOCKED  !!"
-    else logStr
+  xmonadPropLog $ if isLocked then "" else logStr
 
 browserP :: Query Bool
 browserP = stringProperty "WM_WINDOW_ROLE" =? "browser"
