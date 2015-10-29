@@ -37,12 +37,11 @@ in systemConf // {
     stdenv = pkgs.stdenv // rec {
       mkDerivation = args:
         let
-          localSrc = (args ? src) && !isDerivation args.src;
+          localSrc = (args ? src) && !isList args.src && !isFunction args.src && !isDerivation args.src;
           extraArgs = optionalAttrs localSrc localOverrides;
-          filterLocal = x: if isStorePath x then x else filterSource localSourceFilter x;
           baseEnv = args.passthru.env or args.env or result;
-          localOverrides = { 
-            src = filterLocal args.src;
+          localOverrides = {
+            src = if isStorePath args.src then args.src else builtins.filterSource localSourceFilter args.src;
             passthru.env = overrideDerivation baseEnv (baseArgs: {
               buildInputs = devPkgs pkgs ++ baseArgs.buildInputs or [];
               src = null;
