@@ -35,6 +35,7 @@
 !/.weechat
 /.weechat/*.log
 /.weechat/logs
+/.weechat/script/plugins.xml.gz
 
 !/.xmonad
 /.xmonad/*
