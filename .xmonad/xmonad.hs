@@ -181,6 +181,7 @@ spawnKeys =
   , ("M-b", runOrRaiseNext "conkeror" browserP)
   , ("<Print>", spawn "scrot '%y-%m-%d-%T.png' -e 'mv -b \"$f\" /data/pics/screen'")
   , ("M-<Print>", spawn "sleep 2; scrot '%y-%m-%d-%T.png' -s -e 'mv -b \"$f\" /data/pics/screen'")
+  , ("M1-M-l", spawn "lock")
   ]
 
 miscKeys :: [(String, X ())]
