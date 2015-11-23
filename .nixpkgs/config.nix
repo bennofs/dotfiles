@@ -16,6 +16,7 @@ with (import <nixpkgs/lib>); with builtins; let
     less git mercurial fish gitAndTools.hub utillinux bc man manpages
     nano openssh haskellPackages.cabal-bounds vimHugeX nix haskellPackages.ghc-mod
     haskellPackages.cabal-install patchutils haskellPackages.hscolour perl time linuxPackages.perf
+    gdb
   ];
   setupEnv = concatStringsSep "\n" (map (x: "export ${x}=${getEnv x}") preservedEnvvars);
   localSourceFilter = path: type:
@@ -42,6 +43,8 @@ in systemConf // {
           baseEnv = args.passthru.env or args.env or result;
           localOverrides = {
             src = if isStorePath args.src then args.src else builtins.filterSource localSourceFilter args.src;
+          };
+          envArgs = {
             passthru.env = overrideDerivation baseEnv (baseArgs: {
               buildInputs = devPkgs pkgs ++ baseArgs.buildInputs or [];
               src = null;
@@ -52,7 +55,7 @@ in systemConf // {
             });
             passthru.baseEnv = baseEnv;
           };
-          result = pkgs.stdenv.mkDerivation (recursiveUpdate args extraArgs);
+          result = pkgs.stdenv.mkDerivation (recursiveUpdate args (extraArgs // envArgs));
         in result;
     };
   }; 
