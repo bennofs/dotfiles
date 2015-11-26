@@ -9,7 +9,7 @@ let
       cp $src src -r --no-preserve=all
       cd src
       sed -e 's/^benchmark /executable /' -i *.cabal
-      ${nativePkgs.haskellngPackages.cabal2nix}/bin/cabal2nix ./. > $out
+      ${nativePkgs.haskellPackages.cabal2nix}/bin/cabal2nix ./. | sed -e 's|src = ./.;$|src = ${./.};|' > $out
     '';
   } // nativePkgs.lib.optionalAttrs nativePkgs.stdenv.isLinux {
     LANG = "en_US.UTF-8";
