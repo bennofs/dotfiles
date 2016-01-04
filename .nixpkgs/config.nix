@@ -16,7 +16,7 @@ with (import <nixpkgs/lib>); with builtins; let
     less git mercurial fish gitAndTools.hub utillinux bc man manpages
     nano openssh haskellPackages.cabal-bounds vimHugeX nix haskellPackages.ghc-mod
     haskellPackages.cabal-install patchutils haskellPackages.hscolour perl time linuxPackages.perf
-    gdb
+    gdb utillinuxCurses
   ];
   setupEnv = concatStringsSep "\n" (map (x: "export ${x}=${getEnv x}") preservedEnvvars);
   localSourceFilter = path: type:
