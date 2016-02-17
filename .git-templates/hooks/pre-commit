@@ -12,13 +12,24 @@ fi
 
 exec 1>&2
 
-# Fix whitespace
+# Fix whitespace (index)
 tmpdiff=$(mktemp)
 trap "rm -f $tmpdiff" EXIT
 git diff --cached --no-color | filterdiff -I $GIT_DIR/info/no-whitespace-files > $tmpdiff
 if [ -s $tmpdiff ]; then # if the patch is empty, git apply fails
-  git apply --index -R $tmpdiff
-  git apply --index --whitespace=fix $tmpdiff 2>&1 | sed -e '/trailing whitespace.$/ { N; d }' -re '/warning: [[:digit:]]+ lines? applied after fixing whitespace errors./d'
+  git apply --cached -R $tmpdiff
+  git apply --cached --whitespace=fix $tmpdiff 2>&1 | sed -e '/trailing whitespace.$/ { N; d }' -re '/warning: [[:digit:]]+ lines? applied after fixing whitespace errors./d'
+fi
+rm -f $tmpdiff
+trap - EXIT
+
+# Fix whitespace (working directory)
+tmpdiff=$(mktemp)
+trap "rm -f $tmpdiff" EXIT
+git diff --no-color | filterdiff -I $GIT_DIR/info/no-whitespace-files > $tmpdiff
+if [ -s $tmpdiff ]; then # if the patch is empty, git apply fails
+  git apply -R $tmpdiff
+  git apply --whitespace=fix $tmpdiff 2>&1 | sed -e '/trailing whitespace.$/ { N; d }' -re '/warning: [[:digit:]]+ lines? applied after fixing whitespace errors./d'
 fi
 rm -f $tmpdiff
 trap - EXIT

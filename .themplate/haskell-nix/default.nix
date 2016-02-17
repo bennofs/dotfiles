@@ -1,4 +1,4 @@
-{ haskellPackages ? (import <nixpkgs> {}).haskellPackages }:
+{ haskellPackages ? (import <nixpkgs> {}).haskellPackages, profiling ? false }:
 let
   nativePkgs = import <nixpkgs> {};
   isCabalFile = name: _: nativePkgs.lib.hasSuffix ".cabal" name;
@@ -18,6 +18,7 @@ let
   h = nativePkgs.haskell.lib;
   hs = haskellPackages.override (old: {
     overrides = self: oldsuper: let super = oldsuper // (old.overrides or (_:_:{})) self oldsuper; in super // {
+      mkDerivation = args: super.mkDerivation (args // { enableLibraryProfiling = profiling; });
     };
   });
   pkg = hs.callPackage (import expr) {};
