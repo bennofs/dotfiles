@@ -1,4 +1,4 @@
-{ haskellPackages ? (import <nixpkgs> {}).haskellPackages, profiling ? false }:
+{ haskellPackages ? (import <nixpkgs> {}).haskellPackages, profiling ? true }:
 let
   nativePkgs = import <nixpkgs> {};
   isCabalFile = name: _: nativePkgs.lib.hasSuffix ".cabal" name;
