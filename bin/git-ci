@@ -1,0 +1,34 @@
+#!/usr/bin/env sh
+
+if [ "$#" -lt 1 ]; then
+  echo "Usage: git-ci <command to execute> [commitspec to test]"
+  exit 1
+fi
+
+cmd=$1
+commitspec=${2:-master..HEAD}
+
+IFS='
+'
+
+
+result=0
+for commit in $(git log --pretty="%H" --reverse $commitspec); do
+  git checkout -q $commit
+
+  msg=$(git -c color.ui=always log --pretty="%h" -n1 $commit)
+  echo -en "\e[33m$msg\e[0m ... "
+
+  logfile=$(mktemp ci-log.XXXXXXX --tmpdir)
+  if eval "$cmd" &> $logfile; then
+    echo -e "\e[32mok\e[0m"
+    rm $logfile
+  else
+    echo -e "\e[31mfail\e[0m (log: $logfile)"
+    result=1
+  fi
+
+  git checkout -q '@{-1}'
+done
+
+exit $result
