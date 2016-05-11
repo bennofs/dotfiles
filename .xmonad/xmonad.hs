@@ -1,12 +1,14 @@
 {-# LANGUAGE NoMonomorphismRestriction #-}
 {-# LANGUAGE FlexibleContexts #-}
 {-# OPTIONS_GHC -fno-warn-type-defaults -fno-warn-missing-signatures #-}
+import           Control.Exception
 import           Control.Monad
 import           Data.List hiding (group)
 import           Data.Monoid
 import           Data.Ratio
 import qualified Data.Map as M
 import           System.Exit
+import           System.Environment
 import           Graphics.X11.Xlib.Extras
 import           XMonad
 import           XMonad.Actions.CycleRecentWS
@@ -170,15 +172,15 @@ mediaKeys =
   , ("<XF86MonBrightnessUp>"  , spawn "xbacklight -inc 1")
   ]
 
-spawnKeys :: [(String, X ())]
-spawnKeys =
-  [ ("M-S-<Return>", spawn $ terminal conf)
+spawnKeys :: String -> [(String, X ())]
+spawnKeys browser =
+  [ ("M-S-<Return>", spawn $ terminal (conf browser))
   , ("M-S-o", promptSelection "xdg-open")
   , ("M-o", prompt "xdg-open" promptConfig)
   , ("M-p", shellPrompt promptConfig)
   , ("M-f", spawn "thunar")
   , ("M-e", runOrRaiseNext "emacs" $ className =? "Emacs")
-  , ("M-b", runOrRaiseNext "chromium" browserP)
+  , ("M-b", runOrRaiseNext browser browserP)
   , ("<Print>", spawn "scrot '%y-%m-%d-%T.png' -e 'mv -b \"$f\" /data/pics/screen'")
   , ("M-<Print>", spawn "sleep 2; scrot '%y-%m-%d-%T.png' -s -e 'mv -b \"$f\" /data/pics/screen'")
   , ("M1-M-l", spawn "lock")
@@ -204,12 +206,13 @@ searchKeys =
   , ("g", S.searchEngine "github" "http://www.github.com/")
   ]
 
-bindings :: [(String, X ())]
-bindings = layoutKeys ++ workspaceKeys ++ mediaKeys ++ spawnKeys ++ miscKeys
+bindings :: String -> [(String, X ())]
+bindings browser = layoutKeys ++ workspaceKeys ++ mediaKeys ++ spawnKeys browser ++ miscKeys
   ++ [("M-s " ++ k, promptSearchRaise e) | (k,e) <- searchKeys]
   ++ [("M-S-s " ++ k, selectSearchRaise e) | (k,e) <- searchKeys]
 
-conf = withUrgencyHook FocusHook $ ewmh $ defaultConfig
+conf browser =
+  withUrgencyHook FocusHook $ ewmh $ defaultConfig
        { manageHook = manageH $ manageHook defaultConfig
        , layoutHook = layoutH $ layoutHook defaultConfig
        , logHook = logH
@@ -217,7 +220,7 @@ conf = withUrgencyHook FocusHook $ ewmh $ defaultConfig
        , terminal = "urxvtc"
        , workspaces = myWorkspaces
        , handleEventHook = fullscreenEventHook
-       , keys = \c -> mkKeymap c bindings
+       , keys = \c -> mkKeymap c (bindings browser)
        , focusedBorderColor = "steelblue"
        , normalBorderColor = "#dddddd"
        , borderWidth = 1
@@ -229,4 +232,7 @@ startup = do
   setDefaultCursor xC_left_ptr
 
 main :: IO ()
-main = xmonad conf { startupHook = startupHook conf >> startup }
+main = do
+  browserEnv <- try $ getEnv "BROWSER" :: IO (Either IOException String)
+  let browser = either (const "chromium") id browserEnv
+  xmonad (conf browser) { startupHook = startupHook (conf browser) >> startup }
