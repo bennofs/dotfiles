@@ -19,7 +19,10 @@ with (import <nixpkgs/lib>); with builtins; let
     haskellPackages.hlint haskellPackages.profiteur
     gdb utillinuxCurses gettext
   ];
-  setupEnv = concatStringsSep "\n" (map (x: "export ${x}=${getEnv x}") preservedEnvvars);
+  setupEnv = ''
+    ${concatStringsSep "\n" (map (x: "export ${x}=${getEnv x}") preservedEnvvars)};
+    export PATH=/home/bin:$PATH
+  '';
   localSourceFilter = path: type:
     let base = baseNameOf path;
     in type != "unknown" &&
