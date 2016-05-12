@@ -1,14 +1,14 @@
-{-# OPTIONS_GHC -Wall #-}
+{-# OPTIONS_GHC -Wall -fno-warn-missing-signatures #-}
 module Main (main) where
 
 import Data.IORef
 import Data.List ( nub )
 import Data.Version ( showVersion )
-import Distribution.Package ( PackageName(PackageName), PackageId, InstalledPackageId, packageVersion, packageName )
+import Distribution.Package ( PackageName(PackageName), packageVersion, packageName )
 import Distribution.PackageDescription ( PackageDescription(), TestSuite(..), hsSourceDirs, exeModules, libBuildInfo, buildInfo, libModules, modulePath, exeName)
 import Distribution.Simple ( defaultMainWithHooks, UserHooks(..), simpleUserHooks )
 import Distribution.Simple.BuildPaths ( autogenModulesDir )
-import Distribution.Simple.LocalBuildInfo ( withLibLBI, withTestLBI, withExeLBI, ComponentLocalBuildInfo(), LocalBuildInfo(), componentPackageDeps )
+import Distribution.Simple.LocalBuildInfo ( withLibLBI, withTestLBI, withExeLBI, LocalBuildInfo(), componentPackageDeps )
 import Distribution.Simple.Setup ( BuildFlags(buildVerbosity), fromFlag, buildDistPref, defaultDistPref, fromFlagOrDefault )
 import Distribution.Simple.Utils ( rewriteFile, createDirectoryIfMissingVerbose )
 import Distribution.Text (disp)
@@ -68,6 +68,4 @@ generateBuildModule verbosity pkg lbi flags = do
     doctestTarget name mods targetbi targetlbi suitelbi = (name, mods, hsSourceDirs targetbi, formatdeps $ testDeps targetlbi suitelbi)
     fixchar '-' = '_'
     fixchar c = c
-
-testDeps :: ComponentLocalBuildInfo -> ComponentLocalBuildInfo -> [(InstalledPackageId, PackageId)]
 testDeps xs ys = nub $ componentPackageDeps xs ++ componentPackageDeps ys
