@@ -16,19 +16,27 @@ result=0
 for commit in $(git log --pretty="%H" --reverse $commitspec); do
   git checkout -q $commit
 
-  msg=$(git -c color.ui=always log --pretty="%h" -n1 $commit)
-  echo -en "\e[33m$msg\e[0m ... "
+  shortcommit=$(git log --pretty="%h" -n1 $commit)
+  subject=$(git log --pretty="%s" -n1 $commit)
+  echo -en "\e[33m$shortcommit\e[0m ... "
 
   logfile=$(mktemp ci-log.XXXXXXX --tmpdir)
   if eval "$cmd" &> $logfile; then
-    echo -e "\e[32mok\e[0m"
-    rm $logfile
+    echo -e "\e[32mok  \e[0m $subject"
   else
-    echo -e "\e[31mfail\e[0m (log: $logfile)"
+    echo -e "\e[31mfail\e[0m $subject"
+    cat $logfile
     result=1
   fi
+  rm $logfile
 
   git checkout -q '@{-1}'
 done
+
+if [ "$result" -ne "0" ]; then
+  echo -e "# \e[31mFAILURE\e[0m"
+else
+  echo -e "# \e[32mSUCCESS\e[0m"
+fi
 
 exit $result
