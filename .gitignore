@@ -11,6 +11,7 @@
 /.config/*
 !/.config/fish
 /.config/fish/fish_history
+/.config/fish/fish_read_history
 /.config/fish/fishd.*
 !/.config/systemd
 !/.config/user-dirs.dirs
