@@ -31,16 +31,19 @@ with (import <nixpkgs/lib>); with builtins; let
          && !hasPrefix "result" base
          );
   systemConf = import /etc/nixos/conf/nixpkgs.nix;
+  haskellOverrides = self: super: {
+    localPackage = s: self.callPackage (import s {}).expr;
+  };
 in systemConf // {
   allowBroken = true;
 
-  haskellPackageOverrides = self: super: {
-    localPackage = s: self.callPackage (import s {}).expr;
-  };
-
-  firefox.enableAdobeFlash = true;
-
+  haskellPackageOverrides = haskellOverrides;
   packageOverrides = pkgs: systemConf.packageOverrides pkgs // rec {
+    haskell = pkgs.haskell // {
+      packages = mapAttrs
+        (name: value: value.override { overrides = haskellOverrides; })
+        pkgs.haskell.packages;
+    };
     stdenv = pkgs.stdenv // rec {
       mkDerivation = args:
         let
