@@ -2,6 +2,7 @@
 let
   nativePkgs = import <nixpkgs> {};
   isCabalFile = name: _: nativePkgs.lib.hasSuffix ".cabal" name;
+  source = nativePkgs.localSource ./.;
   expr = nativePkgs.stdenv.mkDerivation ({
     name = "project.nix";
     src = builtins.filterSource isCabalFile ./.;
@@ -9,7 +10,8 @@ let
       cp $src src -r --no-preserve=all
       cd src
       sed -e 's/^benchmark /executable /' -i *.cabal
-      ${nativePkgs.haskellPackages.cabal2nix}/bin/cabal2nix ./. | sed -e 's|src = ./.;$|src = ${./.};|' > $out
+      ${nativePkgs.haskellPackages.cabal2nix}/bin/cabal2nix ./. \
+        | sed -e 's@src = ./.;$@src = ${source};@' > $out
     '';
   } // nativePkgs.lib.optionalAttrs nativePkgs.stdenv.isLinux {
     LANG = "en_US.UTF-8";
