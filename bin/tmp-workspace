@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+
+tmp=$(mktemp -d --tmpdir "workspace.XXXXXXXX")
+trap "rm -r $tmp" EXIT
+
+echo "#!/usr/bin/env bash" > $tmp/script.sh
+chmod +x $tmp/script.sh
+
+cd $tmp
+env NIX_SHELL_PROJECT=tmp $SHELL
