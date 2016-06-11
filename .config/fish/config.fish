@@ -43,7 +43,11 @@ end
 # which is not supported by NixOS command-not-found script.
 # This function strips that argument.
 function command-not-found
-  /run/current-system/sw/bin/command-not-found $argv[2]
+  if command -s command-not-found;
+    command command-not-found $argv[2]
+  else
+    echo "Fish: unknown command: '$argv[2]'"
+  end
 end
 
 eval (hub alias -s)
