@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+
+patchelf --set-interpreter $(eval "echo -e $(nix-instantiate --eval -E 'with (import <nixpkgs> {}); builtins.readFile "${stdenv.cc}/nix-support/dynamic-linker"')") "$@"
