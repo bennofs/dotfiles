@@ -87,7 +87,7 @@ layoutH s = avoidStruts . browser . tab . gimp . skype $ s ||| Grid
         browser = onWorkspace (ws 1) browserLayout
 
 ppLog :: PP
-ppLog = defaultPP
+ppLog = def
   { ppOrder = \[ws,_layout,title] -> [ws, title]
   }
 
@@ -104,7 +104,7 @@ browserP :: Query Bool
 browserP = stringProperty "WM_WINDOW_ROLE" =? "browser"
 
 promptConfig :: XPConfig
-promptConfig = defaultXPConfig
+promptConfig = def
   { font = "xft:Source Code Pro-8"
   , fgColor = "#f5f5f5"
   , bgColor = "#001e20"
@@ -212,9 +212,9 @@ bindings browser = layoutKeys ++ workspaceKeys ++ mediaKeys ++ spawnKeys browser
   ++ [("M-S-s " ++ k, selectSearchRaise e) | (k,e) <- searchKeys]
 
 conf browser =
-  withUrgencyHook FocusHook $ ewmh $ defaultConfig
-       { manageHook = manageH $ manageHook defaultConfig
-       , layoutHook = layoutH $ layoutHook defaultConfig
+  withUrgencyHook FocusHook $ ewmh $ def
+       { manageHook = manageH $ manageHook def
+       , layoutHook = layoutH $ layoutHook def
        , logHook = logH
        , modMask = mod4Mask
        , terminal = "urxvtc"
