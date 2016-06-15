@@ -1,4 +1,0 @@
-#!/usr/bin/env bash
-
-ver=$1
-exec $2 --arg haskellngPackages "(import <nixpkgs> {}).haskell-ng.packages.ghc$ver"

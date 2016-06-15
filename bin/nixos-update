@@ -1,0 +1,24 @@
+#!/usr/bin/env bash
+set -euf -o pipefail
+
+mode=${1:-switch}
+channel=${2:-nixos-unstable}
+
+cd /nixpkgs
+
+echo -e "\e[32m[+] Fetching latest $channel\e[0m"
+git remote add channels git://github.com/NixOS/nixpkgs-channels.git 2> /dev/null || true
+git fetch -q channels
+
+tmp=$(mktemp -d)
+trap "rm -rf '$tmp'; git worktree prune" EXIT
+git worktree add $tmp channels/$channel
+
+echo -e "\e[32m[+] $channel is at \e[33m$(git log -n1 --pretty="%h: %s" HEAD)\e[0m"
+
+echo -e "\e[32m[+] Building NixOS configuration\e[0m"
+sudo /etc/sync -I nixpkgs=$tmp
+
+git worktree prune
+
+echo -e "\e[32m[+] Done\e[0m"
