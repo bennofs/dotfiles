@@ -40,6 +40,7 @@ in systemConf // {
   haskellPackageOverrides = haskellOverrides;
   packageOverrides = pkgs: systemConf.packageOverrides pkgs // rec {
     localSource = builtins.filterSource localSourceFilter;
+    nixUnstable = (import /data/code/nix/release.nix {}).build.${currentSystem};
     haskell = pkgs.haskell // {
       packages = mapAttrs
         (name: value: value.override { overrides = haskellOverrides; })
@@ -52,7 +53,9 @@ in systemConf // {
           extraArgs = optionalAttrs localSrc localOverrides;
           baseEnv = args.passthru.env or args.env or result;
           localOverrides = {
-            src = if isStorePath args.src then args.src else localSource args.src;
+            src = if !(args ? src) || args.src == null || isStorePath args.src
+              then args.src
+              else localSource args.src;
           };
           envArgs = {
             passthru.env = overrideDerivation baseEnv (baseArgs: {
