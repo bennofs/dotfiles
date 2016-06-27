@@ -14,7 +14,6 @@ dist-*
 Setup
 *.elc
 /default.nix
-.auto.nix
 flycheck_*
 .dir-locals.el
 *.bak
@@ -25,3 +24,4 @@ nix
 *.swp
 .nix
 cabal
+.dev.nix

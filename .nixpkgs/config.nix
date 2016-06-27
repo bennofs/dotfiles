@@ -22,6 +22,8 @@ with (import <nixpkgs/lib>); with builtins; let
   setupEnv = ''
     ${concatStringsSep "\n" (map (x: "export ${x}=${getEnv x}") preservedEnvvars)};
     export PATH=/home/bin:$PATH
+    eval "$preHook"
+    eval "$preConfigure"
   '';
   localSourceFilter = path: type:
     let base = baseNameOf path;
@@ -40,7 +42,6 @@ in systemConf // {
   haskellPackageOverrides = haskellOverrides;
   packageOverrides = pkgs: systemConf.packageOverrides pkgs // rec {
     localSource = builtins.filterSource localSourceFilter;
-    nixUnstable = (import /data/code/nix/release.nix {}).build.${currentSystem};
     haskell = pkgs.haskell // {
       packages = mapAttrs
         (name: value: value.override { overrides = haskellOverrides; })

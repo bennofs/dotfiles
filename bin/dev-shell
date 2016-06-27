@@ -14,5 +14,11 @@ export NIX_SHELL_PROJECT=${PWD##*/}
 
 set -e
 rm .nix -rf
-exec nix-shell --command "exec fish" "$@" -A env --pure --indirect --add-root ".nix/dep"
+
+# Allow .dev.nix to override shell.nix
+NIX_SHELL_FILE=
+if [ -f ./.dev.nix ]; then
+  NIX_SHELL_FILE="./.dev.nix"
+fi
+exec nix-shell --command "exec fish" $NIX_SHELL_FILE "$@" -A env --pure --indirect --add-root ".nix/dep"
 
