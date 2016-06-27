@@ -1,6 +1,7 @@
 with (import <nixpkgs/lib>); with builtins; let
   inherit (builtins) getEnv;
   ignoredDirectories = [".git" ".hg" "build" "dist" ".nix"];
+  ignoredFiles = [".dev.nix"];
   preservedEnvvars = [
     "CURL_CA_BUNDLE"
     "GIT_SSL_CAINFO"
@@ -26,12 +27,14 @@ with (import <nixpkgs/lib>); with builtins; let
     eval "$preConfigure"
   '';
   localSourceFilter = path: type:
-    let base = baseNameOf path;
-    in type != "unknown" &&
-         (  type != "directory"
-         || !elem base ignoredDirectories
-         && !hasPrefix "result" base
-         );
+    let
+      base = baseNameOf path;
+      filters = {
+        unknown = false;
+        directory = !elem base ignoredDirectories && !hasPrefix "result" base;
+        file = !elem base ignoredFiles;
+      };
+    in filters.${type} or true;
   systemConf = import /etc/nixos/conf/nixpkgs.nix;
   haskellOverrides = self: super: {
     localPackage = s: self.callPackage (import s {}).expr;
