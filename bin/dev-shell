@@ -20,5 +20,9 @@ NIX_SHELL_FILE=
 if [ -f ./.dev.nix ]; then
   NIX_SHELL_FILE="./.dev.nix"
 fi
-exec nix-shell --command "exec fish" $NIX_SHELL_FILE "$@" -A env --pure --indirect --add-root ".nix/dep"
+ENV_ARG="-A env --indirect --add-root .nix/dep"
+if [[ "$*" == *"-A"* ]]; then
+  ENV_ARG=""
+fi
+exec nix-shell --command "exec fish" $NIX_SHELL_FILE "$@" --pure $ENV_ARG
 
