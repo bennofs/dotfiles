@@ -24,3 +24,4 @@
 *.yml
 *.nix
 *.cabal
+*.rs

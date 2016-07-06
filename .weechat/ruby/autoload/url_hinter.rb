@@ -1,1 +1,1 @@
-../url_hinter.rb
+/home/.weechat/ruby/url_hinter.rb
