@@ -19,3 +19,5 @@
 	insteadOf = git://github.com/ghc/packages/
 [init]
 	templatedir = ~/.git-templates
+[rebase]
+	autoSquash = true

@@ -14,7 +14,7 @@ tmp=$(mktemp -d)
 trap "rm -rf '$tmp'; git worktree prune" EXIT
 git worktree add $tmp channels/$channel
 
-echo -e "\e[32m[+] $channel is at \e[33m$(git log -n1 --pretty="%h: %s" HEAD)\e[0m"
+echo -e "\e[32m[+] $channel is at \e[33m$(git --git-dir=$tmp/.git log -n1 --pretty="%h: %s" HEAD)\e[0m"
 
 echo -e "\e[32m[+] Building NixOS configuration\e[0m"
 sudo /etc/sync -I nixpkgs=$tmp
