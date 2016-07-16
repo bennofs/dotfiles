@@ -26,6 +26,7 @@ with (import <nixpkgs/lib>); with builtins; let
     eval "$preHook"
     eval "$preConfigure"
     unset SSL_CERT_FILE
+    unset GIT_SSL_CAINFO
   '';
   localSourceFilter = path: type:
     let
