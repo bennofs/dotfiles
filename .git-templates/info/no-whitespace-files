@@ -25,3 +25,4 @@
 *.nix
 *.cabal
 *.rs
+*.toml

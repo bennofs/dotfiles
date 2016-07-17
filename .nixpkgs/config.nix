@@ -18,7 +18,7 @@ with (import <nixpkgs/lib>); with builtins; let
     nano openssh haskellPackages.cabal-bounds vimHugeX nix haskellPackages.ghc-mod
     haskellPackages.cabal-install patchutils haskellPackages.hscolour perl time linuxPackages.perf
     haskellPackages.hlint haskellPackages.profiteur
-    gdb utillinuxCurses gettext bazaar rustfmt
+    gdb utillinuxCurses gettext bazaar rustfmt platinum-searcher
   ];
   setupEnv = ''
     ${concatStringsSep "\n" (map (x: "export ${x}=${getEnv x}") preservedEnvvars)};
