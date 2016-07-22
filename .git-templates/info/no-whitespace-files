@@ -26,3 +26,4 @@
 *.cabal
 *.rs
 *.toml
+*.xml
