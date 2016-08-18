@@ -19,6 +19,7 @@ with (import <nixpkgs/lib>); with builtins; let
     haskellPackages.cabal-install patchutils haskellPackages.hscolour perl time linuxPackages.perf
     haskellPackages.hlint haskellPackages.profiteur
     gdb utillinuxCurses gettext bazaar rustfmt platinum-searcher
+    autoconf automake114x gettext pkgconfig
   ];
   setupEnv = ''
     ${concatStringsSep "\n" (map (x: "export ${x}=${getEnv x}") preservedEnvvars)};
