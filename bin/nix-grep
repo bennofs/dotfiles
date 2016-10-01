@@ -1,3 +1,5 @@
 #!/usr/bin/env bash
 
-grep --color=always -i "$1" /nixpkgs/pkgs/top-level/all-packages.nix /nixpkgs/pkgs/top-level/python-packages.nix /nixpkgs/pkgs/servers/x11/xorg/default.nix
+what=$1
+shift
+grep --color=always -i "$what" "$@" /nixpkgs/pkgs/top-level/all-packages.nix /nixpkgs/pkgs/top-level/python-packages.nix /nixpkgs/pkgs/servers/x11/xorg/default.nix
