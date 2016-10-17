@@ -3,7 +3,7 @@ with (import <nixpkgs> {}); with lib; with builtins;
 let
   units = import ./units.nix;
   mkName = x: if length (splitString "." x) == 1 then x + ".service" else x;
-  makeUnit = name: unit: '' echo "${unit}" > "${mkName name}"'';
+  makeUnit = name: unit: '' echo '${unit}' > "${mkName name}"'';
   linkUnit = name: _   : '' ln -s $out/${mkName name} $out/default.target.wants/${mkName name} '';
 in stdenv.mkDerivation {
   name = "services";

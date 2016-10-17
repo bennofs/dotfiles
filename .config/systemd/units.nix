@@ -33,4 +33,15 @@ mpd = ''
  ExecStart=${mpd}/bin/mpd --no-daemon ${mpdConf}
 '';
 
+emacs = ''
+ [Unit]
+ Description="Emacs Daemon";
+
+ [Service]
+ Type=forking
+ ExecStart=${emacs}/bin/emacs --daemon
+ ExecStop=${emacs}/bin/emacsclient --eval "(kill-emacs)"
+ Restart=always
+'';
+
 }

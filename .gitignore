@@ -12,6 +12,8 @@
 !/.config/Code
 /.config/Code/*
 !/.config/Code/User
+/.config/Code/User/*
+!/.config/Code/User/settings.json
 !/.config/fish
 /.config/fish/fish_history
 /.config/fish/fish_read_history
