@@ -1,0 +1,7 @@
+// Place your settings in this file to overwrite the default settings
+{
+    "editor.fontFamily": "'Hasklig'",
+    "editor.rulers": [100],
+    "terminal.integrated.fontFamily": "'Source Code Pro'",
+    "terminal.integrated.shell.linux": "/run/current-system/sw/bin/fish"
+}
