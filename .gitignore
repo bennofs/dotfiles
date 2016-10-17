@@ -14,6 +14,8 @@
 /.config/fish/fish_read_history
 /.config/fish/fishd.*
 !/.config/systemd
+!/.config/nvim
+/.config/nvim/plugged
 !/.config/user-dirs.dirs
 !/.conkerorrc
 
