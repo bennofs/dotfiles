@@ -23,6 +23,7 @@
 !/.config/user-dirs.dirs
 !/.conkerorrc
 /.config/nvim/plugged
+/.config/nvim/.netrwhist
 
 !/.local
 /.local/*
@@ -38,6 +39,8 @@
 !/.emacs.d/init.el
 !/.emacs.d/Cask
 !/.emacs.d/snippets
+
+!/.spacemacs.d
 
 !/.themplate
 
