@@ -50,8 +50,6 @@ function command-not-found
   end
 end
 
-eval (hub alias -s)
-
 function make_completion --argument alias command
     complete -c $alias -xa "(
         set -l cmd (commandline -pc | sed -e 's/^ *\S\+ *//' );
@@ -61,6 +59,7 @@ end
 
 functions -c ls lss
 alias ls="lss --group-directories-first"
+eval (hub alias -s)
 
 # git aliases
 alias gst="git status -sb"

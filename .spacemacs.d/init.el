@@ -32,12 +32,13 @@ values."
    dotspacemacs-configuration-layers
    '(
      auto-completion
+     c-c++
      (colors :variables colors-colorize-identifiers 'variables)
      docker
      emacs-lisp
-     exwm
      git
      github
+     haskell
      helm
      html
      javascript
@@ -45,6 +46,7 @@ values."
      nixos
      org
      python
+     shell-scripts
      spell-checking
      syntax-checking
      (version-control :variables version-control-global-margin t)
@@ -304,18 +306,23 @@ This is the place where most of your configurations should be done. Unless it is
 explicitly specified that a variable should be set before a package is loaded,
 you should place your code here."
   (global-evil-search-highlight-persist 0)
+  (python-shell-completion-native-turn-off)
+
+  (defvar spacemacs/python-interpreter-executable-history nil
+    "History list for recently selected python interpreters.")
+
+  (defun spacemacs/set-python-interpreter-executable (command)
+    "Set the python interpreter for the current buffer to the given executable."
+    (interactive
+     (list
+      (read-shell-command
+       "Python interpreter: " nil 'python-interpreter-executable-history "python"
+       )))
+    (setq-local python-shell-interpreter command)
+    (let
+        ((process (python-shell-get-process)))
+      (when (and process (y-or-n-p "Python interpreter already running. Kill currently running process?"))
+        (kill-process process))))
+  (spacemacs/set-leader-keys-for-major-mode 'python-mode
+    "sp" 'spacemacs/set-python-interpreter-executable)
   )
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(package-selected-packages
-   (quote
-    (fringe-helper git-gutter+ git-gutter exwm web-mode web-beautify tagedit slim-mode scss-mode sass-mode pug-mode livid-mode skewer-mode simple-httpd less-css-mode js2-refactor multiple-cursors js2-mode js-doc helm-css-scss haml-mode emmet-mode company-web web-completion-data company-tern dash-functional tern coffee-mode yapfify ws-butler window-numbering which-key volatile-highlights vi-tilde-fringe uuidgen use-package toc-org spacemacs-theme spaceline solarized-theme smeargle restart-emacs rainbow-mode rainbow-identifiers rainbow-delimiters quelpa pyvenv pytest pyenv-mode py-isort popwin pip-requirements persp-mode pcre2el paradox orgit org-projectile org-present org-pomodoro org-plus-contrib org-download org-bullets open-junk-file nix-mode neotree move-text mmm-mode markdown-toc magit-gitflow magit-gh-pulls macrostep lorem-ipsum live-py-mode linum-relative link-hint info+ indent-guide ido-vertical-mode hy-mode hungry-delete htmlize hl-todo highlight-parentheses highlight-numbers highlight-indentation hide-comnt help-fns+ helm-themes helm-swoop helm-pydoc helm-projectile helm-nixos-options helm-mode-manager helm-make helm-gitignore helm-flx helm-descbinds helm-company helm-c-yasnippet helm-ag google-translate golden-ratio gnuplot github-search github-clone github-browse-file gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link git-gutter-fringe git-gutter-fringe+ gist gh-md flyspell-correct-helm flycheck-pos-tip flx-ido fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-magit evil-lisp-state evil-indent-plus evil-iedit-state evil-exchange evil-escape evil-ediff evil-args evil-anzu eval-sexp-fu elisp-slime-nav dumb-jump dockerfile-mode docker diff-hl define-word cython-mode company-statistics company-nixos-options company-anaconda column-enforce-mode color-identifiers-mode clean-aindent-mode auto-yasnippet auto-highlight-symbol auto-dictionary auto-compile aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line ac-ispell))))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
