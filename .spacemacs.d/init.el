@@ -48,6 +48,7 @@ values."
      nlinum
      org
      python
+     scala
      shell-scripts
      spell-checking
      syntax-checking
@@ -322,6 +323,8 @@ you should place your code here."
        "Python interpreter: " nil 'python-interpreter-executable-history "python"
        )))
     (setq-local python-shell-interpreter command)
+    (setq-local flycheck-python-pycompile-executable command)
+    (flycheck-buffer)
     (let
         ((process (python-shell-get-process)))
       (when (and process (y-or-n-p "Python interpreter already running. Kill currently running process?"))
