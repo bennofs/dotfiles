@@ -25,3 +25,5 @@
   # This file should contain the following keys:
   # github.oauth-token = <token with gist and repo permissions> (used by emacs)
   path = ./.gitconfig-private
+[github]
+	user = bennofs

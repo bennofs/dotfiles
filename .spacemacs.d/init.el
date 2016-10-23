@@ -36,6 +36,7 @@ values."
      (colors :variables colors-colorize-identifiers 'variables)
      docker
      emacs-lisp
+     evil-cleverparens
      git
      github
      haskell
@@ -44,12 +45,13 @@ values."
      javascript
      markdown
      nixos
+     nlinum
      org
      python
      shell-scripts
      spell-checking
      syntax-checking
-     (version-control :variables version-control-global-margin t)
+     (version-control :variables version-control-global-margin t version-control-diff-tool 'diff-hl)
      )
    ;; List of additional packages that will be installed without being
    ;; wrapped in a layer. If you need some configuration for these
@@ -306,7 +308,8 @@ This is the place where most of your configurations should be done. Unless it is
 explicitly specified that a variable should be set before a package is loaded,
 you should place your code here."
   (global-evil-search-highlight-persist 0)
-  (python-shell-completion-native-turn-off)
+  (setq-default python-shell-completion-native-enable nil)
+  (remove-hook 'prog-mode-hook 'spacemacs//show-trailing-whitespace)
 
   (defvar spacemacs/python-interpreter-executable-history nil
     "History list for recently selected python interpreters.")
@@ -325,4 +328,5 @@ you should place your code here."
         (kill-process process))))
   (spacemacs/set-leader-keys-for-major-mode 'python-mode
     "sp" 'spacemacs/set-python-interpreter-executable)
+  (add-hook 'prog-mode-hook #'evil-cleverparens-mode)
   )
