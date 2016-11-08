@@ -31,12 +31,13 @@ values."
    ;; List of configuration layers to load.
    dotspacemacs-configuration-layers
    '(
+     yaml
      auto-completion
      c-c++
+     csv
      (colors :variables colors-colorize-identifiers 'variables)
      docker
      emacs-lisp
-     evil-cleverparens
      git
      github
      (haskell :variables haskell-completion-backend 'intero)
@@ -48,8 +49,10 @@ values."
      nlinum
      ocaml
      org
+     php
      python
      rust
+     ruby
      scala
      shell-scripts
      spell-checking
@@ -64,6 +67,7 @@ values."
    dotspacemacs-additional-packages
    '(
      solarized-theme
+     evil-smartparens
      )
    ;; A list of packages that cannot be updated.
    dotspacemacs-frozen-packages '()
@@ -159,7 +163,7 @@ values."
    dotspacemacs-emacs-leader-key "M-SPC"
    ;; Major mode leader key is a shortcut key which is the equivalent of
    ;; pressing `<leader> m`. Set it to `nil` to disable it. (default ",")
-   dotspacemacs-major-mode-leader-key ","
+   dotspacemacs-major-mode-leader-key "ä"
    ;; Major mode leader key accessible in `emacs state' and `insert state'.
    ;; (default "C-M-m)
    dotspacemacs-major-mode-emacs-leader-key "C-M-m"
@@ -334,19 +338,36 @@ you should place your code here."
         (kill-process process))))
   (spacemacs/set-leader-keys-for-major-mode 'python-mode
     "sp" 'spacemacs/set-python-interpreter-executable)
-  (add-hook 'prog-mode-hook #'evil-cleverparens-mode)
+
+  (evil-define-motion evil-sp-forward-sexp (count)
+    (sp-forward-sexp count))
+
+  (evil-define-motion evil-sp-backward-sexp (count)
+    (sp-backward-sexp count))
+
+  (evil-define-motion evil-sp-up-sexp (count)
+    (sp-up-sexp count))
+
+  (evil-define-motion evil-sp-down-sexp (count)
+    (sp-down-sexp count))
+
+  (define-key evil-normal-state-map "L" #'evil-sp-forward-sexp)
+  (define-key evil-normal-state-map "H" #'evil-sp-backward-sexp)
+  (define-key evil-normal-state-map "D" #'sp-kill-sexp)
+  (define-key evil-normal-state-map "K" #'evil-sp-up-sexp)
+  (define-key evil-normal-state-map "U" #'evil-sp-down-sexp)
+  (define-key evil-normal-state-map "Q" #'evil-execute-macro)
+  (define-key evil-normal-state-map "ö" #'spacemacs/evil-smart-doc-lookup)
+  (define-key evil-motion-state-map "#" #'spacemacs/enter-ahs-forward)
+
+  (evil-define-text-object evil-sp-a-sexp (count &rest other-args)
+    "Text object for the enclosing sexp. With COUNT, use the COUNTth sexp up."
+    (sp-get (sp-get-enclosing-sexp count) (list :beg :end)))
+  (define-key evil-outer-text-objects-map "f" #'evil-sp-a-sexp)
+
+  (evil-define-text-object evil-sp-inner-sexp (count &rest other-args)
+    "Text object for the enclosing sexp, without delimiters. With COUNT, use the COUNTth sexp up."
+    (sp-get (sp-get-enclosing-sexp count) (list :beg-in :end-in)))
+  (define-key evil-inner-text-objects-map "f" #'evil-sp-inner-sexp)
+
   )
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(package-selected-packages
-   (quote
-    (yaml-mode utop tuareg caml ocp-indent merlin toml-mode racer flycheck-rust seq cargo rust-mode yapfify ws-butler window-numbering which-key web-mode web-beautify volatile-highlights vi-tilde-fringe uuidgen use-package toc-org tagedit spacemacs-theme spaceline powerline smeargle slim-mode scss-mode sass-mode restart-emacs rainbow-mode rainbow-identifiers rainbow-delimiters pyvenv pytest pyenv-mode py-isort pug-mode popwin pip-requirements persp-mode pcre2el paradox spinner orgit org-projectile org-present org org-pomodoro alert log4e gntp org-plus-contrib org-download org-bullets open-junk-file noflet nlinum-relative nlinum nix-mode neotree move-text mmm-mode markdown-toc markdown-mode magit-gitflow magit-gh-pulls macrostep lorem-ipsum livid-mode skewer-mode simple-httpd live-py-mode link-hint less-css-mode js2-refactor multiple-cursors js2-mode js-doc intero insert-shebang info+ indent-guide ido-vertical-mode hydra hy-mode hungry-delete htmlize hlint-refactor hl-todo hindent highlight-parentheses highlight-numbers parent-mode highlight-indentation hide-comnt help-fns+ helm-themes helm-swoop helm-pydoc helm-projectile helm-nixos-options helm-mode-manager helm-make projectile helm-hoogle helm-gitignore request helm-flx helm-descbinds helm-css-scss helm-company helm-c-yasnippet helm-ag haskell-snippets haml-mode google-translate golden-ratio gnuplot gitignore-mode github-search github-clone github-browse-file gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link git-gutter-fringe+ git-gutter-fringe fringe-helper git-gutter+ git-gutter gist gh marshal logito pcache ht gh-md flyspell-correct-helm flyspell-correct flycheck-pos-tip pos-tip flycheck-haskell flycheck pkg-info epl flx-ido flx fish-mode fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-magit magit git-commit with-editor evil-lisp-state evil-indent-plus evil-iedit-state iedit evil-exchange evil-escape evil-ediff evil-cleverparens smartparens paredit evil-args evil-anzu anzu evil goto-chg undo-tree eval-sexp-fu highlight ensime sbt-mode scala-mode emmet-mode elisp-slime-nav dumb-jump dockerfile-mode docker json-mode tablist magit-popup docker-tramp json-snatcher json-reformat disaster diminish diff-hl define-word cython-mode company-web web-completion-data company-tern dash-functional tern company-statistics company-shell company-nixos-options nixos-options company-ghci company-ghc ghc haskell-mode company-cabal company-c-headers company-anaconda company column-enforce-mode color-identifiers-mode coffee-mode cmm-mode cmake-mode clean-aindent-mode clang-format bind-map bind-key auto-yasnippet yasnippet auto-highlight-symbol auto-dictionary auto-compile packed anaconda-mode pythonic f s aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line helm avy helm-core async ac-ispell auto-complete popup quelpa package-build solarized-theme dash))))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
