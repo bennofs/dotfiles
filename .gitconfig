@@ -27,3 +27,5 @@
   path = ./.gitconfig-private
 [github]
 	user = bennofs
+[http]
+	sslVerify = true
