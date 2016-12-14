@@ -3,6 +3,7 @@
 {-# OPTIONS_GHC -fno-warn-type-defaults -fno-warn-missing-signatures #-}
 import           Control.Exception
 import           Control.Monad
+import           Control.Monad.Trans.Reader (ReaderT(..))
 import           Data.List hiding (group)
 import           Data.Monoid
 import           Data.Ratio
@@ -37,6 +38,7 @@ import           XMonad.Util.Themes
 import           XMonad.Util.Cursor
 import           XMonad.Layout.Spacing
 import           XMonad.Util.Loggers
+import           XMonad.Hooks.ManageDebug
 
 myWorkspaces :: [String]
 myWorkspaces = zipWith (++) (map show [1..]) ["","web","", "", "","hipchat","skype","music","gimp","weechat", "", ""]
@@ -50,6 +52,22 @@ q <=? x = fmap (x `isPrefixOf`) q
 (*=?) :: Eq a => Query [a] -> [a] -> Query Bool
 q *=? x = fmap (x `isInfixOf`) q
 
+netName :: Query String
+netName = stringProperty "_NET_WM_NAME"
+
+netUtilityWindow :: Query Bool
+netUtilityWindow = Query . ReaderT $ \window -> withDisplay $ \dpy -> do
+  wtype <- liftIO $ internAtom dpy "_NET_WM_WINDOW_TYPE" True
+  wtypeUtil <- liftIO $ internAtom dpy "_NET_WM_WINDOW_TYPE_UTILITY" True
+  v <- liftIO $ getWindowProperty32 dpy wtype window
+  return $ maybe False (any (== fromIntegral wtypeUtil)) v
+
+androidEmulatorH :: ManageHook
+androidEmulatorH = manageDebug <+> mconcat
+  [ netName <=? "Android Emulator" --> doFloat
+  , (netName =? "Emulator" <&&> netUtilityWindow) --> doFloat
+  ]
+
 windowH :: ManageHook
 windowH = composeAll
   [ title    <=? "weechat"     --> doShift (ws 9)
@@ -60,8 +78,10 @@ windowH = composeAll
   , className =? "Gimp"        --> fmap (Endo . W.sink) ask
   , className =? "sc-SoftwareChallengeGUI" <&&> fmap not (title <=? "Software Challenge") --> fmap (Endo . W.sink) ask
   , className =? "HipChat"     --> doShift (ws 5)
+  , androidEmulatorH
   -- Hide HipChat "Signing in ..." window.
   , className =? "HipChat" <&&> isDialog <&&> title =? "HipChat" --> hideMappedWindow >> doIgnore
+  , className =? "dependent-window-move" --> (doFloat <> doShift (ws 3))
   ]
 
 -- | Hide a window, without unmapping it. This is needed to work around a bug in hipchat
@@ -211,6 +231,15 @@ bindings browser = layoutKeys ++ workspaceKeys ++ mediaKeys ++ spawnKeys browser
   ++ [("M-s " ++ k, promptSearchRaise e) | (k,e) <- searchKeys]
   ++ [("M-S-s " ++ k, selectSearchRaise e) | (k,e) <- searchKeys]
 
+dynamicPropertyChange :: String -> ManageHook -> Event -> X All
+dynamicPropertyChange prop hook PropertyEvent { ev_window = w, ev_atom = a, ev_propstate = ps } = do
+  pa <- getAtom prop
+  when (ps == propertyNewValue && a == pa) $ do
+    g <- appEndo <$> userCodeDef (Endo id) (runQuery hook w)
+    windows g
+  return mempty -- so anything else also processes it
+dynamicPropertyChange _ _ _ = return mempty
+
 conf browser =
   withUrgencyHook FocusHook $ ewmh $ def
        { manageHook = manageH $ manageHook def
@@ -219,7 +248,12 @@ conf browser =
        , modMask = mod4Mask
        , terminal = "urxvtc"
        , workspaces = myWorkspaces
-       , handleEventHook = fullscreenEventHook
+       , handleEventHook = composeAll
+         [ fullscreenEventHook 
+         , handleEventHook def
+         , dynamicPropertyChange "_NET_WM_NAME" androidEmulatorH
+         , dynamicPropertyChange "_NET_WM_WINDOW_TYPE" androidEmulatorH
+         ]
        , keys = \c -> mkKeymap c (bindings browser)
        , focusedBorderColor = "steelblue"
        , normalBorderColor = "#dddddd"
