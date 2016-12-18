@@ -63,7 +63,7 @@ netUtilityWindow = Query . ReaderT $ \window -> withDisplay $ \dpy -> do
   return $ maybe False (any (== fromIntegral wtypeUtil)) v
 
 androidEmulatorH :: ManageHook
-androidEmulatorH = manageDebug <+> mconcat
+androidEmulatorH = mconcat
   [ netName <=? "Android Emulator" --> doFloat
   , (netName =? "Emulator" <&&> netUtilityWindow) --> doFloat
   ]
