@@ -306,6 +306,9 @@ before packages are loaded. If you are unsure, you should try in setting them in
 `dotspacemacs/user-config' first."
   ;; Configure the solarized theme
   (setq-default solarized-distinct-fringe-background t)
+  ;; Set custom file to a different file so it can be ignored by git
+  (setq custom-file (concat (file-name-as-directory (file-name-directory (dotspacemacs/location))) "customize.el"))
+  (when (file-exists-p custom-file) (load custom-file))
   )
 
 (defun dotspacemacs/user-config ()
