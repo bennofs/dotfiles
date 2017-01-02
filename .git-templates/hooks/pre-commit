@@ -12,6 +12,23 @@ fi
 
 exec 1>&2
 
+# If there are no changes, then we don't need to fix whitespace.
+#
+# We need to exit successfully here because this can happen if you run
+# git commit --amend to edit the commit message. If we didn't check
+# for this case here, then the script would find that the commit is
+# empty later and exit with a failure (to disallow empty commits).
+#
+# But because git already checks for empty commits by itself before
+# running pre-commit, we can be sure that the commit is fine if we
+# get here *and* there are no changes.
+if git diff --staged --quiet; then
+	exit 0
+fi
+
+# Note: exiting early here means that the commit hook doesn't fail
+# with git commit --amend when there are no changes
+
 # Fix whitespace (index [= cached/staged area])
 tmpdiff=$(mktemp)
 trap "rm -f $tmpdiff" EXIT
