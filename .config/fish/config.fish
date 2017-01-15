@@ -57,7 +57,7 @@ eval (hub alias -s)
 alias gst="git status -sb"
 alias gp="git push"
 alias gup="git pull"
-alias glo="git log --oneline --color --decorate"
+alias glo="git log --pretty=format:'%C(yellow)%h %Cred%ad %Cblue%an%Cgreen%d %Creset%s' --date=short"
 alias gd="git diff"
 alias gcam="git commit -am"
 alias gc="git commit"

@@ -22,7 +22,7 @@ with (import <nixpkgs/lib>); with builtins; let
     autoconf automake114x gettext pkgconfig
   ];
   setupEnv = ''
-    ${concatStringsSep "\n" (map (x: "export ${x}=${getEnv x}") preservedEnvvars)};
+    ${concatStringsSep "\n" (map (x: ''export ${x}="${getEnv x}"'') preservedEnvvars)};
     export PATH=/home/bin:$PATH
     eval "$preHook"
     eval "$preConfigure"
