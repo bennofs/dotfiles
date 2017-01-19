@@ -41,6 +41,7 @@
 !/.emacs.d/snippets
 
 !/.spacemacs.d
+/.spacemacs.d/customize.el
 
 !/.themplate
 
