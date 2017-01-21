@@ -21,7 +21,7 @@ function fish_prompt
   printf '%s' (prompt_pwd)
   set_color normal
   set -l fs (stat --file-system --format="%T" (pwd))
-  if contains "$fs" "btrfs" "ext4" "tmpfs" "proc" "sysfs"
+  if contains "$fs" "btrfs" "ext4" "tmpfs" "proc" "sysfs" "ext2/ext3"
     printf '%s ' (__fish_git_prompt)
   else
     printf '⇄ '
