@@ -163,7 +163,7 @@ values."
    dotspacemacs-emacs-leader-key "M-SPC"
    ;; Major mode leader key is a shortcut key which is the equivalent of
    ;; pressing `<leader> m`. Set it to `nil` to disable it. (default ",")
-   dotspacemacs-major-mode-leader-key "ä"
+   dotspacemacs-major-mode-leader-key "ö"
    ;; Major mode leader key accessible in `emacs state' and `insert state'.
    ;; (default "C-M-m)
    dotspacemacs-major-mode-emacs-leader-key "C-M-m"
@@ -360,17 +360,41 @@ you should place your code here."
   (define-key evil-normal-state-map "K" #'evil-sp-up-sexp)
   (define-key evil-normal-state-map "U" #'evil-sp-down-sexp)
   (define-key evil-normal-state-map "Q" #'evil-execute-macro)
-  (define-key evil-normal-state-map "ö" #'spacemacs/evil-smart-doc-lookup)
+  (define-key evil-normal-state-map "ä" #'spacemacs/evil-smart-doc-lookup)
   (define-key evil-motion-state-map "#" #'spacemacs/enter-ahs-forward)
+
+  (defun spacemacs/sp-get-sexp-around-point (count)
+    (let*
+        ((current-sexp (sp-get-sexp))
+         (new-count (if (= (sp-get current-sexp :beg) (point)) (- count 1) count)))
+      (if (= new-count 0) current-sexp (sp-get-enclosing-sexp new-count))))
 
   (evil-define-text-object evil-sp-a-sexp (count &rest other-args)
     "Text object for the enclosing sexp. With COUNT, use the COUNTth sexp up."
-    (sp-get (sp-get-enclosing-sexp count) (list :beg :end)))
+    (sp-get (spacemacs/sp-get-sexp-around-point count) (list :beg :end)))
   (define-key evil-outer-text-objects-map "f" #'evil-sp-a-sexp)
 
   (evil-define-text-object evil-sp-inner-sexp (count &rest other-args)
     "Text object for the enclosing sexp, without delimiters. With COUNT, use the COUNTth sexp up."
-    (sp-get (sp-get-enclosing-sexp count) (list :beg-in :end-in)))
+    (sp-get (spacemacs/sp-get-sexp-around-point count) (list :beg-in :end-in)))
   (define-key evil-inner-text-objects-map "f" #'evil-sp-inner-sexp)
 
-  )
+  (defun spacemacs/evil-open-below (count)
+    (interactive "p")
+    (evil-start-undo-step)
+    (evil-insert-state 1)
+    (move-end-of-line nil)
+    (let ((enter-function (key-binding (kbd "RET"))))
+      (dotimes (_ count) (funcall enter-function))))
+
+  (defun spacemacs/evil-open-above (count)
+    (interactive "p")
+    (evil-previous-line)
+    (spacemacs/evil-open-below count))
+
+  (define-key evil-normal-state-map "o" #'spacemacs/evil-open-below)
+  (define-key evil-normal-state-map "O" #'spacemacs/evil-open-above)
+
+  (custom-theme-set-faces
+   'solarized-light
+   '(sp-show-pair-match-face ((t (:foreground "dark blue" :weight bold))) t)))
