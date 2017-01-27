@@ -389,12 +389,16 @@ you should place your code here."
 
   (defun spacemacs/evil-open-above (count)
     (interactive "p")
-    (evil-previous-line)
-    (spacemacs/evil-open-below count))
+    (evil-insert-state 1)
+    (move-beginning-of-line nil)
+    (let ((enter-function (key-binding (kbd "RET"))))
+      (dotimes (_ count)
+        (funcall enter-function)
+        (previous-line))))
 
   (define-key evil-normal-state-map "o" #'spacemacs/evil-open-below)
   (define-key evil-normal-state-map "O" #'spacemacs/evil-open-above)
 
   (custom-theme-set-faces
    'solarized-light
-   '(sp-show-pair-match-face ((t (:foreground "dark blue" :weight bold))) t)))
+   '(sp-show-pair-match-face ((t (:foreground "dark blue" :weight bold :underline t))) t)))
