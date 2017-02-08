@@ -19,9 +19,7 @@ flycheck_*
 *.bak
 shell.nix
 Setup
-/cabal
 nix
 *.swp
 .nix
-cabal
 .dev.nix

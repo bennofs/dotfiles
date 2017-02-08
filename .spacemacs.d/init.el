@@ -91,6 +91,7 @@ values."
   ;; This setq-default sexp is an exhaustive list of all the supported
   ;; spacemacs settings.
   (setq-default
+   exec-path-from-shell-arguments (list "-l") 
    ;; If non nil ELPA repositories are contacted via HTTPS whenever it's
    ;; possible. Set it to nil if you have no way to use HTTPS in your
    ;; environment, otherwise it is strongly recommended to let it set to t.
@@ -308,8 +309,7 @@ before packages are loaded. If you are unsure, you should try in setting them in
   (setq-default solarized-distinct-fringe-background t)
   ;; Set custom file to a different file so it can be ignored by git
   (setq custom-file (concat (file-name-as-directory (file-name-directory (dotspacemacs/location))) "customize.el"))
-  (when (file-exists-p custom-file) (load custom-file))
-  )
+  (when (file-exists-p custom-file) (load custom-file)))
 
 (defun dotspacemacs/user-config ()
   "Configuration function for user code.
@@ -389,16 +389,22 @@ you should place your code here."
 
   (defun spacemacs/evil-open-above (count)
     (interactive "p")
-    (evil-insert-state 1)
-    (move-beginning-of-line nil)
-    (let ((enter-function (key-binding (kbd "RET"))))
-      (dotimes (_ count)
-        (funcall enter-function)
-        (previous-line))))
+    (if (= (forward-line -1) 0)
+        (spacemacs/evil-open-below count)
+      (evil-start-undo-step)
+      (evil-insert-newline-above)
+      (evil-insert-state 1)))
 
   (define-key evil-normal-state-map "o" #'spacemacs/evil-open-below)
   (define-key evil-normal-state-map "O" #'spacemacs/evil-open-above)
 
   (custom-theme-set-faces
    'solarized-light
-   '(sp-show-pair-match-face ((t (:foreground "dark blue" :weight bold :underline t))) t)))
+   '(sp-show-pair-match-face ((t (:foreground "dark blue" :weight bold :underline t))) t))
+  (global-git-commit-mode 1))
+(defun dotspacemacs/emacs-custom-settings ()
+  "Emacs custom settings.
+This is an auto-generated function, do not modify its content directly, use
+Emacs customize menu instead.
+This function is called at the very end of Spacemacs initialization."
+)
