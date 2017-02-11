@@ -11,12 +11,21 @@ set __fish_git_prompt_char_stashstate '↩'
 set __fish_git_prompt_char_upstream_ahead '↑'
 set __fish_git_prompt_char_upstream_behind '↓'
 
+# Prompt colors
+set fish_color_host magenta
+
 function fish_prompt
+  set_color -i $fish_color_host
+  printf '%s' (prompt_hostname)
+  set_color normal
+  printf ':'
+
   set last_status $status
   if [ -n "$NIX_SHELL_PROJECT" ];
     set_color blue
     printf "$NIX_SHELL_PROJECT:"
   end
+
   set_color $fish_color_cwd
   printf '%s' (prompt_pwd)
   set_color normal
