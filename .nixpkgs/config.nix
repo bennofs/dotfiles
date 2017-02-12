@@ -38,7 +38,7 @@ with (import <nixpkgs/lib>); with builtins; let
         file = !elem base ignoredFiles;
       };
     in filters.${type} or true;
-  systemConf = import /etc/nixos/conf/nixpkgs.nix;
+  systemConf = if builtins.pathExists "/etc/nixos" then import /etc/nixos/conf/nixpkgs.nix else {};
   haskellOverrides = self: super: {
     localPackage = s: self.callPackage (import s {}).expr;
   };
@@ -46,7 +46,7 @@ in systemConf // {
   allowBroken = true;
 
   haskellPackageOverrides = haskellOverrides;
-  packageOverrides = pkgs: systemConf.packageOverrides pkgs // rec {
+  packageOverrides = pkgs: (systemConf.packageOverrides or (_: {})) pkgs // rec {
     localSource = builtins.filterSource localSourceFilter;
     haskell = pkgs.haskell // {
       packages = mapAttrs
