@@ -38,12 +38,14 @@ with (import <nixpkgs/lib>); with builtins; let
         file = !elem base ignoredFiles;
       };
     in filters.${type} or true;
+  inStore = x: builtins.substring 0 (builtins.stringLength builtins.storeDir) x == builtins.storeDir;
   systemConf = if builtins.pathExists "/etc/nixos" then import /etc/nixos/conf/nixpkgs.nix else {};
   haskellOverrides = self: super: {
     localPackage = s: self.callPackage (import s {}).expr;
   };
 in systemConf // {
   allowBroken = true;
+  allowUnfree = true;
 
   haskellPackageOverrides = haskellOverrides;
   packageOverrides = pkgs: (systemConf.packageOverrides or (_: {})) pkgs // rec {
@@ -60,9 +62,9 @@ in systemConf // {
           extraArgs = optionalAttrs localSrc localOverrides;
           baseEnv = args.passthru.env or args.env or result;
           localOverrides = {
-            src = if !(args ? src) || args.src == null || isStorePath args.src
+            src = if !(args ? src) || args.src == null || inStore args.src
               then args.src
-              else localSource args.src;
+              else builtins.trace args.src (localSource args.src);
           };
           envArgs = {
             passthru.env = overrideDerivation baseEnv (baseArgs: {
