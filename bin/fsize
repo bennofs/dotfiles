@@ -1,0 +1,2 @@
+#!/usr/bin/env bash
+printf '\33]50;%s%d\007' "xft:Source Code Pro:size=$1, xft:Free Mono:size=$1, xft:DejaVu Sans:size=$i" 

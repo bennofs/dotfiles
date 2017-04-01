@@ -1,0 +1,2 @@
+#!/usr/bin/env bash
+wpa_cli -i wlp4s0 list_networks  | tail -n+2 | cut -f1 | xargs -n1 wpa_cli -i wlp4s0 enable_network
