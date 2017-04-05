@@ -22,9 +22,10 @@
 [rebase]
 	autoSquash = true
 [include]
-  # This file should contain the following keys:
-  # github.oauth-token = <token with gist and repo permissions> (used by emacs)
-  path = ./.gitconfig-private
+	# This file should contain the following keys:
+	# [github]
+	#     oauth-token = <token with gist and repo permissions> (used by emacs)
+	path = /home/.gitconfig-private
 [github]
 	user = bennofs
 [http]

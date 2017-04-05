@@ -30,12 +30,14 @@ values."
    dotspacemacs-configuration-layer-path '("~/.spacemacs.d")
    ;; List of configuration layers to load.
    dotspacemacs-configuration-layers
-   '(
+   `(
+     typescript
      yaml
      auto-completion
-     c-c++
+     (c-c++ :variables c-c++-enable-clang-support t)
      csv
      (colors :variables colors-colorize-identifiers 'variables)
+     cscope
      docker
      emacs-lisp
      git
@@ -45,7 +47,8 @@ values."
      html
      javascript
      markdown
-     nixos
+     @,(when (file-exists-p "/etc/nixos/configuration.nix") '(nixos))
+     nil
      nlinum
      ocaml
      org
@@ -139,6 +142,7 @@ values."
    dotspacemacs-startup-buffer-responsive t
    ;; Default major mode of the scratch buffer (default `text-mode')
    dotspacemacs-scratch-mode 'org-mode
+
    ;; List of themes, the first of the list is loaded when spacemacs starts.
    ;; Press <SPC> T n to cycle to the next theme in the list (works great
    ;; with 2 themes variants, one dark and one light)
@@ -361,7 +365,6 @@ you should place your code here."
   (define-key evil-normal-state-map "U" #'evil-sp-down-sexp)
   (define-key evil-normal-state-map "Q" #'evil-execute-macro)
   (define-key evil-normal-state-map "ä" #'spacemacs/evil-smart-doc-lookup)
-  (define-key evil-motion-state-map "#" #'spacemacs/enter-ahs-forward)
 
   (defun spacemacs/sp-get-sexp-around-point (count)
     (let*
@@ -384,6 +387,7 @@ you should place your code here."
     (evil-start-undo-step)
     (evil-insert-state 1)
     (move-end-of-line nil)
+    (setq evil-insert-vcount nil)
     (let ((enter-function (key-binding (kbd "RET"))))
       (dotimes (_ count) (funcall enter-function))))
 
@@ -393,6 +397,7 @@ you should place your code here."
         (spacemacs/evil-open-below count)
       (evil-start-undo-step)
       (evil-insert-newline-above)
+      (setq evil-insert-vcount nil)
       (evil-insert-state 1)))
 
   (define-key evil-normal-state-map "o" #'spacemacs/evil-open-below)
