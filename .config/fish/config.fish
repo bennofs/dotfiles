@@ -14,9 +14,13 @@ set __fish_git_prompt_char_upstream_behind '↓'
 # Prompt colors
 set fish_color_host magenta
 
+# Define prompt_hostname if it does not exist
+if not set -q __fish_prompt_hostname
+    set -g __fish_prompt_hostname (hostname | string split '.')[1]
+end
 function fish_prompt
   set_color -i $fish_color_host
-  printf '%s' (prompt_hostname)
+  printf '%s' $__fish_prompt_hostname
   set_color normal
   printf ':'
 
