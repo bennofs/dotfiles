@@ -47,8 +47,7 @@ values."
      html
      javascript
      markdown
-     @,(when (file-exists-p "/etc/nixos/configuration.nix") '(nixos))
-     nil
+     nixos
      nlinum
      ocaml
      org
