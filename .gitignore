@@ -47,6 +47,7 @@
 
 !/.weechat
 /.weechat/*.log
+/.weechat/python/*.pyc
 /.weechat/logs
 /.weechat/script/plugins.xml.gz
 
