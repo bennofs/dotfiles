@@ -19,7 +19,7 @@ if not set -q __fish_prompt_hostname
     set -g __fish_prompt_hostname (hostname | string split '.')[1]
 end
 function fish_prompt
-  set_color -i $fish_color_host
+  set_color $fish_color_host
   printf '%s' $__fish_prompt_hostname
   set_color normal
   printf ':'
