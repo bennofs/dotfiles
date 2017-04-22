@@ -86,3 +86,41 @@ make_completion glo "git log"
 make_completion gd "git diff"
 make_completion gup "git pull"
 make_completion gp "git push"
+
+# Colorful commands
+function grc.wrap -a executable
+  set executable $argv[1]
+  
+  if test (count $argv) -gt 1
+    set arguments $argv[2..(count $argv)]
+  else
+    set arguments
+  end
+
+  command grc -es --colour=auto $executable $arguments
+end
+
+function wrap_grc_exes
+  set -l execs diff dig gcc g++ ifconfig ip make mount netstat ping ps ss traceroute
+  for executable in $execs
+    if type -q $executable
+      function $executable --inherit-variable executable --wraps=$executable
+        grc.wrap $executable $argv
+      end
+    end
+  end
+end
+wrap_grc_exes
+
+# key bindings
+function fish_user_key_bindings
+  # fzf config
+  if functions -q fzf_key_bindings
+    set FZF_ALT_C_COMMAND "find -H . -depth -mindepth 1 -type d \\( -not -readable -prune \\) -o -print"
+    fzf_key_bindings
+    bind \ek fzf-file-widget
+    bind \eh fzf-history-widget
+    bind \ej fzf-cd-widget
+  end
+end
+

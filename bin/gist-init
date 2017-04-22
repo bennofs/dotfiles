@@ -1,0 +1,46 @@
+#!/usr/bin/env python3
+
+"""Create a new gist and clone its git repo.
+
+Usage:
+  gist-init [<directory>]
+
+Options:
+  -d <description>, --description <description>   Description for the gist. If not given, read from stdin.
+"""
+from docopt import docopt
+import subprocess
+import os
+import os.path
+import re
+
+def main(arguments):
+    # setup options
+    directory = arguments.get('<directory>')
+    if directory is None:
+        directory = "."
+    os.makedirs(directory, exist_ok=True)
+    os.chdir(directory)
+
+    description = arguments.get('<description>', None)
+    if description is None:
+        description = input("description: ")
+
+    # create gist
+    name = " " + os.path.basename(os.getcwd()) # note: leading space to sort before other files in gist
+    gist_url = subprocess.check_output(["gist", "--filename", name, "--description", description], input=b"-").decode()
+    gist_id = re.search(r"[0-9a-f]+$", gist_url).group()
+
+    # clone gist
+    subprocess.check_call(["git", "init"])
+    subprocess.check_call(["git", "remote", "add", "gist", "git@github.com:{}.git".format(gist_id)])
+    subprocess.check_call(["git", "fetch", "gist"])
+    subprocess.check_call(["git", "checkout", "-b", "master", "--track", "gist/master"])
+
+    # clear the title file
+    open(name, "w").close()
+    subprocess.check_call(["git", "add", name])
+
+if __name__ == '__main__':
+    arguments = docopt(__doc__, version="0.1")
+    main(arguments)
