@@ -7,6 +7,7 @@
 	pager = less -F -X
 	excludesfile = /home/.gitignore_global
 	autocrlf = input
+  editor = nvim
 [pull]
 	rebase = true
 [color]
@@ -35,3 +36,5 @@
 	smudge = git-lfs smudge -- %f
 	process = git-lfs filter-process
 	required = true
+[commit]
+	template = ~/.git-commit-template

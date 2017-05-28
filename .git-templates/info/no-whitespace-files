@@ -27,3 +27,5 @@
 *.rs
 *.toml
 *.xml
+*.cc
+*.hh

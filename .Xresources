@@ -11,7 +11,7 @@ URxvt.keysym.Mod1-x: perl:clipboard:copy
 URxvt.keysym.Mod1-y: perl:clipboard:paste
 URxvt.url-select.launcher: xdg-open
 URxvt.url-select.underline: true
-
+URxvt.letterSpace: -1
 
 ! Solarized color scheme for the X Window System
 !
@@ -53,8 +53,10 @@ URxvt.url-select.underline: true
  #define S_base2         #073642
  #define S_base3         #002b36
 
-URxvt*background:         S_base03
-URxvt*foreground:         S_base0
+*background:         S_base03
+*background-alt:     S_base02
+*foreground:         S_base0
+*foreground-alt:     S_base00
 URxvt*cursorColor:             S_base1
 URxvt*pointerColorBackground:  S_base01
 URxvt*pointerColorForeground:  S_base1

@@ -23,3 +23,5 @@ nix
 *.swp
 .nix
 .dev.nix
+/cscope.files
+/cscope.out

@@ -199,7 +199,7 @@ spawnKeys browser =
   , ("M-o", prompt "xdg-open" promptConfig)
   , ("M-p", shellPrompt promptConfig)
   , ("M-f", spawn "thunar")
-  , ("M-e", runOrRaiseNext "emacs" $ className =? "Emacs")
+  , ("M-e", raiseMaybe (spawn "emacsclient -c") $ className =? "Emacs")
   , ("M-b", runOrRaiseNext browser browserP)
   , ("<Print>", spawn "scrot '%y-%m-%d-%T.png' -e 'mv -b \"$f\" /data/pics/screen'")
   , ("M-<Print>", spawn "sleep 2; scrot '%y-%m-%d-%T.png' -s -e 'mv -b \"$f\" /data/pics/screen'")
@@ -241,7 +241,7 @@ dynamicPropertyChange prop hook PropertyEvent { ev_window = w, ev_atom = a, ev_p
 dynamicPropertyChange _ _ _ = return mempty
 
 conf browser =
-  withUrgencyHook FocusHook $ ewmh $ def
+  docks $ withUrgencyHook FocusHook $ ewmh $ def
        { manageHook = manageH $ manageHook def
        , layoutHook = layoutH $ layoutHook def
        , logHook = logH
@@ -264,6 +264,7 @@ startup :: X ()
 startup = do
   setWMName "LG3D"
   setDefaultCursor xC_left_ptr
+  sendMessage $ SetStruts [minBound .. maxBound] []
 
 main :: IO ()
 main = do

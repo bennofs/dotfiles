@@ -31,10 +31,8 @@ values."
    ;; List of configuration layers to load.
    dotspacemacs-configuration-layers
    `(
-     typescript
-     yaml
      auto-completion
-     (c-c++ :variables c-c++-enable-clang-support t)
+     (c-c++ :variables c-c++-enable-clang-support t c-c++-default-mode-for-headers 'c++-mode)
      csv
      (colors :variables colors-colorize-identifiers 'variables)
      cscope
@@ -45,7 +43,7 @@ values."
      (haskell :variables haskell-completion-backend 'intero)
      helm
      html
-     javascript
+     lua
      markdown
      nixos
      nlinum
@@ -53,13 +51,16 @@ values."
      org
      php
      python
-     rust
      ruby
+     rust
      scala
+     (shell :variables shell-default-shell 'eshell) 
      shell-scripts
      spell-checking
      syntax-checking
+     typescript
      (version-control :variables version-control-global-margin t version-control-diff-tool 'diff-hl)
+     vimscript
      yaml
      )
    ;; List of additional packages that will be installed without being
@@ -68,13 +69,15 @@ values."
    ;; configuration in `dotspacemacs/user-config'.
    dotspacemacs-additional-packages
    '(
-     solarized-theme
+     all-the-icons
      evil-smartparens
      )
    ;; A list of packages that cannot be updated.
    dotspacemacs-frozen-packages '()
    ;; A list of packages that will not be installed and loaded.
-   dotspacemacs-excluded-packages '()
+   dotspacemacs-excluded-packages
+   '(magit-gh-pulls ; functionality provided already by magithub
+     )
    ;; Defines the behaviour of Spacemacs when installing packages.
    ;; Possible values are `used-only', `used-but-keep-unused' and `all'.
    ;; `used-only' installs only explicitly used packages and uninstall any
@@ -136,7 +139,7 @@ values."
    ;; List sizes may be nil, in which case
    ;; `spacemacs-buffer-startup-lists-length' takes effect.
    ;; (default nil)
-   dotspacemacs-startup-lists nil
+   dotspacemacs-startup-lists '((recents . 5) (projects . 5))
    ;; True if the home buffer should respond to resize events.
    dotspacemacs-startup-buffer-responsive t
    ;; Default major mode of the scratch buffer (default `text-mode')
@@ -152,9 +155,9 @@ values."
    ;; quickly tweak the mode-line size to make separators look not too crappy.
    dotspacemacs-default-font '("Source Code Pro"
                                :size 13
-                               :weight normal
+                               :weight Regular
                                :width normal
-                               :powerline-scale 1.1)
+                               :powerline-scale 1.2)
    ;; The leader key
    dotspacemacs-leader-key "SPC"
    ;; The key used for Emacs commands (M-x) (after pressing on the leader key).
@@ -235,7 +238,7 @@ values."
    ;; If non nil a progress bar is displayed when spacemacs is loading. This
    ;; may increase the boot time on some systems and emacs builds, set it to
    ;; nil to boost the loading time. (default t)
-   dotspacemacs-loading-progress-bar t
+   dotspacemacs-loading-progress-bar nil
    ;; If non nil the frame is fullscreen when Emacs starts up. (default nil)
    ;; (Emacs 24.4+ only)
    dotspacemacs-fullscreen-at-startup nil
@@ -284,7 +287,7 @@ values."
    dotspacemacs-highlight-delimiters 'all
    ;; If non nil, advise quit functions to keep server open when quitting.
    ;; (default nil)
-   dotspacemacs-persistent-server nil
+   dotspacemacs-persistent-server t
    ;; List of search tool executable names. Spacemacs uses the first installed
    ;; tool of the list. Supported tools are `ag', `pt', `ack' and `grep'.
    ;; (default '("ag" "pt" "ack" "grep"))
@@ -308,11 +311,22 @@ executes.
  This function is mostly useful for variables that need to be set
 before packages are loaded. If you are unsure, you should try in setting them in
 `dotspacemacs/user-config' first."
+  (let ((base-dir (file-name-as-directory (file-name-directory (dotspacemacs/location)))))
+    ;; Set custom file to a different file so it can be ignored by git
+    (setq custom-file (concat base-dir "customize.el"))
+    (when (file-exists-p custom-file) (load custom-file)))
+
   ;; Configure the solarized theme
-  (setq-default solarized-distinct-fringe-background t)
-  ;; Set custom file to a different file so it can be ignored by git
-  (setq custom-file (concat (file-name-as-directory (file-name-directory (dotspacemacs/location))) "customize.el"))
-  (when (file-exists-p custom-file) (load custom-file)))
+  (setq-default solarized-distinct-fringe-background nil)
+  (setq-default solarized-high-contrast-mode-line nil)
+  (setq-default spacemacs--fallback-theme 'spacemacs-light)
+
+  ;; Disable clipboard manager (for wayland support)
+  (setq-default x-select-enable-clipboard-manager nil)
+
+  ;; Configure neotree
+  (setq-default neo-theme 'icons)
+  )
 
 (defun dotspacemacs/user-config ()
   "Configuration function for user code.
@@ -323,6 +337,7 @@ explicitly specified that a variable should be set before a package is loaded,
 you should place your code here."
   (global-evil-search-highlight-persist 0)
   (setq-default python-shell-completion-native-enable nil)
+  (setq-default powerline-default-separator 'arrow)
   (remove-hook 'prog-mode-hook 'spacemacs//show-trailing-whitespace)
 
   (defvar spacemacs/python-interpreter-executable-history nil
@@ -364,6 +379,7 @@ you should place your code here."
   (define-key evil-normal-state-map "U" #'evil-sp-down-sexp)
   (define-key evil-normal-state-map "Q" #'evil-execute-macro)
   (define-key evil-normal-state-map "ä" #'spacemacs/evil-smart-doc-lookup)
+  (define-key evil-normal-state-map "ü" #'spacemacs/jump-to-definition)
 
   (defun spacemacs/sp-get-sexp-around-point (count)
     (let*
@@ -405,10 +421,17 @@ you should place your code here."
   (custom-theme-set-faces
    'solarized-light
    '(sp-show-pair-match-face ((t (:foreground "dark blue" :weight bold :underline t))) t))
-  (global-git-commit-mode 1))
-(defun dotspacemacs/emacs-custom-settings ()
-  "Emacs custom settings.
-This is an auto-generated function, do not modify its content directly, use
-Emacs customize menu instead.
-This function is called at the very end of Spacemacs initialization."
-)
+
+  ;; configure magithub to use the same token as the gh.el library
+  (use-package gh
+    :config
+    (setq-default ghub-username (gh-auth-get-username))
+    (setq-default ghub-token (gh-auth-get-oauth-token)))
+
+  (spacemacs/set-leader-keys "px" 'projectile-run-project)
+  (setq-default compilation-read-command nil)
+
+  (spacemacs/set-leader-keys "p#" 'spacemacs/projectile-shell-pop)
+  (spacemacs/set-leader-keys "#" 'spacemacs/default-pop-shell)
+
+  )

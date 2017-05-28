@@ -97,7 +97,7 @@ function grc.wrap -a executable
     set arguments
   end
 
-  command grc -es --colour=auto $executable $arguments
+  env CLICOLOR_FORCE=1 grc -es --colour=auto $executable $arguments
 end
 
 function wrap_grc_exes

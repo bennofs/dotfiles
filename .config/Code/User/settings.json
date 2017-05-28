@@ -1,7 +1,18 @@
 // Place your settings in this file to overwrite the default settings
 {
-    "editor.fontFamily": "'Hasklig'",
+    "editor.fontFamily": "'Source Code Pro'",
     "editor.rulers": [100],
     "terminal.integrated.fontFamily": "'Source Code Pro'",
-    "terminal.integrated.shell.linux": "/run/current-system/sw/bin/fish"
+    "terminal.integrated.shell.linux": "fish",
+    "window.zoomLevel": -1,
+    "java.errors.incompleteClasspath.severity": "ignore",
+    "workbench.welcome.enabled": false,
+    "[cpp]": {
+        "editor.quickSuggestions": false
+    },
+    "[c]": {
+        "editor.quickSuggestions": false
+    },
+    "workbench.colorTheme": "Solarized Light",
+    "window.menuBarVisibility": "toggle",
 }

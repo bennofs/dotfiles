@@ -17,12 +17,11 @@ call plug#end()
 set background="light"
 colorscheme solarized
 
-set hidden autoindent number backspace=indent colorcolumn=100
+set hidden autoindent number backspace=indent colorcolumn=100 modeline
 set expandtab tabstop=2 shiftwidth=2
 
 let g:airline_theme='solarized'
 let g:airline_powerline_fonts=1
-
 
 let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_auto_loc_list = 1
@@ -38,6 +37,6 @@ let g:syntastic_mode_map = {
 set grepprg=ag\ --nogroup\ --nocolor
 " Use ag in CtrlP for listing files. Lightning fast, respects .gitignore
 " and .agignovrve. Ignores hidden files by default.
-let g:ctrlp_user_command = 'pt %s -l --nocolor -f --hidden -g ""'
+let g:ctrlp_user_command = 'rg %s --files --color never'
 
 map <MiddleMouse> <Nop>
