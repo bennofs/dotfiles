@@ -32,7 +32,7 @@ values."
    dotspacemacs-configuration-layers
    `(
      auto-completion
-     (c-c++ :variables c-c++-enable-clang-support t c-c++-default-mode-for-headers 'c++-mode)
+     (c-c++ :variables c-c++-default-mode-for-headers 'c++-mode)
      csv
      (colors :variables colors-colorize-identifiers 'variables)
      cscope
@@ -56,12 +56,14 @@ values."
      scala
      (shell :variables shell-default-shell 'eshell) 
      shell-scripts
+     spacemacs-purpose
      spell-checking
      syntax-checking
      typescript
      (version-control :variables version-control-global-margin t version-control-diff-tool 'diff-hl)
      vimscript
      yaml
+     ycmd
      )
    ;; List of additional packages that will be installed without being
    ;; wrapped in a layer. If you need some configuration for these
@@ -71,12 +73,13 @@ values."
    '(
      all-the-icons
      evil-smartparens
+     ob-ipython
      )
    ;; A list of packages that cannot be updated.
    dotspacemacs-frozen-packages '()
    ;; A list of packages that will not be installed and loaded.
    dotspacemacs-excluded-packages
-   '(magit-gh-pulls ; functionality provided already by magithub
+   '(magithub ; more broken than magit-gh-pulls
      )
    ;; Defines the behaviour of Spacemacs when installing packages.
    ;; Possible values are `used-only', `used-but-keep-unused' and `all'.
@@ -188,7 +191,7 @@ values."
    dotspacemacs-retain-visual-state-on-shift t
    ;; If non-nil, J and K move lines up and down when in visual mode.
    ;; (default nil)
-   dotspacemacs-visual-line-move-text nil
+   dotspacemacs-visual-line-move-text t
    ;; If non nil, inverse the meaning of `g' in `:substitute' Evil ex-command.
    ;; (default nil)
    dotspacemacs-ex-substitute-global nil
@@ -318,14 +321,24 @@ before packages are loaded. If you are unsure, you should try in setting them in
 
   ;; Configure the solarized theme
   (setq-default solarized-distinct-fringe-background nil)
-  (setq-default solarized-high-contrast-mode-line nil)
+  (setq-default solarized-high-contrast-mode-line t)
   (setq-default spacemacs--fallback-theme 'spacemacs-light)
+
+  (custom-theme-set-faces
+   'user
+   '(sp-show-pair-match-face ((t (:foreground "dark blue" :weight bold :underline t))) t))
 
   ;; Disable clipboard manager (for wayland support)
   (setq-default x-select-enable-clipboard-manager nil)
 
   ;; Configure neotree
   (setq-default neo-theme 'icons)
+
+  ;; Avoid jumping of echo-area height for long messages
+  (setq-default message-truncate-lines t)
+
+  ;; configure ycmd
+  (setq-default ycmd-server-command (list "python" (file-truename "/code/ycmd/ycmd")))
   )
 
 (defun dotspacemacs/user-config ()
@@ -335,7 +348,6 @@ layers configuration.
 This is the place where most of your configurations should be done. Unless it is
 explicitly specified that a variable should be set before a package is loaded,
 you should place your code here."
-  (global-evil-search-highlight-persist 0)
   (setq-default python-shell-completion-native-enable nil)
   (setq-default powerline-default-separator 'arrow)
   (remove-hook 'prog-mode-hook 'spacemacs//show-trailing-whitespace)
@@ -374,9 +386,9 @@ you should place your code here."
 
   (define-key evil-normal-state-map "L" #'evil-sp-forward-sexp)
   (define-key evil-normal-state-map "H" #'evil-sp-backward-sexp)
-  (define-key evil-normal-state-map "D" #'sp-kill-sexp)
-  (define-key evil-normal-state-map "K" #'evil-sp-up-sexp)
-  (define-key evil-normal-state-map "U" #'evil-sp-down-sexp)
+  (define-key evil-normal-state-map "K" #'sp-kill-sexp)
+  (define-key evil-normal-state-map "U" #'sp-backward-up-sexp)
+  (define-key evil-normal-state-map "D" #'evil-sp-down-sexp)
   (define-key evil-normal-state-map "Q" #'evil-execute-macro)
   (define-key evil-normal-state-map "ä" #'spacemacs/evil-smart-doc-lookup)
   (define-key evil-normal-state-map "ü" #'spacemacs/jump-to-definition)
@@ -397,6 +409,8 @@ you should place your code here."
     (sp-get (spacemacs/sp-get-sexp-around-point count) (list :beg-in :end-in)))
   (define-key evil-inner-text-objects-map "f" #'evil-sp-inner-sexp)
 
+  ;; these functions play nicer with existing indent modes,
+  ;; especially haskell mode
   (defun spacemacs/evil-open-below (count)
     (interactive "p")
     (evil-start-undo-step)
@@ -418,19 +432,14 @@ you should place your code here."
   (define-key evil-normal-state-map "o" #'spacemacs/evil-open-below)
   (define-key evil-normal-state-map "O" #'spacemacs/evil-open-above)
 
-  (custom-theme-set-faces
-   'solarized-light
-   '(sp-show-pair-match-face ((t (:foreground "dark blue" :weight bold :underline t))) t))
-
   ;; configure magithub to use the same token as the gh.el library
   (use-package gh
     :config
     (setq-default ghub-username (gh-auth-get-username))
     (setq-default ghub-token (gh-auth-get-oauth-token)))
 
-  (spacemacs/set-leader-keys "px" 'projectile-run-project)
   (setq-default compilation-read-command nil)
-
+  (spacemacs/set-leader-keys "px" 'projectile-run-project)
   (spacemacs/set-leader-keys "p#" 'spacemacs/projectile-shell-pop)
   (spacemacs/set-leader-keys "#" 'spacemacs/default-pop-shell)
 
