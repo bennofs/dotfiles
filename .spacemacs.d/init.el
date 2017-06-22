@@ -443,4 +443,6 @@ you should place your code here."
   (spacemacs/set-leader-keys "p#" 'spacemacs/projectile-shell-pop)
   (spacemacs/set-leader-keys "#" 'spacemacs/default-pop-shell)
 
+  (setq-default doc-view-continuous t)
+
   )
