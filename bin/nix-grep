@@ -2,4 +2,4 @@
 
 what=$1
 shift
-grep --color=always -i "$what" "$@" /nixpkgs/pkgs/top-level/all-packages.nix /nixpkgs/pkgs/top-level/python-packages.nix /nixpkgs/pkgs/servers/x11/xorg/default.nix
+grep --color=always -i "$what" "$@" /code/nixpkgs/pkgs/top-level/all-packages.nix /code/nixpkgs/pkgs/top-level/python-packages.nix /code/nixpkgs/pkgs/servers/x11/xorg/default.nix

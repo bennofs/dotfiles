@@ -5,6 +5,7 @@
 !/.gitignore
 !/.gitignore_global
 !/.git-templates
+!/.git-commit-template
 !/.gitconfig
 
 !/.config
