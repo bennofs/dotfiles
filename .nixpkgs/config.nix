@@ -15,11 +15,11 @@ with (import <nixpkgs/lib>); with builtins; let
   ];
   devPkgs = pkgs: with pkgs; [
     less git mercurial fish gitAndTools.hub utillinux bc man manpages
-    nano openssh haskellPackages.cabal-bounds vimHugeX nix haskellPackages.ghc-mod
+    nano openssh vimHugeX nix haskellPackages.ghc-mod
     haskellPackages.cabal-install patchutils haskellPackages.hscolour perl time linuxPackages.perf
     haskellPackages.hlint haskellPackages.profiteur
     gdb utillinuxCurses gettext bazaar rustfmt platinum-searcher
-    autoconf automake114x gettext pkgconfig
+    autoconf automake114x gettext pkgconfig inetutils
   ];
   setupEnv = ''
     ${concatStringsSep "\n" (map (x: ''export ${x}="${getEnv x}"'') preservedEnvvars)};

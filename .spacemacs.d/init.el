@@ -273,7 +273,7 @@ values."
    ;; If non nil line numbers are turned on in all `prog-mode' and `text-mode'
    ;; derivatives. If set to `relative', also turns on relative line numbers.
    ;; (default nil)
-   dotspacemacs-line-numbers t
+   dotspacemacs-line-numbers nil
    ;; Code folding method. Possible values are `evil' and `origami'.
    ;; (default 'evil)
    dotspacemacs-folding-method 'evil
@@ -340,6 +340,10 @@ before packages are loaded. If you are unsure, you should try in setting them in
   ;; configure ycmd
   (setq-default ycmd-server-command (list "python" (file-truename "/code/ycmd/ycmd")))
   )
+
+(defun dotspacemacs//init-persp-frame-hook ()
+
+)
 
 (defun dotspacemacs/user-config ()
   "Configuration function for user code.
@@ -445,4 +449,5 @@ you should place your code here."
 
   (setq-default doc-view-continuous t)
 
-  )
+  (setq-default persp-init-frame-behaviour #'dotspacemacs//init-persp-frame-hook)
+) 
