@@ -4,7 +4,7 @@ set -euf -o pipefail
 mode=${1:-switch}
 channel=${2:-nixos-unstable}
 
-cd /nixpkgs
+cd /code/nixpkgs
 
 echo -e "\e[32m[+] Fetching latest $channel\e[0m"
 git remote add channels git://github.com/NixOS/nixpkgs-channels.git 2> /dev/null || true
