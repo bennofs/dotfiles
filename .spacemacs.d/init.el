@@ -341,8 +341,7 @@ before packages are loaded. If you are unsure, you should try in setting them in
   (setq-default ycmd-server-command (list "python" (file-truename "/code/ycmd/ycmd")))
   )
 
-(defun dotspacemacs//init-persp-frame-hook ()
-
+(defun dotspacemacs//init-persp-frame-hook (frame &optional new-frame-p)
 )
 
 (defun dotspacemacs/user-config ()

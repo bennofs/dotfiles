@@ -1,22 +1,39 @@
 with (import <nixpkgs> {});
 {
 
-gdrive = ''
- [Unit]
- Description=Google Drive Synchronization Daemon
- [Service]
- ExecStartPre=${coreutils}/bin/mkdir -p /mnt/gdrive
- ExecStart=${google-drive-ocamlfuse}/bin/google-drive-ocamlfuse -f /mnt/gdrive
- Environment=PATH=/var/setuid-wrappers:/usr/bin
-'';
+# gdrive = ''
+#  [Unit]
+#  Description=Google Drive Synchronization Daemon
+#  [Service]
+#  ExecStartPre=${coreutils}/bin/mkdir -p /mnt/gdrive
+#  ExecStart=${google-drive-ocamlfuse}/bin/google-drive-ocamlfuse -f /mnt/gdrive
+#  Environment=PATH=/var/setuid-wrappers:/usr/bin
+# '';
 
 emacs = ''
  [Unit]
  Description=Emacs daemon
+ Requires=init-global.service
+ After=init-global.service
  [Service]
  ExecStart=${emacs}/bin/emacs --daemon
  Type=forking
  Restart=always
+ EnvironmentFile=%t/env/global
+'';
+
+init-global = ''
+ [Unit]
+ Description=Global initialization that should be done before every other unit
+ [Service]
+ Type=oneshot
+ RemainAfterExit=true
+ ExecStart=${pkgs.writeScript "init-global" ''
+ #!${stdenv.shell}
+ mkdir -p $XDG_RUNTIME_DIR/env
+ ${bash}/bin/bash --login -c "env" > $XDG_RUNTIME_DIR/env/global
+ ''}
+
 '';
 
 # weechat = ''
