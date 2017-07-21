@@ -30,8 +30,7 @@ values."
    dotspacemacs-configuration-layer-path '("~/.spacemacs.d")
    ;; List of configuration layers to load.
    dotspacemacs-configuration-layers
-   `(
-     auto-completion
+   `(auto-completion
      (c-c++ :variables c-c++-default-mode-for-headers 'c++-mode)
      csv
      (colors :variables colors-colorize-identifiers 'variables)
@@ -49,13 +48,14 @@ values."
      nlinum
      ocaml
      org
+     perl5
      php
      python
      ruby
      rust
      scala
-     (shell :variables shell-default-shell 'eshell) 
-     shell-scripts
+     (shell :variables shell-default-shell 'eshell)
+     shell-scripts 
      spacemacs-purpose
      spell-checking
      syntax-checking

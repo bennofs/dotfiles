@@ -20,6 +20,7 @@ emacs = ''
  Type=forking
  Restart=always
  EnvironmentFile=%t/env/global
+ Environment=RUST_SRC_PATH="${rustPlatform.rustcSrc}"
 '';
 
 init-global = ''
