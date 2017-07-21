@@ -67,3 +67,6 @@
 
 !/bin
 !/.nixpkgs
+
+
+!/.pwn.conf

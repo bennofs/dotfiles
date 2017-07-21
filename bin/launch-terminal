@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+set -x
+exec 2>/tmp/stderr
+exec 1>/tmp/stdout
+urxvtc -e $*
