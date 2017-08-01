@@ -48,7 +48,7 @@ values."
      nlinum
      ocaml
      org
-     perl5
+     perl6
      php
      python
      ruby

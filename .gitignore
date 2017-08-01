@@ -44,6 +44,7 @@
 
 !/.spacemacs.d
 /.spacemacs.d/customize.el
+/.spacemacs.d/.gdb_history
 
 !/.themplate
 
