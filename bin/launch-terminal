@@ -1,3 +1,5 @@
 #!/usr/bin/env bash
 set -x
-eval "urxvt -e $*"
+exec 2>/tmp/stderr
+exec 1>/tmp/stderr
+eval $(echo "urxvt -e $*")

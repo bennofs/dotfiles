@@ -37,6 +37,8 @@ values."
      cscope
      docker
      emacs-lisp
+     ess
+     extra-langs
      git
      github
      (haskell :variables haskell-completion-backend 'intero)

@@ -71,3 +71,5 @@
 
 
 !/.pwn.conf
+!/.gdbinit
+!/.pwn.gdbinit
