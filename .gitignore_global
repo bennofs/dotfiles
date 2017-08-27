@@ -25,3 +25,4 @@ nix
 .dev.nix
 /cscope.files
 /cscope.out
+.ycm_extra_flags

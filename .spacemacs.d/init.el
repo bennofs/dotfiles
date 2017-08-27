@@ -451,4 +451,5 @@ you should place your code here."
   (setq-default doc-view-continuous t)
 
   (setq-default persp-init-frame-behaviour #'dotspacemacs//init-persp-frame-hook)
+  (setq-default magit-diff-refine-hunk t)
 ) 
