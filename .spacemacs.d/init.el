@@ -423,7 +423,7 @@ you should place your code here."
     (move-end-of-line nil)
     (setq evil-insert-vcount nil)
     (let ((enter-function (key-binding (kbd "RET"))))
-      (dotimes (_ count) (funcall enter-function))))
+      (dotimes (_ count) (call-interactively enter-function))))
 
   (defun spacemacs/evil-open-above (count)
     (interactive "p")
