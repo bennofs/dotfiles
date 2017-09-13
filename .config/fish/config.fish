@@ -123,4 +123,3 @@ function fish_user_key_bindings
     bind \ej fzf-cd-widget
   end
 end
-

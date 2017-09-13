@@ -30,7 +30,7 @@ values."
    dotspacemacs-configuration-layer-path '("~/.spacemacs.d")
    ;; List of configuration layers to load.
    dotspacemacs-configuration-layers
-   `(auto-completion
+   `((auto-completion :variables auto-completion-tab-key-behavior 'complete)
      (c-c++ :variables c-c++-default-mode-for-headers 'c++-mode)
      csv
      (colors :variables colors-colorize-identifiers 'variables)
@@ -451,5 +451,6 @@ you should place your code here."
   (setq-default doc-view-continuous t)
 
   (setq-default persp-init-frame-behaviour #'dotspacemacs//init-persp-frame-hook)
+  (setq-default persp-autokill-buffer-on-remove t)
   (setq-default magit-diff-refine-hunk t)
 ) 
