@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+if [ -f ~/secrets/retdec ]; then
+  export RETDEC_API_KEY="$(cat ~/secrets/retdec)"
+fi
+decompiler "$@"

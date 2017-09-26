@@ -30,14 +30,14 @@ values."
    dotspacemacs-configuration-layer-path '("~/.spacemacs.d")
    ;; List of configuration layers to load.
    dotspacemacs-configuration-layers
-   `((auto-completion :variables auto-completion-tab-key-behavior 'complete)
+   `(javascript
+     auto-completion
      (c-c++ :variables c-c++-default-mode-for-headers 'c++-mode)
      csv
      (colors :variables colors-colorize-identifiers 'variables)
      cscope
      docker
      emacs-lisp
-     ess
      extra-langs
      git
      github
@@ -76,6 +76,7 @@ values."
      all-the-icons
      evil-smartparens
      ob-ipython
+     yasnippet-snippets
      )
    ;; A list of packages that cannot be updated.
    dotspacemacs-frozen-packages '()
