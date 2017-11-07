@@ -14,6 +14,7 @@ Plug 'kchmck/vim-coffee-script'
 Plug '~/.config/nvim/nix'
 call plug#end()
 
+let g:solarized_termtrans=1
 set background="light"
 colorscheme solarized
 

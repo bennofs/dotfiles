@@ -30,7 +30,11 @@ values."
    dotspacemacs-configuration-layer-path '("~/.spacemacs.d")
    ;; List of configuration layers to load.
    dotspacemacs-configuration-layers
-   `(javascript
+   `(perl5
+     asciidoc
+     sql
+     d
+     javascript
      auto-completion
      (c-c++ :variables c-c++-default-mode-for-headers 'c++-mode)
      csv
@@ -77,6 +81,8 @@ values."
      evil-smartparens
      ob-ipython
      yasnippet-snippets
+     bison-mode
+     nasm-mode
      )
    ;; A list of packages that cannot be updated.
    dotspacemacs-frozen-packages '()
@@ -450,7 +456,6 @@ you should place your code here."
   (spacemacs/set-leader-keys "#" 'spacemacs/default-pop-shell)
 
   (setq-default doc-view-continuous t)
-
   (setq-default persp-init-frame-behaviour #'dotspacemacs//init-persp-frame-hook)
   (setq-default persp-autokill-buffer-on-remove t)
   (setq-default magit-diff-refine-hunk t)

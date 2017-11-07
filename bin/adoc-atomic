@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+function process_file {
+  result="${file%.adoc}.html"
+  temp=$(mktemp)
+  trap "rm -rf $temp" EXIT ERR
+  cat "$file" | asciidoc - > "$temp"
+  mv "$temp" "$result"
+}
+
+if [ "$#" -gt 0 ]; then
+  file="$1"
+  process_file
+elif [ -n "$WATCHEXEC_WRITTEN_PATH" ]; then
+  file="$WATCHEXEC_COMMON_PATH/$WATCHEXEC_WRITTEN_PATH"
+  process_file
+elif [ -n "$WATCHEXEC_COMMON_PATH" ]; then
+  find "$WATCHEXEC_COMMON_PATH" -name "*.adoc" -print | while read file; do
+    process_file
+  done
+fi
