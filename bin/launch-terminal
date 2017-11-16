@@ -1,3 +1,4 @@
 #!/usr/bin/env bash
 set -x
-eval $(echo "urxvt -e $*")
+export PWNTOOLS=1
+exec $TERMINAL -e sh -c "$*"

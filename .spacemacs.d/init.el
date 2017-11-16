@@ -45,7 +45,7 @@ values."
      extra-langs
      git
      github
-     (haskell :variables haskell-completion-backend 'intero)
+     (haskell :variables haskell-completion-backend 'company-ghci)
      helm
      html
      lua
