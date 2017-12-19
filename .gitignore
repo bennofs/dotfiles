@@ -9,20 +9,19 @@
 !/.gitconfig
 
 !/.config
-/.config/*
+/.config/dconf
+/.config/gconf
+
 !/.config/Code
 /.config/Code/*
 !/.config/Code/User
 /.config/Code/User/*
 !/.config/Code/User/settings.json
-!/.config/fish
+
 /.config/fish/fish_history
 /.config/fish/fish_read_history
 /.config/fish/fishd.*
-!/.config/nvim
-!/.config/systemd
-!/.config/user-dirs.dirs
-!/.conkerorrc
+
 /.config/nvim/plugged
 /.config/nvim/.netrwhist
 /.config/nvim/colors
