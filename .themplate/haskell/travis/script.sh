@@ -36,9 +36,7 @@ fi
 set -e
 
 step "Running tests" << EOF
-  cabal install tasty-quickcheck tasty-hunit
-  runhaskell -isrc example.hs
-  runhaskell -isrc example-explicit.hs
+  cabal test
 EOF
 
 step "Creating source distribution" << EOF
