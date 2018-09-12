@@ -30,6 +30,11 @@ function fish_prompt
     printf "$NIX_SHELL_PROJECT:"
   end
 
+  if set -q VIRTUAL_ENV
+    set_color blue
+    printf (basename "$VIRTUAL_ENV")":"
+  end
+
   set_color $fish_color_cwd
   printf '%s' (prompt_pwd)
   set_color normal
@@ -123,3 +128,12 @@ function fish_user_key_bindings
     bind \ej fzf-cd-widget
   end
 end
+
+eval (python2 -m virtualfish)
+
+if command -q -s direnv
+  eval (direnv hook fish)
+end
+
+# OPAM configuration
+#eval (opam config env)

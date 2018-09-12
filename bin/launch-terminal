@@ -1,4 +1,4 @@
 #!/usr/bin/env bash
 set -x
 export PWNTOOLS=1
-exec $TERMINAL -e sh -c "$*"
+exec st -e sh -c "$*"

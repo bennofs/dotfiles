@@ -1,0 +1,11 @@
+[Unit]
+Description=Emacs daemon
+Requires=init-global.service
+After=init-global.service
+[Service]
+ExecStart=/usr/bin/emacs --daemon
+Type=forking
+Restart=always
+EnvironmentFile=%t/env/global
+[Install]
+WantedBy=default.target

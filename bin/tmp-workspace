@@ -3,8 +3,27 @@
 tmp=$(mktemp -d --tmpdir "workspace.XXXXXXXX")
 trap "rm -r $tmp" EXIT
 
+# some common templates
 echo "#!/usr/bin/env bash" > $tmp/script.sh
 chmod +x $tmp/script.sh
+
+cat > $tmp/Makefile <<'EOF'
+OBJS = main.o
+CFLAGS = -Wall -Wextra
+main: $(OBJS)
+	gcc $(OBJS) $(CFLAGS) -o main
+EOF
+
+cat > $tmp/main.c <<EOF
+#include <stdlib.h>
+#include <unistd.h>
+#include <stdio.h>
+#include <string.h>
+
+int main(int argc, char** argv) {
+  (void)argc; (void)argv;
+}
+EOF
 
 cd $tmp
 env NIX_SHELL_PROJECT=tmp $SHELL

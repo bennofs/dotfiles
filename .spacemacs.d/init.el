@@ -30,7 +30,9 @@ values."
    dotspacemacs-configuration-layer-path '("~/.spacemacs.d")
    ;; List of configuration layers to load.
    dotspacemacs-configuration-layers
-   `(perl5
+   `(systemd
+     go
+     perl5
      asciidoc
      sql
      d
@@ -40,9 +42,17 @@ values."
      csv
      (colors :variables colors-colorize-identifiers 'variables)
      cscope
+     csharp
      docker
      emacs-lisp
-     extra-langs
+     (erc :variables
+          erc-enable-sasl-auth t
+          erc-server-list
+          '(("irc.freenode.net"
+             :port "6697"
+             :ssl t
+             :nick "bennofs")))
+     major-modes
      git
      github
      (haskell :variables haskell-completion-backend 'company-ghci)
@@ -70,6 +80,7 @@ values."
      vimscript
      yaml
      ycmd
+     cmake
      )
    ;; List of additional packages that will be installed without being
    ;; wrapped in a layer. If you need some configuration for these
@@ -83,6 +94,8 @@ values."
      yasnippet-snippets
      bison-mode
      nasm-mode
+     dtrt-indent
+     eziam-theme
      )
    ;; A list of packages that cannot be updated.
    dotspacemacs-frozen-packages '()
@@ -160,16 +173,24 @@ values."
    ;; List of themes, the first of the list is loaded when spacemacs starts.
    ;; Press <SPC> T n to cycle to the next theme in the list (works great
    ;; with 2 themes variants, one dark and one light)
-   dotspacemacs-themes '(solarized-light solarized-dark)
+   dotspacemacs-themes '(eziam-light solarized-light solarized-dark)
+   ;; Set the theme for the Spaceline. Supported themes are `spacemacs',
+   ;; `all-the-icons', `custom', `vim-powerline' and `vanilla'. The first three
+   ;; are spaceline themes. `vanilla' is default Emacs mode-line. `custom' is a
+   ;; user defined themes, refer to the DOCUMENTATION.org for more info on how
+   ;; to create your own spaceline theme. Value can be a symbol or list with\
+   ;; additional properties.
+   ;; (default '(spacemacs :separator wave :separator-scale 1.5))
+   dotspacemacs-mode-line-theme '(spacemacs :separator arrow :separator-scale 1.0)
    ;; If non nil the cursor color matches the state color in GUI Emacs.
    dotspacemacs-colorize-cursor-according-to-state t
    ;; Default font, or prioritized list of fonts. `powerline-scale' allows to
    ;; quickly tweak the mode-line size to make separators look not too crappy.
-   dotspacemacs-default-font '("Source Code Pro"
+   dotspacemacs-default-font '("SourceCodePro Nerd Font"
                                :size 13
                                :weight Regular
                                :width normal
-                               :powerline-scale 1.2)
+                               :powerline-scale 1.5)
    ;; The leader key
    dotspacemacs-leader-key "SPC"
    ;; The key used for Emacs commands (M-x) (after pressing on the leader key).
@@ -332,10 +353,14 @@ before packages are loaded. If you are unsure, you should try in setting them in
   (setq-default solarized-distinct-fringe-background nil)
   (setq-default solarized-high-contrast-mode-line t)
   (setq-default spacemacs--fallback-theme 'spacemacs-light)
+  (setq-default eziam-scale-headings nil)
+  (setq-default eziam-scale-other nil)
 
   (custom-theme-set-faces
    'user
-   '(sp-show-pair-match-face ((t (:foreground "dark blue" :weight bold :underline t))) t))
+   '(sp-show-pair-match-face ((t (:foreground "dark blue" :weight bold :underline t))) t)
+   '(helm-minibuffer-prompt ((t (:foreground "yellow")))))
+
 
   ;; Disable clipboard manager (for wayland support)
   (setq-default x-select-enable-clipboard-manager nil)
@@ -459,4 +484,27 @@ you should place your code here."
   (setq-default persp-init-frame-behaviour #'dotspacemacs//init-persp-frame-hook)
   (setq-default persp-autokill-buffer-on-remove t)
   (setq-default magit-diff-refine-hunk t)
+
+  ;; configure erc
+  (setq-default erc-hide-list '("JOIN" "PART" "QUIT"))
+
+  (with-eval-after-load 'org
+    (load-file "~/.spacemacs.d/writeup-template.el")
+    (setq templates '((writeup . org-template-writeup)))
+
+    (defun hook-org-document-theme (plist backend)
+      (let* ((template-name (org-entry-get nil "template" t))
+             (template (and template-name (assq (intern template-name) templates))))
+        (when template (org-combine-plists plist (funcall (cdr template) plist)))))
+    (setq org-export-filter-options-functions nil)
+    (add-to-list 'org-export-filter-options-functions #'hook-org-document-theme))
+
+  (dtrt-indent-global-mode 1)
+
+  ;; some c/c++ style customization
+  (defun c-c++-style-hook ()
+    (c-set-offset 'inlambda 0)
+    (c-set-offset 'access-label '/))
+  (add-hook 'c-mode-hook 'c-c++-style-hook)
+  (add-hook 'c++-mode-hook 'c-c++-style-hook)
 ) 

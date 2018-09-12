@@ -9,14 +9,36 @@
 !/.gitconfig
 
 !/.config
+/.config/GIMP
+/.config/QDirStat
+/.config/QtProject.conf
+/.config/Signal
+/.config/Trolltech.conf
 /.config/dconf
+/.config/direnv
 /.config/gconf
+/.config/gtk-2.0
+/.config/gtk-3.0
+/.config/hub
+/.config/jd-gui.cfg
+/.config/keepassxc
+/.config/libvirt
+/.config/pavucontrol.ini
+/.config/pulse
+/.config/remmina
+/.config/syncthing
+/.config/htop
+/.config/spicy
+/.config/spotify
+/.config/virt-viewer
+/.config/radare2
+/.config/inkscape
 
-!/.config/Code
-/.config/Code/*
-!/.config/Code/User
-/.config/Code/User/*
-!/.config/Code/User/settings.json
+/.config/yay/yay_vcs.json
+
+
+/.config/wireshark/*
+!/.config/wireshark/plugins
 
 /.config/fish/fish_history
 /.config/fish/fish_read_history
@@ -44,6 +66,7 @@
 !/.spacemacs.d
 /.spacemacs.d/customize.el
 /.spacemacs.d/.gdb_history
+/.spacemacs.d/.spacemacs.env
 
 !/.themplate
 

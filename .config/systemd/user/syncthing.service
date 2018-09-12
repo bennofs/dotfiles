@@ -1,0 +1,8 @@
+[Unit]
+Description=Syncthing daemon
+[Service]
+ExecStart=/usr/bin/syncthing -no-browser
+Restart=always
+Environment=STNODEFAULTFOLDER=1
+[Install]
+WantedBy=default.target

@@ -14,14 +14,13 @@ Plug 'kchmck/vim-coffee-script'
 Plug '~/.config/nvim/nix'
 call plug#end()
 
-let g:solarized_termtrans=1
 set background="light"
 colorscheme solarized
 
 set hidden autoindent number backspace=indent colorcolumn=100 modeline
 set expandtab tabstop=2 shiftwidth=2
 
-let g:airline_theme='solarized'
+let g:airline_theme='base16'
 let g:airline_powerline_fonts=1
 
 let g:syntastic_always_populate_loc_list = 1
@@ -41,3 +40,6 @@ set grepprg=ag\ --nogroup\ --nocolor
 let g:ctrlp_user_command = 'rg %s --files --color never'
 
 map <MiddleMouse> <Nop>
+
+" save file as root
+cmap w!! w !sudo tee > /dev/null %

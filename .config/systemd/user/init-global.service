@@ -1,0 +1,6 @@
+[Unit]
+Description=Global initialization that should be done before every other unit
+[Service]
+Type=oneshot
+RemainAfterExit=true
+ExecStart=/home/.config/systemd/scripts/init-global.sh

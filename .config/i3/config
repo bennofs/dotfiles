@@ -23,7 +23,6 @@ bindsym $mod+p exec --no-startup-id i3-dmenu-desktop
 bindsym $mod+Shift+c reload
 bindsym $mod+Shift+r restart
 bindsym $mod+Shift+q exec "i3-msg exit"
-bindsym $mod+y exec "bash -c 'xsel -ob | xdotool sleep 0.2 type --clearmodifiers --file -'"
 
 # Window actions
 bindsym $mod+d kill
@@ -44,6 +43,7 @@ bindsym $mod+Right focus right
 
 bindsym $mod+space focus mode_toggle
 bindsym $mod+a focus parent
+bindsym $mod+y focus child
 
 # Move windows
 bindsym $mod+Shift+h move left

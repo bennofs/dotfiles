@@ -26,3 +26,4 @@ nix
 /cscope.files
 /cscope.out
 .ycm_extra_flags
+compile_commands.json
