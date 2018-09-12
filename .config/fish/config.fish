@@ -136,4 +136,4 @@ if command -q -s direnv
 end
 
 # OPAM configuration
-#eval (opam config env)
+eval (opam config env)
