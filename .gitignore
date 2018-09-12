@@ -19,20 +19,20 @@
 /.config/gconf
 /.config/gtk-2.0
 /.config/gtk-3.0
+/.config/htop
 /.config/hub
+/.config/inkscape
 /.config/jd-gui.cfg
 /.config/keepassxc
 /.config/libvirt
 /.config/pavucontrol.ini
 /.config/pulse
+/.config/radare2
 /.config/remmina
-/.config/syncthing
-/.config/htop
 /.config/spicy
 /.config/spotify
+/.config/syncthing
 /.config/virt-viewer
-/.config/radare2
-/.config/inkscape
 
 /.config/yay/yay_vcs.json
 
