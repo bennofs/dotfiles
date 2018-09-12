@@ -24,6 +24,7 @@
 /.config/inkscape
 /.config/jd-gui.cfg
 /.config/keepassxc
+/.config/libreoffice
 /.config/libvirt
 /.config/pavucontrol.ini
 /.config/pulse
@@ -91,7 +92,9 @@
 !/bin
 !/.nixpkgs
 
-
 !/.pwn.conf
 !/.gdbinit
 !/.pwn.gdbinit
+
+!/.parallel
+/.parallel/tmp
