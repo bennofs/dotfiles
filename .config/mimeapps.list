@@ -17,9 +17,6 @@ x-scheme-handler/mailto=thunderbird.desktop
 message/rfc822=thunderbird.desktop
 
 [Added Associations]
-x-scheme-handler/http=firefox.desktop;
-x-scheme-handler/https=firefox.desktop;
-text/html=firefox.desktop;
 text/x-diff=emacs.desktop;
 application/pdf=zathura.desktop;
 x-scheme-handler/mailto=thunderbird.desktop;
