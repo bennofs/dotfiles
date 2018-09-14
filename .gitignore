@@ -14,8 +14,10 @@
 /.config/QtProject.conf
 /.config/Signal
 /.config/Trolltech.conf
+/.config/configstore
 /.config/dconf
 /.config/direnv
+/.config/discord
 /.config/gconf
 /.config/gtk-2.0
 /.config/gtk-3.0
@@ -26,6 +28,7 @@
 /.config/keepassxc
 /.config/libreoffice
 /.config/libvirt
+/.config/menus
 /.config/pavucontrol.ini
 /.config/pulse
 /.config/radare2
