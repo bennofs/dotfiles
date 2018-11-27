@@ -41,7 +41,7 @@ font-0 = SauceCodePro Nerd Font:style=Regular:pixelsize=11
 font-1 = SauceCodePro Nerd Font:style=Bold:pixelsize=11
 
 modules-left = i3 xwindow
-modules-center = mpd
+modules-center = 
 modules-right = filesystem backlight-acpi memory cpu wlan eth battery date powermenu
 
 tray-position = right
@@ -294,7 +294,7 @@ menu-2-1-exec = menu-open-0
 
 [settings]
 screenchange-reload = true
-compositing-background = over
+;compositing-background = over
 pseudo-transparency = true
 ;compositing-background = screen
 ;compositing-foreground = source

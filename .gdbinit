@@ -13,12 +13,16 @@ add-auto-load-safe-path /code/34c3ctf/primepwn_files/.gdbinit
 add-auto-load-safe-path /code/plaidctf18/
 add-auto-load-safe-path /code/defcon18/note-oriented/.gdbinit
 add-auto-load-safe-path /code/rwctf18/kid_vm/.gdbinit
+add-auto-load-safe-path /code/ecsc/kvm/.gdbinit
+add-auto-load-safe-path /code/ecsc/fast-storage/.gdbinit
+add-auto-load-safe-path /code/ctf/abyss/.gdbinit
+add-auto-load-safe-path /code/selma/lab/rootfs/lib/i386-linux-gnu/libthread_db-1.0.so
+add-auto-load-safe-path /code/selma/lab/.gdbinit
 directory /code/glibc/malloc
 directory /code/glibc/elf
 directory $cwd
 directory $cdir
-
-set sysroot /
+set sysroot target:
 
 python
 import os

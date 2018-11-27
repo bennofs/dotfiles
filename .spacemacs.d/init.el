@@ -31,8 +31,10 @@ values."
    ;; List of configuration layers to load.
    dotspacemacs-configuration-layers
    `(systemd
-     go
+     (go :variables go-tab-width 4 godoc-at-point-function 'godoc-gogetdoc)
+     react
      perl5
+     protobuf
      asciidoc
      sql
      d
