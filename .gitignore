@@ -7,6 +7,9 @@
 !/.git-templates
 !/.git-commit-template
 !/.gitconfig
+!/.bash_profile
+!/.profile
+!/.pam_environment
 
 !/.config
 /.config/GIMP
