@@ -20,6 +20,8 @@ add-auto-load-safe-path /code/selma/lab/rootfs/lib/i386-linux-gnu/libthread_db-1
 add-auto-load-safe-path /code/selma/lab/.gdbinit
 directory /code/glibc/malloc
 directory /code/glibc/elf
+#directory /code/arch-core/fontconfig/repos/extra-x86_64/src/fontconfig/src/
+#directory /code/arch-core/pango/repos/extra-x86_64/src/pango/pango
 directory $cwd
 directory $cdir
 set sysroot target:

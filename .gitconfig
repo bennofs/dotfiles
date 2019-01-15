@@ -29,6 +29,7 @@
 	path = /home/.gitconfig-private
 [github]
 	user = bennofs
+	oauth-token = xx
 [http]
 	sslVerify = true
 [filter "lfs"]

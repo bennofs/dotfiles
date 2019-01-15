@@ -27,5 +27,5 @@ text/x-python=emacs.desktop;
 x-scheme-handler/http=firefox.desktop;
 x-scheme-handler/https=firefox.desktop;
 text/html=firefox.desktop;
-application/force-download=inkscape.desktop;
+application/force-download=emacs.desktop;inkscape.desktop;
 text/xml=emacs.desktop;

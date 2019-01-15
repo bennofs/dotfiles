@@ -47,7 +47,6 @@ modules-right = filesystem backlight-acpi memory cpu wlan eth battery date power
 tray-position = right
 tray-padding = 2
 tray-background = ${root.background}
-tray-transparent = true
 
 [module/xwindow]
 type = internal/xwindow
@@ -162,7 +161,7 @@ label = %percentage_used%%
 
 [module/wlan]
 type = internal/network
-interface = wlp4s0
+interface = wl
 interval = 3.0
 
 format-connected = <label-connected>
@@ -180,7 +179,7 @@ ramp-signal-foreground = ${colors.foreground-alt}
 
 [module/eth]
 type = internal/network
-interface = enp0s31f6
+interface = en
 interval = 3.0
 
 format-connected-underline = #55aa55
