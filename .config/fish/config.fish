@@ -136,3 +136,11 @@ eval (python2 -m virtualfish)
 if command -q -s direnv
   eval (direnv hook fish)
 end
+
+if command -q -s opam
+  eval (opam env)
+end
+
+if command -q -s kitty
+    kitty + complete setup fish | source
+end

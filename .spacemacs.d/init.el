@@ -63,7 +63,6 @@ values."
      lua
      markdown
      nixos
-     nlinum
      ocaml
      org
      perl6
@@ -375,6 +374,9 @@ before packages are loaded. If you are unsure, you should try in setting them in
 
   ;; configure ycmd
   (setq-default ycmd-server-command (list "python" (file-truename "/code/ycmd/ycmd")))
+
+  ;; Use nix-indent-line instead of indent-relative, as it works better
+  (setq-default nix-indent-function 'nix-indent-line)
   )
 
 (defun dotspacemacs//init-persp-frame-hook (frame &optional new-frame-p)
@@ -468,8 +470,8 @@ you should place your code here."
       (setq evil-insert-vcount nil)
       (evil-insert-state 1)))
 
-  (define-key evil-normal-state-map "o" #'spacemacs/evil-open-below)
-  (define-key evil-normal-state-map "O" #'spacemacs/evil-open-above)
+  ;; (define-key evil-normal-state-map "o" #'spacemacs/evil-open-below)
+  ;; (define-key evil-normal-state-map "O" #'spacemacs/evil-open-above)
 
   ;; configure magithub to use the same token as the gh.el library
   (use-package gh
