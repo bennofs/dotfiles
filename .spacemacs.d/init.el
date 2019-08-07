@@ -30,7 +30,12 @@ values."
    dotspacemacs-configuration-layer-path '("~/.spacemacs.d")
    ;; List of configuration layers to load.
    dotspacemacs-configuration-layers
-   `(systemd
+   `(swift
+     nginx
+     windows-scripts
+     graphviz
+     (latex :variables latex-enable-auto-fill nil)
+     systemd
      (go :variables go-tab-width 4 godoc-at-point-function 'godoc-gogetdoc)
      react
      perl5
@@ -42,7 +47,7 @@ values."
      auto-completion
      (c-c++ :variables c-c++-default-mode-for-headers 'c++-mode)
      csv
-     (colors :variables colors-colorize-identifiers 'variables)
+     (colors :variables colors-colorize-identifiers 'all)
      cscope
      csharp
      docker
@@ -61,7 +66,7 @@ values."
      helm
      html
      lua
-     markdown
+     (markdown :variables markdown-live-preview-engine 'vmd)
      nixos
      ocaml
      org
@@ -82,22 +87,24 @@ values."
      yaml
      ycmd
      cmake
+     pdf
+     dash
+     semantic-web
+     bibtex
      )
    ;; List of additional packages that will be installed without being
    ;; wrapped in a layer. If you need some configuration for these
    ;; packages, then consider creating a layer. You can also put the
    ;; configuration in `dotspacemacs/user-config'.
    dotspacemacs-additional-packages
-   '(
-     all-the-icons
+   '(all-the-icons
      evil-smartparens
      ob-ipython
      yasnippet-snippets
      bison-mode
      nasm-mode
      dtrt-indent
-     eziam-theme
-     )
+     eziam-theme)
    ;; A list of packages that cannot be updated.
    dotspacemacs-frozen-packages '()
    ;; A list of packages that will not be installed and loaded.
@@ -187,7 +194,7 @@ values."
    dotspacemacs-colorize-cursor-according-to-state t
    ;; Default font, or prioritized list of fonts. `powerline-scale' allows to
    ;; quickly tweak the mode-line size to make separators look not too crappy.
-   dotspacemacs-default-font '("SourceCodePro Nerd Font"
+   dotspacemacs-default-font '("Fira Mono"
                                :size 13
                                :weight Regular
                                :width normal
@@ -382,6 +389,11 @@ before packages are loaded. If you are unsure, you should try in setting them in
 (defun dotspacemacs//init-persp-frame-hook (frame &optional new-frame-p)
 )
 
+(defun dotspacemacs//dired-xdg-open ()
+  (interactive)
+  (dolist (file (dired-get-marked-files nil current-prefix-arg))
+    (start-process "xdg-open" nil "xdg-open" file)))
+
 (defun dotspacemacs/user-config ()
   "Configuration function for user code.
 This function is called at the very end of Spacemacs initialization after
@@ -511,4 +523,65 @@ you should place your code here."
     (c-set-offset 'access-label '/))
   (add-hook 'c-mode-hook 'c-c++-style-hook)
   (add-hook 'c++-mode-hook 'c-c++-style-hook)
-) 
+
+  (setq rainbow-identifiers-faces-to-override '(font-lock-variable-name-face font-lock-function-name-face))
+
+  ;; after js2 mode finishes parsing, we want to update colors as fast as possible
+  ;; to do so, call font-lock-flush which triggers rainbow identifier colors again
+  (setq-default js2-parse-finished-hook '(font-lock-flush))
+
+  ;; more keywords for org-mode
+  (use-package org-projectile
+    :config
+    (message "org projectile config init.el")
+    (setq-default
+     org-todo-keywords '((sequence "IDEA(i)" "TODO(t)" "STARTED(s)" "NEXT(n)" "WAIT(w)" "REPLY(r)" "|" "DONE(d)")
+                         (sequence "|" "CANCELED(c)" "DELEGATED(d)" "FUTURE(f)"))
+     org-default-notes-file "/data/share/projects.org"
+     org-agenda-files '("/data/share/projects.org")
+     org-agenda-sorting-strategy
+     '((agenda habit-down time-up todo-state-down priority-down category-keep)
+       (todo priority-down todo-state-down category-keep)
+       (tags priority-down category-keep)
+       (search category-keep))
+     org-projectile-file "/data/share/projects.org"
+     org-capture-templates
+     `(,(org-projectile-project-todo-entry)
+       ("t" "todo task" entry (file+headline "" "tasks") "** TODO %?" :prepend t)
+       ("r" "reply task" entry (file+headline "" "tasks") "** REPLY %?" :prepend t)
+       ("A" "Ascii mail" entry (file+headline "" "ascii") "** REPLY %?" :prepend t)
+       ("a" "Ascii VoSI" entry (file+headline "" "VoSI TOPs") "*** %?"))
+     org-todo-keyword-faces
+     '(("TODO" . (:foreground "#cc9393" :background nil :weight bold))
+       ("DONE" . (:foreground "#afd8af" :background nil :weight bold))
+       ("NEXT" . (:foreground "#dca3a3" :background nil :weight bold)))))
+
+  ;; workaround for https://debbugs.gnu.org/cgi/bugreport.cgi?bug=34341
+  (setq gnutls-algorithm-priority "NORMAL:-VERS-TLS1.3")
+
+  ;; dash config
+  (setq dash-docs-browser-func 'eww)
+
+  ;; dired additions
+  (define-key dired-mode-map "ä" 'dired-xdg-open)
+
+  (defun fix-mode-line (orig-fun)
+    17)
+  (advice-add 'spacemacs/compute-mode-line-height :around #'fix-mode-line)
+
+  (with-eval-after-load 'tramp
+    (let ((sshx (assoc "sshx" tramp-methods)))
+      (add-to-list 'tramp-methods `("s" . ,(cdr sshx)))))
+
+  (setq-default TeX-view-program-selection
+                '(((output-dvi has-no-display-manager)
+                   "dvi2tty")
+                  ((output-dvi style-pstricks)
+                   "dvips and gv")
+                  (output-dvi "xdvi")
+                  (output-pdf "PDF Tools")
+                  (output-html "xdg-open")))
+  (eval-after-load "tex" '(add-to-list 'TeX-command-list '("Make" "make" TeX-run-compile nil t)))
+  (add-hook 'pdf-view-mode-hook 'auto-revert-mode)
+
+  )
