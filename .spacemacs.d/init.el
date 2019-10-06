@@ -571,7 +571,8 @@ you should place your code here."
 
   (with-eval-after-load 'tramp
     (let ((sshx (assoc "sshx" tramp-methods)))
-      (add-to-list 'tramp-methods `("s" . ,(cdr sshx)))))
+      (add-to-list 'tramp-methods `("s" . ,(cdr sshx)))
+      (add-to-list 'tramp-default-proxies-alist '("\\`wmf\\'" "\\`tools.*" "/ssh:wmf:"))))
 
   (setq-default TeX-view-program-selection
                 '(((output-dvi has-no-display-manager)

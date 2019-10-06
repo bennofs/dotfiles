@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+read exphash < /code/key.argon2
+inphash=$(echo -e "SETPROMPT gpg2 pass check: \nGETPIN" | pinentry | sed -nre 's/^D //p' | tr -d '\n' | argon2 gpg2pass -e)
+
+if [[ "$exphash" = "$inphash" ]]; then
+    echo "ok"
+else
+    echo "$exphash"
+    echo "$inphash"
+    kdialog --error "wrong"
+fi

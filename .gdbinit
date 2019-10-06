@@ -1,5 +1,8 @@
 #source /code/peda/peda.py
 #source ~/software/peda/peda.py
+add-auto-load-safe-path /code/rwctf19/accessible/.gdbinit
+add-auto-load-safe-path /code/rwctf19/hCorem/.gdbinit
+add-auto-load-safe-path /code/trendmicro19/y/files/.gdbinit
 add-auto-load-safe-path /code/kctf17/router/.gdbinit
 add-auto-load-safe-path /code/squarectf17/6yte/.gdbinit
 add-auto-load-safe-path /code/hacklu17/exam/.gdbinit
@@ -18,8 +21,8 @@ add-auto-load-safe-path /code/ecsc/fast-storage/.gdbinit
 add-auto-load-safe-path /code/ctf/abyss/.gdbinit
 add-auto-load-safe-path /code/selma/lab/rootfs/lib/i386-linux-gnu/libthread_db-1.0.so
 add-auto-load-safe-path /code/selma/lab/.gdbinit
-directory /code/glibc/malloc
-directory /code/glibc/elf
+directory /code/arch-pkgs/glibc/repos/core-x86_64/glibc-2.29/malloc
+directory /code/arch-pkgs/glibc/repos/core-x86_64/glibc-2.29/elf
 #directory /code/arch-core/fontconfig/repos/extra-x86_64/src/fontconfig/src/
 #directory /code/arch-core/pango/repos/extra-x86_64/src/pango/pango
 directory $cwd

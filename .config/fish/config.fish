@@ -1,5 +1,4 @@
 # fish git prompt
-
 set __fish_git_prompt_showdirtystate 'yes'
 set __fish_git_prompt_showstashstate 'yes'
 set __fish_git_prompt_showupstream 'yes'
@@ -94,6 +93,11 @@ make_completion gd "git diff"
 make_completion gup "git pull"
 make_completion gp "git push"
 
+# kitty aliases
+alias di="kitty kitten diff"
+alias sc="kitty kitten ssh"
+alias s="ssh"
+
 # Colorful commands
 function grc.wrap -a executable
   set executable $argv[1]
@@ -131,7 +135,8 @@ function fish_user_key_bindings
   end
 end
 
-eval (python2 -m virtualfish)
+# ensure MANPATH is set (fish and opam don't like empty manpath, leads to no manpages being found)
+set -x MANPATH (env MANPATH= manpath)
 
 if command -q -s direnv
   eval (direnv hook fish)
@@ -144,3 +149,10 @@ end
 if command -q -s kitty
     kitty + complete setup fish | source
 end
+
+source ~/.config/fish/asciii.fish
+
+alias play 'wpa_cli -i wl disable 0; wpa_cli -i wl enable 25'
+alias work 'wpa_cli -i wl enable 0; wpa_cli -i wl disable 25'
+alias o xdg-open
+alias prox="env SOCKS_AUTOADD_LANROUTES=no SOCKS4_SERVER=localhost:1888 socksify"

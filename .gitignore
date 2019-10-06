@@ -40,6 +40,14 @@
 /.config/spotify
 /.config/syncthing
 /.config/virt-viewer
+/.config/subfinder
+/.config/robolab
+/.config/freerdp
+/.config/keybase
+/.config/VirtualBox
+/.config/chromium
+/.config/Riot
+/.config/RadareOrg
 
 /.config/yay/yay_vcs.json
 

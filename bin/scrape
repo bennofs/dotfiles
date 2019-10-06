@@ -1,0 +1,24 @@
+#!/usr/bin/env python
+import requests
+import argparse
+from lxml import html
+
+def main(args):
+    response = requests.get(args.url)
+    response.raise_for_status()
+
+    doc = html.fromstring(response.text)
+    for match in doc.xpath(args.xpath):
+        try:
+            match = html.tostring(match).decode()
+        except TypeError:
+            pass
+        print(str(match))
+
+if __name__ == '__main__':
+    parser = argparse.ArgumentParser(description="scrape some HTML page using XPath")
+    parser.add_argument("url", metavar="URL", type=str, help="URL of the website to scrape")
+    parser.add_argument("xpath", metavar="EXPR", type=str, help="XPath to extract")
+
+    args = parser.parse_args()
+    main(args)

@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+TMP=$(mktemp -d)
+ln -s /usr/bin/python2 $TMP/python 
+export PATH="$TMP:$PATH"
+trap "rm -rf $TMP" EXIT
+$@
+

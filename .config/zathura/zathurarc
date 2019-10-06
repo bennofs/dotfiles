@@ -1,2 +1,3 @@
 set default-bg "#ffffff"
 set first-page-column 0
+set selection-clipboard clipboard

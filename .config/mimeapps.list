@@ -18,11 +18,11 @@ message/rfc822=userapp-Thunderbird-3SEXVZ.desktop
 
 [Added Associations]
 text/x-diff=emacs.desktop;
-application/pdf=zathura.desktop;
+application/pdf=org.pwmt.zathura.desktop;zathura.desktop;
 x-scheme-handler/mailto=thunderbird.desktop;userapp-Thunderbird-3SEXVZ.desktop;
 message/rfc822=thunderbird.desktop;userapp-Thunderbird-3SEXVZ.desktop;
 text/org=emacs.desktop;
-text/plain=emacs.desktop;
+text/plain=thunderbird.desktop;emacs.desktop;
 text/x-python=emacs.desktop;
 x-scheme-handler/http=firefox.desktop;
 x-scheme-handler/https=firefox.desktop;

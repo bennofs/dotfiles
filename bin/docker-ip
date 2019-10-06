@@ -1,3 +1,2 @@
 #!/usr/bin/env bash
-
-docker inspect --format '{{ .NetworkSettings.IPAddress }}' "$@"
+docker inspect $1 | jq -r '.[] | .NetworkSettings.IPAddress'

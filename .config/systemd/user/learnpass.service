@@ -1,0 +1,9 @@
+[Unit]
+Description=Run learnpass
+Requires=init-global.service
+After=init-global.service
+
+[Service]
+Type=oneshot
+ExecStart=/home/bin/learnpass
+EnvironmentFile=%t/env/global

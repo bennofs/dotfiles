@@ -1,0 +1,2 @@
+#!/usr/bin/env bash
+latexrun --bibtex-cmd biber --latex-cmd xelatex "$@"
