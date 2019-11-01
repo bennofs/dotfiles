@@ -21,10 +21,8 @@ add-auto-load-safe-path /code/ecsc/fast-storage/.gdbinit
 add-auto-load-safe-path /code/ctf/abyss/.gdbinit
 add-auto-load-safe-path /code/selma/lab/rootfs/lib/i386-linux-gnu/libthread_db-1.0.so
 add-auto-load-safe-path /code/selma/lab/.gdbinit
-directory /code/arch-pkgs/glibc/repos/core-x86_64/glibc-2.29/malloc
-directory /code/arch-pkgs/glibc/repos/core-x86_64/glibc-2.29/elf
-#directory /code/arch-core/fontconfig/repos/extra-x86_64/src/fontconfig/src/
-#directory /code/arch-core/pango/repos/extra-x86_64/src/pango/pango
+directory /store/src/glibc/malloc
+directory /store/src/glibc/elf
 directory $cwd
 directory $cdir
 set sysroot target:

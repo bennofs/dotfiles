@@ -72,7 +72,7 @@ values."
      org
      perl6
      php
-     python
+     (python :variables python-backend 'anaconda)
      ruby
      rust
      scala
@@ -584,5 +584,4 @@ you should place your code here."
                   (output-html "xdg-open")))
   (eval-after-load "tex" '(add-to-list 'TeX-command-list '("Make" "make" TeX-run-compile nil t)))
   (add-hook 'pdf-view-mode-hook 'auto-revert-mode)
-
   )

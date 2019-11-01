@@ -1,0 +1,10 @@
+[Unit]
+Description=Metasploit Database Service
+
+[Service]
+Type=forking
+ExecStart=msfdb --component database start
+ExecStop=msfdb --component database stop
+
+[Install]
+WantedBy=default.target

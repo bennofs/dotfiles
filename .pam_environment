@@ -1,4 +1,5 @@
-PATH DEFAULT=${PATH}:@{HOME}/bin:@{HOME}/.local/bin:@{HOME}/.cargo/bin:@{HOME}/.gem/ruby/2.5.0/bin
+PATH OVERRIDE=${PATH}:@{HOME}/bin:@{HOME}/.local/bin:@{HOME}/.cargo/bin:@{HOME}/.gem/ruby/2.5.0/bin
+SAVED_PATH DEFAULT=${PATH}
 EDITOR DEFAULT=emacsclient -c
 TERMINAL DEFAULT=kitty
 GOPATH DEFAULT=/code/go
