@@ -3,7 +3,7 @@
 ;; Place your private configuration here
 
 ;; theming
-(setq doom-theme 'eziam-light)
+(setq doom-theme 'doom-one-light)
 
 (use-package! eziam-theme
   :defer t
@@ -20,9 +20,57 @@
   (setq-default rainbow-identifiers-cie-l*a*b*-lightness 30)
   (setq-default rainbow-identifiers-faces-to-override '(font-lock-variable-name-face font-lock-function-name-face)))
 
-;; extra keybinds
+;; customize keybinds
 (map! :leader
-      "hj" #'find-function)
+      "hj" #'find-function
+      "tz" #'+hydra/text-zoom/body
+      "w." #'+hydra/window-nav/body)
+
+; we want <SPC> j for search (/ is hard to type)
+(define-key doom-leader-map (kbd "j") doom-leader-search-map)
+
+; alias ö and ä to [ and ] in vim movement keybindings
+(after! evil
+  (define-key evil-normal-state-map (kbd "ö") (lookup-key evil-normal-state-map (kbd "[")))
+  (define-key evil-normal-state-map (kbd "ä") (lookup-key evil-normal-state-map (kbd "]")))
+  (define-key evil-motion-state-map (kbd "ö") (lookup-key evil-motion-state-map (kbd "[")))
+  (define-key evil-motion-state-map (kbd "ä") (lookup-key evil-motion-state-map (kbd "]"))))
+
+; ü for jump
+(map! :n "ü" #'+lookup/definition)
+
+; hydra for multiple-cursors
+(defvar own--mc-hydra-frozen nil)
+(defun +own/exit-mc-hydra (&optional clear)
+  "Cleanup after evil multiple-cursors hydra"
+  (when clear (evil-mc-undo-all-cursors))
+  (setq evil-mc-frozen own--mc-hydra-frozen))
+(defun +own/enter-mc-hydra ()
+  "Activate the hydra for multiple cursors"
+  (interactive)
+  (setq own--mc-hydra-frozen (bound-and-true-p evil-mc-frozen))
+  (evil-mc-pause-cursors)
+  (+hydra/mc-set/body))
+
+(defhydra +hydra/mc-set (:color pink
+                         :post (progn
+                                 (setq evil-mc-frozen own--mc-hydra-frozen)))
+  "hydra for quickly adding multiple cursors"
+  ("<escape>" evil-mc-undo-all-cursors :color blue)
+  ("<SPC>" nil :color blue)
+  ("<RET>" nil :color blue)
+  ("d" evil-mc-make-and-goto-next-match)
+  ("D" evil-mc-make-and-goto-prev-match)
+  ("J" evil-mc-make-cursor-move-next-line)
+  ("K" evil-mc-make-cursor-move-prev-line)
+  ("n" evil-mc-make-and-goto-next-cursor)
+  ("N" evil-mc-make-and-goto-last-cursor)
+  ("p" evil-mc-make-and-goto-prev-cursor)
+  ("P" evil-mc-make-and-goto-first-cursor)
+  ("c" evil-mc-undo-all-cursors)
+  ("u" evil-mc-undo-last-added-cursor)
+  ("z" +multiple-cursors/evil-mc-make-cursor-here))
+(map! :n "gz." #'+own/enter-mc-hydra)
 
 ;; configure org
 (setq org-directory "/data/share/org")

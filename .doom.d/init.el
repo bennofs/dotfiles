@@ -7,6 +7,11 @@
 ;;
 ;; More information about these modules (and what flags they support) can be
 ;; found in modules/README.org.
+;;
+
+;; Set custom file to a different file so it can be ignored by git
+(setq custom-file (concat (dir!) "customize.el"))
+(when (file-exists-p custom-file) (load custom-file))
 
 (doom! :input
        ;;chinese
@@ -21,6 +26,7 @@
        doom-dashboard    ; a nifty splash screen for Emacs
        doom-quit         ; DOOM quit-message prompts when you quit Emacs
        hl-todo           ; highlight TODO/FIXME/NOTE/DEPRECATED/HACK/REVIEW
+       hydra             ; "microstates"
        ;;indent-guides     ; highlighted indent columns
        modeline          ; snazzy, Atom-inspired modeline, plus API
        nav-flash         ; blink the current line after jumping
@@ -163,17 +169,3 @@
        ;; provides a Spacemacs-inspired keybinding scheme and a smartparens
        ;; config. Use it as a reference for your own modules.
        (default +bindings +smartparens))
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(custom-safe-themes
-   (quote
-    ("728eda145ad16686d4bbb8e50d540563573592013b10c3e2defc493f390f7d83" default))))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
