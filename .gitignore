@@ -112,3 +112,5 @@
 
 !/.parallel
 /.parallel/tmp
+
+!/.doom.d

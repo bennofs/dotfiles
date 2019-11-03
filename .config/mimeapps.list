@@ -30,3 +30,4 @@ x-scheme-handler/https=firefox.desktop;
 text/html=firefox.desktop;
 application/force-download=emacs.desktop;inkscape.desktop;
 text/xml=emacs.desktop;
+text/x-vcard=gnvim.desktop;
