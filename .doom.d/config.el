@@ -29,8 +29,48 @@
 ; we want <SPC> j for search (/ is hard to type)
 (define-key doom-leader-map (kbd "j") doom-leader-search-map)
 
-; alias ö and ä to [ and ] in vim movement keybindings
+(defun +own/sp-get-sexp-around-point (count)
+  (let*
+      ((current-sexp (sp-get-sexp))
+       (new-count (if (= (sp-get current-sexp :beg) (point)) (- count 1) count)))
+    (if (= new-count 0) current-sexp (sp-get-enclosing-sexp new-count))))
+
 (after! evil
+  ; o/O should not continue comments
+  (setq +evil-want-o/O-to-continue-comments nil)
+
+
+  ; custom text objects/motions for working with pairs
+  (evil-define-motion evil-sp-forward-sexp (count)
+    (sp-forward-sexp count))
+
+  (evil-define-motion evil-sp-backward-sexp (count)
+    (sp-backward-sexp count))
+
+  (evil-define-motion evil-sp-up-sexp (count)
+    (sp-up-sexp count))
+
+  (evil-define-motion evil-sp-down-sexp (count)
+    (sp-down-sexp count))
+  (define-key evil-normal-state-map "gl" #'evil-sp-forward-sexp)
+  (define-key evil-normal-state-map "gh" #'evil-sp-backward-sexp)
+  (define-key evil-normal-state-map "gK" #'sp-kill-sexp)
+  (define-key evil-normal-state-map "gj" #'evil-sp-down-sexp)
+  (define-key evil-normal-state-map "gk" #'sp-backward-up-sexp)
+
+  (evil-define-text-object evil-sp-a-sexp (count &rest other-args)
+    "Text object for the enclosing sexp. With COUNT, use the COUNTth sexp up."
+    (sp-get (+own/sp-get-sexp-around-point count) (list :beg :end)))
+  (define-key evil-outer-text-objects-map "f" #'evil-sp-a-sexp)
+
+  (evil-define-text-object evil-sp-inner-sexp (count &rest other-args)
+    "Text object for the enclosing sexp, without delimiters. With COUNT, use the COUNTth sexp up."
+    (sp-get (+own/sp-get-sexp-around-point count) (list :beg-in :end-in)))
+
+  (map! :textobj "f" #'evil-sp-inner-sexp #'evil-sp-a-sexp)
+
+
+  ; alias ö and ä to [ and ] in vim movement keybindings
   (define-key evil-normal-state-map (kbd "ö") (lookup-key evil-normal-state-map (kbd "[")))
   (define-key evil-normal-state-map (kbd "ä") (lookup-key evil-normal-state-map (kbd "]")))
   (define-key evil-motion-state-map (kbd "ö") (lookup-key evil-motion-state-map (kbd "[")))
@@ -38,6 +78,12 @@
 
 ; ü for jump
 (map! :n "ü" #'+lookup/definition)
+
+; swap C-l and Tab in ivy (make Tab complete selected match, not longest prefix)
+(after! ivy
+  (define-key ivy-minibuffer-map (kbd "C-l") #'ivy-partial-or-done)
+  (define-key ivy-minibuffer-map (kbd "TAB") #'ivy-alt-done))
+
 
 ; hydra for multiple-cursors
 (defvar own--mc-hydra-frozen nil)
@@ -76,7 +122,8 @@
 (setq org-directory "/data/share/org")
 (after! org
   (setq-default
-   org-todo-keywords '((sequence "IDEA(i)" "TODO(t)" "STARTED(s)" "NEXT(n)" "WAIT(w)" "REPLY(r)" "|" "DONE(d)")
+   org-todo-keywords '((sequence "TODO(t)" "STARTED(s)" "NEXT(n)" "WAIT(w)" "REPLY(r)" "|" "DONE(d)")
+                       (type "IDEA(i)")
                        (sequence "|" "CANCELED(c)" "DELEGATED(d)" "FUTURE(f)"))
    org-default-notes-file "/data/share/projects.org"
    org-agenda-files '("/data/share/projects.org")
@@ -103,9 +150,12 @@
      ("A" "Ascii mail" entry (file+headline "" "ascii") "** REPLY %?" :prepend t)
      ("a" "Ascii VoSI" entry (file+headline "" "VoSI TOPs") "*** %?"))))
 
+; we want doom scratch buffer to use org-mode
+(setq-default doom-scratch-buffer-major-mode 'org-mode)
+
 ;; lang configurations
 ; disable lsp ui inline display of error messages (its too buggy)
-(setq lsp-ui-sideline-enable nil)
+(setq-default lsp-ui-sideline-enable nil)
 
 ; enable python version switching
 (defvar +python-interpreter-executable-history nil
