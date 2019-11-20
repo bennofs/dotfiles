@@ -21,6 +21,7 @@ add-auto-load-safe-path /code/ecsc/fast-storage/.gdbinit
 add-auto-load-safe-path /code/ctf/abyss/.gdbinit
 add-auto-load-safe-path /code/selma/lab/rootfs/lib/i386-linux-gnu/libthread_db-1.0.so
 add-auto-load-safe-path /code/selma/lab/.gdbinit
+add-auto-load-safe-path /code/dragon19/
 directory /store/src/glibc/malloc
 directory /store/src/glibc/elf
 directory $cwd

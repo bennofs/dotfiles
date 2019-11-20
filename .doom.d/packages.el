@@ -8,4 +8,5 @@
 
 (package! org-projectile)
 (package! eziam-theme)
+(package! tao-theme)
 (package! rainbow-identifiers)

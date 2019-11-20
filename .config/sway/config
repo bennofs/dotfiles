@@ -1,0 +1,121 @@
+# variables
+set $mod Mod4
+
+# io: inputs
+input type:keyboard {
+  xkb_layout "de"
+  xkb_variant "nodeadkeys"
+  xkb_options "ctrl:nocaps"
+}
+
+input type:touchpad {
+  tap enabled
+  natural_scroll enabled
+  middle_emulation enabled
+}
+
+# io: outputs
+output * {
+}
+
+output eDP-1 {
+  bg /home/.background.png center
+}
+
+# keys: launching
+bindsym $mod+Return exec sensible-terminal
+bindsym $mod+p exec bemenu-run
+bindsym $mod+shift+r reload
+
+# keys: workspaces
+bindsym $mod+1 workspace  1 main
+bindsym $mod+2 workspace  2 view
+bindsym $mod+3 workspace  3 eins
+bindsym $mod+4 workspace  4 zwei
+bindsym $mod+comma workspace 65 apps
+bindsym $mod+period workspace 66 chat
+bindsym $mod+minus workspace 67 rest
+
+# keys: move
+bindsym $mod+shift+1 move container to workspace 1
+bindsym $mod+shift+2 move container to workspace 2
+bindsym $mod+shift+3 move container to workspace 3
+bindsym $mod+shift+4 move container to workspace 4
+bindsym $mod+shift+comma move container to workspace 65
+bindsym $mod+shift+period move container to workspace 66
+bindsym $mod+shift+minus move container to workspace 67
+
+bindsym $mod+shift+h move left
+bindsym $mod+shift+j move down
+bindsym $mod+shift+k move up
+bindsym $mod+shift+l move right
+
+# keys: layout
+bindsym $mod+v splitv
+bindsym $mod+s splith
+bindsym $mod+f fullscreen
+bindsym $mod+w layout tabbed
+bindsym $mod+q layout stacked
+bindsym $mod+e layout default
+
+# keys: resize
+mode "resize" {
+  bindsym h resize shrink width 50px
+  bindsym l resize grow width 50px
+  bindsym j resize grow height 50px
+  bindsym k resize shrink height 50px
+  bindsym shift+h resize shrink width 10px
+  bindsym shift+l resize grow width 10px
+  bindsym shift+j resize grow height 10px
+  bindsym shift+k resize shrink height 10px
+
+  bindsym Return mode "default"
+  bindsym Escape mode "default"
+}
+bindsym $mod+r mode "resize"
+
+# keys: focus
+bindsym $mod+a focus parent
+bindsym $mod+shift+a focus child
+bindsym $mod+h focus left
+bindsym $mod+j focus down
+bindsym $mod+k focus up
+bindsym $mod+l focus right
+bindsym $mod+Mod1+h focus output left
+bindsym $mod+Mod1+j focus output down
+bindsym $mod+Mod1+k focus output up
+bindsym $mod+Mod1+l focus output right
+
+# keys: scratch window
+bindsym $mod+shift+b move to scratchpad
+bindsym $mod+b scratchpad show
+
+# keys: close/exit
+bindsym $mod+shift+q exit
+bindsym $mod+d kill
+
+# keys: floating
+floating_modifier Mod1
+
+# ui: general
+font Fira Code 10
+#default_border none
+#gaps inner 8px
+#gaps outer -8px
+default_border pixel 2
+hide_edge_borders smart
+
+# ui: colors
+#                       btitle  bg      text    indicator border
+client.focused          #FFFFFF #285577 #ffffff #4078f2ff #0f0f0f
+client.unfocused        #FFFFFF #0f0f0f #ffffff #f9f9f9ff #f9f9f9
+client.focused_inactive #FFFFFF #0f0f0f #ffffff #f9f9f9ff #f9f9f9
+client.urgent           #2f343a #900000 #ffffff #900000ff #900000
+client.placeholder      #000000 #0c0c0c #ffffff #000000ff #0c0c0c
+
+# misc: hardcore mode toggle
+xwayland enable
+include /etc/sway/config.d/*
+
+# exec: init commands
+exec --no-startup-id redshift -m wayland -O 3500 &

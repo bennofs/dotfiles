@@ -2,8 +2,12 @@
 
 ;; Place your private configuration here
 
+;; misc
+; no prompt on quit
+(setq confirm-kill-emacs nil)
+
 ;; theming
-(setq doom-theme 'doom-one-light)
+(setq doom-theme 'tao-one-light)
 
 (use-package! eziam-theme
   :defer t
@@ -122,7 +126,7 @@
 (setq org-directory "/data/share/org")
 (after! org
   (setq-default
-   org-todo-keywords '((sequence "TODO(t)" "STARTED(s)" "NEXT(n)" "WAIT(w)" "REPLY(r)" "|" "DONE(d)")
+   org-todo-keywords '((sequence "TODO(t)" "NEXT(n)" "STARTED(s)" "WAIT(w)" "REPLY(r)" "|" "DONE(d)")
                        (type "IDEA(i)")
                        (sequence "|" "CANCELED(c)" "DELEGATED(d)" "FUTURE(f)"))
    org-default-notes-file "/data/share/projects.org"
