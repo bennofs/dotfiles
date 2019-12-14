@@ -1,0 +1,55 @@
+#!/usr/bin/env bash
+
+set -e
+
+if git rev-parse --verify HEAD >/dev/null 2>&1
+then
+	against=HEAD
+else
+	# Initial commit: diff against an empty tree object
+	against=4b825dc642cb6eb9a060e54bf8d69288fbee4904
+fi
+
+exec 1>&2
+
+# If there are no changes, then we don't need to fix whitespace.
+#
+# We need to exit successfully here because this can happen if you run
+# git commit --amend to edit the commit message. If we didn't check
+# for this case here, then the script would find that the commit is
+# empty later and exit with a failure (to disallow empty commits).
+#
+# But because git already checks for empty commits by itself before
+# running pre-commit, we can be sure that the commit is fine if we
+# get here *and* there are no changes.
+if git diff --staged --quiet; then
+	exit 0
+fi
+
+# Note: exiting early here means that the commit hook doesn't fail
+# with git commit --amend when there are no changes
+
+# Fix whitespace (index [= cached/staged area])
+tmpdiff=$(mktemp)
+trap "rm -f $tmpdiff" EXIT
+git diff --cached --no-color -- $(cat $GIT_DIR/info/no-whitespace-files) > $tmpdiff
+if [ -s $tmpdiff ]; then # if the patch is empty, git apply fails
+  git apply --cached -R $tmpdiff
+  git apply --cached --whitespace=fix $tmpdiff 2>&1 | sed -e '/trailing whitespace.$/ { N; d }' -re '/warning: [[:digit:]]+ lines? applied after fixing whitespace errors./d'
+fi
+rm -f $tmpdiff
+trap - EXIT
+
+# Fix whitespace (working directory)
+tmpdiff=$(mktemp)
+trap "rm -f $tmpdiff" EXIT
+git diff --no-color -- $(cat $GIT_DIR/info/no-whitespace-files) > $tmpdiff
+if [ -s $tmpdiff ]; then # if the patch is empty, git apply fails
+  git apply -R $tmpdiff
+  git apply --whitespace=fix $tmpdiff 2>&1 | sed -e '/trailing whitespace.$/ { N; d }' -re '/warning: [[:digit:]]+ lines? applied after fixing whitespace errors./d'
+fi
+rm -f $tmpdiff
+trap - EXIT
+
+# Check that there are any changes left after whitespace fixing
+! git diff --cached --quiet || { echo "pre-commit: no changes to commit after fixing whitespace. exit"; exit 1; }
