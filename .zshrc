@@ -10,3 +10,5 @@ zstyle :compinstall filename '/home/.zshrc'
 autoload -Uz compinit
 compinit
 # End of lines added by compinstall
+
+source /home/.config/broot/launcher/bash/br

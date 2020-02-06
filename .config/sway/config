@@ -37,13 +37,13 @@ bindsym $mod+period workspace 66 chat
 bindsym $mod+minus workspace 67 rest
 
 # keys: move
-bindsym $mod+shift+1 move container to workspace 1
-bindsym $mod+shift+2 move container to workspace 2
-bindsym $mod+shift+3 move container to workspace 3
-bindsym $mod+shift+4 move container to workspace 4
-bindsym $mod+shift+comma move container to workspace 65
-bindsym $mod+shift+period move container to workspace 66
-bindsym $mod+shift+minus move container to workspace 67
+bindsym $mod+shift+1 move container to workspace 1 main
+bindsym $mod+shift+2 move container to workspace 2 view
+bindsym $mod+shift+3 move container to workspace 3 eins
+bindsym $mod+shift+4 move container to workspace 4 zwei
+bindsym $mod+shift+comma move container to workspace 65 apps
+bindsym $mod+shift+period move container to workspace 66 chat
+bindsym $mod+shift+minus move container to workspace 67 rest
 
 bindsym $mod+shift+h move left
 bindsym $mod+shift+j move down

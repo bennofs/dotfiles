@@ -13,6 +13,8 @@
 (setq custom-file (concat (dir!) "/customize.el"))
 (when (file-exists-p custom-file) (load custom-file))
 
+(setq-default lsp-clients-digestif-executable "/home/.luarocks/bin/digestif")
+
 (doom! :input
        ;;chinese
        ;;japanese
@@ -72,8 +74,6 @@
        editorconfig      ; let someone else argue about tabs vs spaces
        ;;ein               ; tame Jupyter notebooks with emacs
        (eval +overlay)     ; run code, run (also, repls)
-       (flycheck +childframe)          ; tasing you for every semicolon you forget
-       flyspell          ; tasing you for misspelling mispelling
        gist              ; interacting with github gists
        (lookup           ; helps you navigate your code and documentation
         +docsets)        ; ...or in Dash docsets locally
@@ -82,6 +82,10 @@
        ;;make              ; run make tasks from Emacs
        ;;pass              ; password manager for nerds
        pdf                 ; pdf enhancements
+
+       :checkers
+       (syntax +childframe)          ; tasing you for every semicolon you forget
+       spell          ; tasing you for misspelling mispelling
 
        :lang
        ;;agda              ; types of types of types of types...
@@ -111,11 +115,11 @@
        latex             ; writing papers in Emacs has never been so fun
        ;;lean
        ;;ledger            ; an accounting system in Emacs
-       ;;lua               ; one-based indices? one-based indices
+       lua               ; one-based indices? one-based indices
        markdown          ; writing docs for people to ignore
-       ;;nim               ; python + lisp at the speed of c
+       nim               ; python + lisp at the speed of c
        nix                ; I hereby declare "nix geht mehr!"
-       ;;ocaml             ; an objective camel
+       ocaml             ; an objective camel
        (org              ; organize your plain life in plain text
         +dragndrop       ; drag & drop files/images into org buffers
         ;;+hugo            ; use Emacs for hugo blogging
@@ -129,9 +133,9 @@
        ;;purescript        ; javascript, but functional
        (python +lsp)       ; beautiful is better than ugly
        ;;qt                ; the 'cutest' gui framework ever
-       ;;racket            ; a DSL for DSLs
+       racket            ; a DSL for DSLs
        ;;rest              ; Emacs as a REST client
-       ;;ruby              ; 1.step {|i| p "Ruby is #{i.even? ? 'love' : 'life'}"}
+       ruby              ; 1.step {|i| p "Ruby is #{i.even? ? 'love' : 'life'}"}
        (rust +lsp)              ; Fe2O3.unwrap().unwrap().unwrap().unwrap()
        ;;scala             ; java, but good
        ;;scheme            ; a fully conniving family of lisps

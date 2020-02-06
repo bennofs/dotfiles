@@ -48,6 +48,11 @@
 /.config/chromium
 /.config/Riot
 /.config/RadareOrg
+/.config/quassel-irc.org/
+/.config/quasselrc
+/.config/enchant
+/.config/evince
+/.config/yarn/global/node_modules
 
 /.config/yay/yay_vcs.json
 
@@ -114,3 +119,4 @@
 /.parallel/tmp
 
 !/.doom.d
+!/.git-hooks

@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+export GIT_DIR=$(git rev-parse --git-common-dir)
 
 set -e
 

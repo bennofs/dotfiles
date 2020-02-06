@@ -17,6 +17,7 @@
 
 (use-package! rainbow-identifiers
   :hook (prog-mode . rainbow-identifiers-mode)
+  :hook (promela-mode . rainbow-identifiers-mode)
   :commands (global-rainbow-identifiers-mode rainbow-identifiers-mode)
   :init
   (setq-default rainbow-identifiers-choose-face-function #'rainbow-identifiers-cie-l*a*b*-choose-face)
@@ -42,7 +43,6 @@
 (after! evil
   ; o/O should not continue comments
   (setq +evil-want-o/O-to-continue-comments nil)
-
 
   ; custom text objects/motions for working with pairs
   (evil-define-motion evil-sp-forward-sexp (count)
@@ -87,7 +87,6 @@
 (after! ivy
   (define-key ivy-minibuffer-map (kbd "C-l") #'ivy-partial-or-done)
   (define-key ivy-minibuffer-map (kbd "TAB") #'ivy-alt-done))
-
 
 ; hydra for multiple-cursors
 (defvar own--mc-hydra-frozen nil)
@@ -154,6 +153,34 @@
      ("A" "Ascii mail" entry (file+headline "" "ascii") "** REPLY %?" :prepend t)
      ("a" "Ascii VoSI" entry (file+headline "" "VoSI TOPs") "*** %?"))))
 
+(defun +org-present-init-hook ()
+  (doom-big-font-mode 1)
+  (setq-local display-line-numbers nil)
+  (org-toggle-pretty-entities)
+  (org-display-inline-images)
+  (hide-lines-matching "#\\+BEGIN_")
+  (hide-lines-matching "#\\+END_")
+  (org-present-beginning))
+
+(defun +org-present-quit-hook ()
+  (org-toggle-pretty-entities)
+  (doom-big-font-mode 0)
+  (org-remove-inline-images)
+  (hide-lines-show-all))
+
+(use-package! org-present
+  :after org
+  :bind (:map org-mode-map
+          ("<f7>" . org-present-mode))
+  :config
+  (map! :map org-present-mode-keymap
+        "<f7>" 'org-present-quit
+        "<f8>" 'org-present-prev
+        "<f9>" 'org-present-next)
+  (add-hook 'org-present-mode-hook #'+org-present-init-hook)
+  (add-hook 'org-present-mode-quit-hook #'+org-present-quit-hook)
+  )
+
 ; we want doom scratch buffer to use org-mode
 (setq-default doom-scratch-buffer-major-mode 'org-mode)
 
@@ -188,3 +215,15 @@
   (map! :map python-mode-map
         :localleader
         "p" #'+set-python-interpreter-executable))
+
+(use-package! promela-mode
+  :defer t
+  :mode "\\.promela$"
+  :mode "\\.spin$"
+  :mode "\\.pml$")
+
+; vereofy reo scripting language basic support
+(define-derived-mode vereofy-major-mode prog-mode
+  "vereofy"
+  (electric-indent-mode 9))
+(add-to-list 'auto-mode-alist '("\\.rsl\\'" . vereofy-major-mode))

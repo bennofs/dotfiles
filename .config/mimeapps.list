@@ -19,11 +19,11 @@ x-scheme-handler/sgnl=signal-desktop.desktop
 
 [Added Associations]
 text/x-diff=emacs.desktop;
-application/pdf=gimp.desktop;okularApplication_pdf.desktop;org.pwmt.zathura.desktop;zathura.desktop;
+application/pdf=org.pwmt.zathura.desktop;zathura.desktop;
 x-scheme-handler/mailto=thunderbird.desktop;userapp-Thunderbird-3SEXVZ.desktop;
 message/rfc822=thunderbird.desktop;userapp-Thunderbird-3SEXVZ.desktop;
 text/org=emacs.desktop;
-text/plain=thunderbird.desktop;emacs.desktop;
+text/plain=emacs.desktop;
 text/x-python=emacs.desktop;
 x-scheme-handler/http=firefox.desktop;
 x-scheme-handler/https=firefox.desktop;
@@ -31,3 +31,4 @@ text/html=firefox.desktop;
 application/force-download=emacs.desktop;inkscape.desktop;
 text/xml=emacs.desktop;
 text/x-vcard=gnvim.desktop;
+application/postscript=org.pwmt.zathura-ps.desktop;

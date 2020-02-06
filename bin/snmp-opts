@@ -1,0 +1,2 @@
+#!/usr/bin/bash
+exec snmptranslate -m ALL -Ts | fzf

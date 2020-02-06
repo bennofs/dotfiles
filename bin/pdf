@@ -1,2 +1,3 @@
 #!/usr/bin/env bash
-latexrun --bibtex-cmd biber --latex-cmd xelatex "$@"
+latexmk --output-directory=/tmp/latex.out -pdfxe "$@"
+

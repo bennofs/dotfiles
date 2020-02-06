@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+file=$(mktemp --suffix=".dot" )
+exec 3<>$file
+rm $file
+
+vereofy --input=$2 $@ --$1=/proc/self/fd/3
+
+echo "node count: $(grep -c 'shape=box' /proc/self/fd/3)"
+echo "edge count: $(grep -c '.->' /proc/self/fd/3)"
+
+xdot /proc/self/fd/3

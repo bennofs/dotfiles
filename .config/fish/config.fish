@@ -95,7 +95,7 @@ make_completion gp "git push"
 
 # kitty aliases
 alias di="kitty kitten diff"
-alias sc="kitty kitten ssh"
+alias sc="kitty-terminfo | ssh"
 alias s="ssh"
 
 # Colorful commands

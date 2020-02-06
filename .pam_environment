@@ -1,4 +1,4 @@
-PATH OVERRIDE=${PATH}:@{HOME}/bin:@{HOME}/.local/bin:@{HOME}/.cargo/bin:@{HOME}/.gem/ruby/2.5.0/bin
+PATH OVERRIDE=${PATH}:@{HOME}/bin:@{HOME}/.yarn/bin:@{HOME}/.local/bin:@{HOME}/.cargo/bin:@{HOME}/.gem/ruby/2.5.0/bin:/opt/fomu/bin
 SAVED_PATH DEFAULT=${PATH}
 EDITOR DEFAULT=emacsclient -c
 TERMINAL DEFAULT=alacritty
@@ -14,3 +14,5 @@ DOTNET_SKIP_FIRST_TIME_EXPERIENCE=1
 LS_COLORS=ow=01;32:tw=04;01;32:st=04;01;34:
 SHELL DEFAULT=fish
 EDITOR=vim
+LIBVIRT_DEFAULT_URI DEFAULT=qemu:///system
+ESPIDF DEFAULT=/opt/esp-idf
