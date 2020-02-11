@@ -53,6 +53,8 @@
 /.config/enchant
 /.config/evince
 /.config/yarn/global/node_modules
+/.config/binwalk
+/.config/SuperCollider
 
 /.config/yay/yay_vcs.json
 

@@ -21,3 +21,4 @@
          :branch "master"
          :files ("hide-lines.el"))
   :pin "291bc4cbb7")
+(package! graphviz-dot-mode :pin "0a4197d1c2")

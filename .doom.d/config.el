@@ -8,6 +8,7 @@
 
 ;; theming
 (setq doom-theme 'tao-one-light)
+(setq doom-font (font-spec :family "Source Code Pro" :size 10.0))
 
 (use-package! eziam-theme
   :defer t
@@ -28,11 +29,8 @@
 ;; customize keybinds
 (map! :leader
       "hj" #'find-function
-      "tz" #'+hydra/text-zoom/body
+      "wz" #'+hydra/text-zoom/body
       "w." #'+hydra/window-nav/body)
-
-; we want <SPC> j for search (/ is hard to type)
-(define-key doom-leader-map (kbd "j") doom-leader-search-map)
 
 (defun +own/sp-get-sexp-around-point (count)
   (let*
@@ -43,36 +41,6 @@
 (after! evil
   ; o/O should not continue comments
   (setq +evil-want-o/O-to-continue-comments nil)
-
-  ; custom text objects/motions for working with pairs
-  (evil-define-motion evil-sp-forward-sexp (count)
-    (sp-forward-sexp count))
-
-  (evil-define-motion evil-sp-backward-sexp (count)
-    (sp-backward-sexp count))
-
-  (evil-define-motion evil-sp-up-sexp (count)
-    (sp-up-sexp count))
-
-  (evil-define-motion evil-sp-down-sexp (count)
-    (sp-down-sexp count))
-  (define-key evil-normal-state-map "gl" #'evil-sp-forward-sexp)
-  (define-key evil-normal-state-map "gh" #'evil-sp-backward-sexp)
-  (define-key evil-normal-state-map "gK" #'sp-kill-sexp)
-  (define-key evil-normal-state-map "gj" #'evil-sp-down-sexp)
-  (define-key evil-normal-state-map "gk" #'sp-backward-up-sexp)
-
-  (evil-define-text-object evil-sp-a-sexp (count &rest other-args)
-    "Text object for the enclosing sexp. With COUNT, use the COUNTth sexp up."
-    (sp-get (+own/sp-get-sexp-around-point count) (list :beg :end)))
-  (define-key evil-outer-text-objects-map "f" #'evil-sp-a-sexp)
-
-  (evil-define-text-object evil-sp-inner-sexp (count &rest other-args)
-    "Text object for the enclosing sexp, without delimiters. With COUNT, use the COUNTth sexp up."
-    (sp-get (+own/sp-get-sexp-around-point count) (list :beg-in :end-in)))
-
-  (map! :textobj "f" #'evil-sp-inner-sexp #'evil-sp-a-sexp)
-
 
   ; alias ö and ä to [ and ] in vim movement keybindings
   (define-key evil-normal-state-map (kbd "ö") (lookup-key evil-normal-state-map (kbd "[")))
@@ -110,8 +78,10 @@
   ("<RET>" nil :color blue)
   ("d" evil-mc-make-and-goto-next-match)
   ("D" evil-mc-make-and-goto-prev-match)
-  ("J" evil-mc-make-cursor-move-next-line)
-  ("K" evil-mc-make-cursor-move-prev-line)
+  ("j" evil-mc-make-cursor-move-next-line)
+  ("k" evil-mc-make-cursor-move-prev-line)
+  ("J" evl-next-line)
+  ("K" evil-prev-line)
   ("n" evil-mc-make-and-goto-next-cursor)
   ("N" evil-mc-make-and-goto-last-cursor)
   ("p" evil-mc-make-and-goto-prev-cursor)
@@ -187,34 +157,6 @@
 ;; lang configurations
 ; disable lsp ui inline display of error messages (its too buggy)
 (setq-default lsp-ui-sideline-enable nil)
-
-; enable python version switching
-(defvar +python-interpreter-executable-history nil
-    "History list for recently selected python interpreters.")
-
-(defun +set-python-interpreter-executable (command)
-    "Set the python interpreter for the current buffer to the given executable."
-    (interactive
-     (list
-      (read-shell-command
-       "Python interpreter: " nil '+python-interpreter-executable-history "python"
-       )))
-    (setq-local python-shell-interpreter command)
-    (setq-local flycheck-python-pycompile-executable command)
-    (setq-local lsp-python-ms-python-executable-cmd command)
-    (when (= (length lsp--buffer-workspaces) 1)
-      (lsp-workspace-restart (nth 0 lsp--buffer-workspaces)))
-    (flycheck-buffer)
-    (doom-modeline-env-update-python)
-    (let
-        ((process (python-shell-get-process)))
-      (when (and process (y-or-n-p "Python interpreter already running. Kill currently running process?"))
-        (kill-process process))))
-
-(after! python
-  (map! :map python-mode-map
-        :localleader
-        "p" #'+set-python-interpreter-executable))
 
 (use-package! promela-mode
   :defer t
