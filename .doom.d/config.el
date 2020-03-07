@@ -111,6 +111,17 @@
      ("DONE" . (:foreground "#afd8af" :background nil :weight bold))
      ("NEXT" . (:foreground "#dca3a3" :background nil :weight bold)))))
 
+(after! parse-time
+  (setq-default
+   parse-time-weekdays (append parse-time-weekdays
+                               '(("mo" . 1)
+                                 ("di" . 2) ("tu" . 2)
+                                 ("mi" . 3) ("we" . 3)
+                                 ("th" . 4) ("do" . 4)
+                                 ("fr" . 5)
+                                 ("sa" . 6)
+                                 ("so" . 0) ("su" . 0)))))
+
 (use-package! org-projectile
   :after org-agenda
   :config
