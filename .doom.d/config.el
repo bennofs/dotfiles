@@ -161,8 +161,13 @@
 (setq-default doom-scratch-buffer-major-mode 'org-mode)
 
 ;; lang configurations
+
 ; disable lsp ui inline display of error messages (its too buggy)
 (setq-default lsp-ui-sideline-enable nil)
+
+; make the threshold a bit bigger (default is 1000)
+; even gnu coreutils repo has already >1k files
+(setq-default lsp-file-watch-threshold 15000)
 
 (use-package! promela-mode
   :defer t

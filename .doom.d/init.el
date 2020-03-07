@@ -34,6 +34,7 @@
        vc-gutter         ; vcs diff in the fringe
        vi-tilde-fringe   ; fringe tildes to mark beyond EOB
        window-select     ; visually switch windows
+       zen               ; write without distraction
 
        :editor
        (evil +everywhere); come to the dark side, we have cookies
@@ -75,7 +76,7 @@
        data              ; config/data formats
        emacs-lisp        ; drown in parentheses
        go                ; the hipster dialect
-       (java +meghanada) ; the poster child for carpal tunnel syndrome
+       (java +lsp)       ; the poster child for carpal tunnel syndrome
        javascript        ; all(hope(abandon(ye(who(enter(here))))))
        kotlin            ; a better, slicker Java(Script)
        latex             ; writing papers in Emacs has never been so fun
