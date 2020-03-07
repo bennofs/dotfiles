@@ -151,6 +151,12 @@
   (add-hook 'org-present-mode-quit-hook #'+org-present-quit-hook)
   )
 
+;; let's add some fruits to pomodoro notifications
+(defadvice! my--pomodoro-notify-a (orig-fn title message)
+  :around #'org-pomodoro-notify
+  (funcall orig-fn (concat "🍅 " title) message))
+
+
 ; we want doom scratch buffer to use org-mode
 (setq-default doom-scratch-buffer-major-mode 'org-mode)
 

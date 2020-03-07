@@ -88,6 +88,7 @@
         +dragndrop       ; drag & drop files/images into org buffers
         +ipython         ; ipython/jupyter support for babel
         +pandoc          ; export-with-pandoc support
+        +pomodoro
         +present)        ; using org-mode for presentations
        perl              ; write code no one else can comprehend
        php               ; perl's insecure younger brother
@@ -101,4 +102,5 @@
        ;; The default module sets reasonable defaults for Emacs. It also
        ;; provides a Spacemacs-inspired keybinding scheme and a smartparens
        ;; config. Use it as a reference for your own modules.
+       :config
        (default +bindings +smartparens))
