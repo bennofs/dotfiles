@@ -39,3 +39,8 @@
 	required = true
 [commit]
 	template = ~/.git-commit-template
+[sendemail]
+	smtpServer = smtp.googlemail.com
+	smtpEncryption = tls
+	smtpServerPort = 587
+	smtpUser = benno.fuenfstueck@gmail.com
