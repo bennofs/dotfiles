@@ -172,6 +172,9 @@
 (setq-default doom-scratch-buffer-major-mode 'org-mode)
 
 ;; lang configurations
+(setq-default rustic-lsp-server 'rust-analyzer)
+(setq-default lsp-rust-analyzer-cargo-watch-args ["--profile", "test"])
+(setq-default lsp-rust-analyzer-cargo-all-targets t)
 
 ; disable lsp ui inline display of error messages (its too buggy)
 (setq-default lsp-ui-sideline-enable nil)
