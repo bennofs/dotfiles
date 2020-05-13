@@ -16,6 +16,11 @@ application/pdf=org.pwmt.zathura.desktop
 x-scheme-handler/mailto=userapp-Thunderbird-3SEXVZ.desktop
 message/rfc822=userapp-Thunderbird-3SEXVZ.desktop
 x-scheme-handler/sgnl=signal-desktop.desktop
+x-scheme-handler/rdp=org.remmina.Remmina.desktop
+x-scheme-handler/spice=org.remmina.Remmina.desktop
+x-scheme-handler/vnc=org.remmina.Remmina.desktop
+x-scheme-handler/remmina=org.remmina.Remmina.desktop
+application/x-remmina=org.remmina.Remmina.desktop
 
 [Added Associations]
 text/x-diff=emacs.desktop;
@@ -32,3 +37,8 @@ application/force-download=emacs.desktop;inkscape.desktop;
 text/xml=emacs.desktop;
 text/x-vcard=gnvim.desktop;
 application/postscript=org.pwmt.zathura-ps.desktop;
+x-scheme-handler/rdp=org.remmina.Remmina.desktop;
+x-scheme-handler/spice=org.remmina.Remmina.desktop;
+x-scheme-handler/vnc=org.remmina.Remmina.desktop;
+x-scheme-handler/remmina=org.remmina.Remmina.desktop;
+application/x-remmina=org.remmina.Remmina.desktop;
