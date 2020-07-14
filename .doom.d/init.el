@@ -94,7 +94,7 @@
         +pandoc             ; export-with-pandoc support
         +pomodoro
         +present)           ; using org-mode for presentations
-       perl                 ; write code no one else can comprehend
+       raku                 ; write code no one else can comprehend
        php                  ; perl's insecure younger brother
        (python +lsp)        ; beautiful is better than ugly
        racket               ; a DSL for DSLs
