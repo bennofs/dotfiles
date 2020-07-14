@@ -5,6 +5,7 @@
 ;; misc
 ; no prompt on quit
 (setq confirm-kill-emacs nil)
+(setq make-backup-files t)
 
 ;; theming
 (setq doom-theme 'tao-one-light)
@@ -162,11 +163,16 @@
   (add-hook 'org-present-mode-quit-hook #'+org-present-quit-hook)
   )
 
+(setq bibtex-completion-notes-path "/data/share/notes/research.org")
+(setq bibtex-completion-library-path "/data/share/pdfs")
+(setq bibtex-completion-bibliography "/data/share/references.bib")
+(setq
+         (reftex-default-bibliography . ("/code/hauptseminar/ref.bib"))
+
 ;; let's add some fruits to pomodoro notifications
 (defadvice! my--pomodoro-notify-a (orig-fn title message)
   :around #'org-pomodoro-notify
   (funcall orig-fn (concat "🍅 " title) message))
-
 
 ; we want doom scratch buffer to use org-mode
 (setq-default doom-scratch-buffer-major-mode 'org-mode)
@@ -178,6 +184,9 @@
 
 ; disable lsp ui inline display of error messages (its too buggy)
 (setq-default lsp-ui-sideline-enable nil)
+
+; don't display documentation in lsp signatures by default
+(setq-default lsp-signature-doc-lines 0)
 
 ; make the threshold a bit bigger (default is 1000)
 ; even gnu coreutils repo has already >1k files

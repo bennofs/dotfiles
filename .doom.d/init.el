@@ -48,6 +48,7 @@
        dired                ; making dired pretty [functional]
        electric             ; smarter, keyword-based electric-indent
        ibuffer              ; interactive buffer management
+       undo
        vc                   ; version-control and Emacs, sitting in a tree
 
        :term
@@ -57,6 +58,7 @@
        ;;vterm             ; another terminals in Emacs
 
        :tools
+       biblio
        direnv
        editorconfig         ; let someone else argue about tabs vs spaces
        (eval +overlay)      ; run code, run (also, repls)
@@ -69,7 +71,7 @@
 
        :checkers
        (syntax +childframe) ; tasing you for every semicolon you forget
-       spell                ; tasing you for misspelling mispelling
+       ;spell                ; tasing you for misspelling mispelling TODO: disabled due to perf issues
 
        :lang
        (cc +lsp)            ; C/C++/Obj-C madness

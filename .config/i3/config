@@ -2,7 +2,8 @@
 #
 # Please see http://i3wm.org/docs/userguide.html for a complete reference!
 
-exec --no-startup-id feh --bg-center ~/.background.jpg
+#exec --no-startup-id feh --bg-center ~/.background.jpg
+exec --no-startup-id feh --bg-fill ~/.background.jpg
 exec --no-startup-id dunst -cto 4 -nto 2 -lto 1 -config /code/etc-nixos/conf/dunstrc
 exec --no-startup-id polybar default
 exec --no-startup-id udiskie --tray

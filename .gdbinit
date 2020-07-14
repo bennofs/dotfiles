@@ -24,6 +24,7 @@ add-auto-load-safe-path /code/selma/lab/.gdbinit
 add-auto-load-safe-path /code/dragon19/
 add-auto-load-safe-path /code/midnightsunctf20/
 add-auto-load-safe-path /code/cscg20/
+add-auto-load-safe-path /code/hackasat/
 directory /store/src/glibc/malloc
 directory /store/src/glibc/elf
 directory $cwd
