@@ -5,3 +5,5 @@ fi
 export SHELL=/usr/bin/fish
 
 source /home/.config/broot/launcher/bash/br
+
+complete -C /usr/bin/mcli mcli
