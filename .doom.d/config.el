@@ -166,8 +166,7 @@
 (setq bibtex-completion-notes-path "/data/share/notes/research.org")
 (setq bibtex-completion-library-path "/data/share/pdfs")
 (setq bibtex-completion-bibliography "/data/share/references.bib")
-(setq
-         (reftex-default-bibliography . ("/code/hauptseminar/ref.bib"))
+(setq reftex-default-bibliography "/code/hauptseminar/ref.bib")
 
 ;; let's add some fruits to pomodoro notifications
 (defadvice! my--pomodoro-notify-a (orig-fn title message)

@@ -1,3 +1,3 @@
 #!/usr/bin/env bash
 
-exec curl -v -F "f:1=<-" ix.io
+exec curl -F "f:1=<-" ix.io

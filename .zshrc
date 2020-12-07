@@ -12,3 +12,6 @@ compinit
 # End of lines added by compinstall
 
 source /home/.config/broot/launcher/bash/br
+
+autoload -U +X bashcompinit && bashcompinit
+complete -o nospace -C /usr/bin/mcli mcli

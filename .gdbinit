@@ -25,6 +25,10 @@ add-auto-load-safe-path /code/dragon19/
 add-auto-load-safe-path /code/midnightsunctf20/
 add-auto-load-safe-path /code/cscg20/
 add-auto-load-safe-path /code/hackasat/
+add-auto-load-safe-path /code/rlottie/build_dbg/.gdbinit
+add-auto-load-safe-path /code/rr/build/.gdbinit
+add-auto-load-safe-path /code/ALLESCTF2020
+add-auto-load-safe-path /code/csaw20-finals
 directory /store/src/glibc/malloc
 directory /store/src/glibc/elf
 directory $cwd

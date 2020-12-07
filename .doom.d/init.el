@@ -40,6 +40,7 @@
        (evil +everywhere)   ; come to the dark side, we have cookies
        file-templates       ; auto-snippets for empty files
        fold                 ; (nigh) universal code folding
+       format
        multiple-cursors     ; editing in many places at once
        rotate-text          ; cycle region at point between text candidates
        snippets             ; my elves. They type so I don't have to
@@ -58,6 +59,7 @@
        ;;vterm             ; another terminals in Emacs
 
        :tools
+       ansible
        biblio
        direnv
        editorconfig         ; let someone else argue about tabs vs spaces
@@ -101,6 +103,7 @@
        ruby                 ; 1.step {|i| p "Ruby is #{i.even? ? 'love' : 'life'}"}
        (rust +lsp)          ; Fe2O3.unwrap().unwrap().unwrap().unwrap()
        sh                   ; she sells {ba,z,fi}sh shells on the C xor
+       yaml
        web                  ; the tubes
 
                             ;; The default module sets reasonable defaults for Emacs. It also

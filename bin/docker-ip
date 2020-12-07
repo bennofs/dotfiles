@@ -1,2 +1,7 @@
 #!/usr/bin/env bash
-docker inspect $1 | jq -r '.[] | .NetworkSettings.IPAddress'
+id="$1"
+if [[ -z "$id" ]]; then
+	id=$(docker ps -n 1 -q)
+fi
+
+docker inspect "$id" | jq -r '.[] | .NetworkSettings.IPAddress'
