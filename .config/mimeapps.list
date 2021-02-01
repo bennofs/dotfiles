@@ -21,6 +21,7 @@ x-scheme-handler/spice=org.remmina.Remmina.desktop
 x-scheme-handler/vnc=org.remmina.Remmina.desktop
 x-scheme-handler/remmina=org.remmina.Remmina.desktop
 application/x-remmina=org.remmina.Remmina.desktop
+x-scheme-handler/tg=userapp-Telegram Desktop-XTI5W0.desktop
 
 [Added Associations]
 text/x-diff=emacs.desktop;
@@ -45,3 +46,4 @@ application/x-remmina=org.remmina.Remmina.desktop;
 audio/mpeg=audacity.desktop;
 text/x-java=vim.desktop;
 application/vnd.openxmlformats-officedocument.wordprocessingml.document=libreoffice-writer.desktop;
+x-scheme-handler/tg=userapp-Telegram Desktop-XTI5W0.desktop;
