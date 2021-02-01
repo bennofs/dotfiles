@@ -139,7 +139,7 @@ end
 set -x MANPATH (env MANPATH= manpath)
 
 if command -q -s direnv
-  eval (direnv hook fish)
+  source (direnv hook fish | psub)
 end
 
 if command -q -s opam
@@ -155,4 +155,4 @@ source ~/.config/fish/asciii.fish
 alias play 'wpa_cli -i wl disable 0; wpa_cli -i wl enable 25'
 alias work 'wpa_cli -i wl enable 0; wpa_cli -i wl disable 25'
 alias o xdg-open
-alias prox="env SOCKS_AUTOADD_LANROUTES=no SOCKS4_SERVER=localhost:1888 socksify"
+alias prox "env SOCKS_AUTOADD_LANROUTES=no SOCKS4_SERVER=localhost:1888 socksify"
