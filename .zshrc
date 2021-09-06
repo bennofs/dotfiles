@@ -15,3 +15,6 @@ source /home/.config/broot/launcher/bash/br
 
 autoload -U +X bashcompinit && bashcompinit
 complete -o nospace -C /usr/bin/mcli mcli
+
+# added by travis gem
+[ ! -s /home/.travis/travis.sh ] || source /home/.travis/travis.sh

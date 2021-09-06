@@ -20,6 +20,7 @@
 	insteadOf = git://github.com/ghc/packages/
 [init]
 	templatedir = ~/.git-templates
+	defaultBranch = main
 [rebase]
 	autoSquash = true
 [include]

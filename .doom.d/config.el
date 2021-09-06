@@ -150,6 +150,10 @@
   (org-remove-inline-images)
   (hide-lines-show-all))
 
+(defun +own/toggle-cursor ()
+  (interactive)
+  (internal-show-cursor (selected-window) (not (internal-show-cursor-p (selected-window)))))
+
 (use-package! org-present
   :after org
   :bind (:map org-mode-map
@@ -162,6 +166,42 @@
   (add-hook 'org-present-mode-hook #'+org-present-init-hook)
   (add-hook 'org-present-mode-quit-hook #'+org-present-quit-hook)
   )
+
+(defun +epresent-init-hook ()
+  (setq-local display-line-numbers nil)
+  (setq-local epresent--pages-total (length (org-map-entries nil "LEVEL=1" 'file))))
+
+(defun own/simple-mode-line-render (left right)
+  "Return a string of `window-width' length.
+Containing LEFT, and RIGHT aligned respectively."
+  (let ((available-width
+         (- (window-total-width)
+            (+ (length (format-mode-line left))
+               (length (format-mode-line right))))))
+    (append left
+            (list (format (format "%%%ds" available-width) ""))
+            right)))
+
+(defun own/toggle-code-font-size ()
+  (interactive)
+  (if (> (face-attribute 'default :height) 280)
+      (set-face-attribute 'default (selected-frame) :height 280)
+    (set-face-attribute 'default (selected-frame) :height 500)))
+
+
+(use-package! epresent
+  :after org
+  :bind (:map org-mode-map
+         ("<f5>" . epresent-run))
+  :config
+  (setq epresent-pretty-entities t)
+  (map! :map epresent-mode-map
+        "<f11>" 'own/toggle-code-font-size
+        "<f10>" '+own/toggle-cursor
+        "<f5>" 'epresent-quit
+        "<f8>" 'epresent-previous-page
+        "<f9>" 'epresent-next-page)
+  (add-hook 'epresent-start-presentation-hook #'+epresent-init-hook))
 
 (setq bibtex-completion-notes-path "/data/share/notes/research.org")
 (setq bibtex-completion-library-path "/data/share/pdfs")
@@ -197,8 +237,22 @@
   :mode "\\.spin$"
   :mode "\\.pml$")
 
+(use-package! pasp-mode
+  :defer t
+  :mode "\\.lp$"
+  :config
+  (setq-default pasp-clingo-path "~/.local/bin/clingo"))
+
 ; vereofy reo scripting language basic support
 (define-derived-mode vereofy-major-mode prog-mode
   "vereofy"
   (electric-indent-mode 9))
 (add-to-list 'auto-mode-alist '("\\.rsl\\'" . vereofy-major-mode))
+
+; we don't want projectile to detect our home as project
+(setq my--home-git-filename (expand-file-name "~/.git"))
+(defadvice! my--projectile-file-exists-p-a (orig-fn filename)
+  :around #'projectile-file-exists-p
+  (if (equal my--home-git-filename (expand-file-name filename))
+      nil
+    (funcall orig-fn filename)))

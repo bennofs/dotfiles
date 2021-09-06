@@ -150,6 +150,10 @@ if command -q -s kitty
     kitty + complete setup fish | source
 end
 
+if command -q -s pyenv
+  pyenv init - | source
+end
+
 source ~/.config/fish/asciii.fish
 
 alias play 'wpa_cli -i wl disable 0; wpa_cli -i wl enable 25'

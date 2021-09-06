@@ -47,3 +47,4 @@ audio/mpeg=audacity.desktop;
 text/x-java=vim.desktop;
 application/vnd.openxmlformats-officedocument.wordprocessingml.document=libreoffice-writer.desktop;
 x-scheme-handler/tg=userapp-Telegram Desktop-XTI5W0.desktop;
+image/png=feh.desktop;

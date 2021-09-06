@@ -97,8 +97,8 @@
         +pomodoro
         +present)           ; using org-mode for presentations
        raku                 ; write code no one else can comprehend
-       php                  ; perl's insecure younger brother
-       (python +lsp)        ; beautiful is better than ugly
+       p
+       (python +lsp +pyright) ; beautiful is better than ugly
        racket               ; a DSL for DSLs
        ruby                 ; 1.step {|i| p "Ruby is #{i.even? ? 'love' : 'life'}"}
        (rust +lsp)          ; Fe2O3.unwrap().unwrap().unwrap().unwrap()

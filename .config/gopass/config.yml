@@ -2,12 +2,12 @@ autoclip: true
 autoimport: true
 cliptimeout: 45
 exportkeys: false
-mime: true
 nocolor: false
 nopager: false
 notifications: true
+parsing: true
 path: /home/.password-store-ascii/ascii
 safecontent: false
 mounts:
-  ascii: /home/.password-store-ascii
-  ifsr: /home/.password-store-ifsr
+    ascii: /home/.password-store-ascii
+    ifsr: /home/.password-store-ifsr
