@@ -1,0 +1,2 @@
+#!/usr/bin/env bash
+exec stdbuf -o0 grep --line-buffered "$@"
