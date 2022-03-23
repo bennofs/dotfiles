@@ -30,7 +30,7 @@
        (popup               ; tame sudden yet inevitable temporary windows
         +all                ; catch all popups that start with an asterix
         +defaults)          ; default popup rules
-       treemacs             ; a project drawer, like neotree but cooler
+       (treemacs +lsp)      ; a project drawer, like neotree but cooler
        vc-gutter            ; vcs diff in the fringe
        vi-tilde-fringe      ; fringe tildes to mark beyond EOB
        window-select        ; visually switch windows
@@ -46,7 +46,7 @@
        snippets             ; my elves. They type so I don't have to
 
        :emacs
-       dired                ; making dired pretty [functional]
+       (dired +ranger)      ; making dired pretty [functional]
        electric             ; smarter, keyword-based electric-indent
        ibuffer              ; interactive buffer management
        undo

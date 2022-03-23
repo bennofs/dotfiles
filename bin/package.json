@@ -1,0 +1,5 @@
+{
+  "dependencies": {
+    "keepassxc-browser-cli": "^1.0.5"
+  }
+}

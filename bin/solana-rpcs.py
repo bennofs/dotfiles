@@ -7,7 +7,7 @@ validators = subprocess.run("solana -u https://solana-api.projectserum.com valid
 validators = json.loads(validators)
 gossip = subprocess.run("solana -u https://solana-api.projectserum.com gossip".split(), stdout=subprocess.PIPE).stdout.decode().split("\n")
 ContactInfo = namedtuple("ContactInfo", ["ip", "id", "gossip", "tpu", "rpc", "version"])
-contact_infos = [ContactInfo(*[x.strip() for x in l.split('|')]) for l in gossip[2:-2]]
+contact_infos = [ContactInfo(*[x.strip() for x in l.split('|')]) for l in gossip[2:-2] if '|' in l]
 full_data = [dict(validator, contact=contact) for validator in validators['validators'] for contact in contact_infos if contact.id == validator['identityPubkey']]
 with_rpc = [i for i in full_data if i['contact'].rpc != 'none']
 relevant = [i for i in sorted(full_data, key=lambda i: i['activatedStake']) if i['contact'].rpc != 'none']

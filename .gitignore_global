@@ -19,7 +19,6 @@ flycheck_*
 *.bak
 shell.nix
 Setup
-nix
 *.swp
 .nix
 .dev.nix
@@ -28,3 +27,4 @@ nix
 .ycm_extra_flags
 compile_commands.json
 .ccls-cache
+.coderrect

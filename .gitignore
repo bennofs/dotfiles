@@ -1,6 +1,7 @@
 /*
 *~
 *.weechattmp
+__pycache__
 
 !/.gitignore
 !/.gitignore_global
@@ -57,6 +58,7 @@
 /.config/syncthing
 /.config/virt-viewer
 /.config/yarn/global/node_modules
+/.config/theme-variant
 
 /.config/yay/yay_vcs.json
 

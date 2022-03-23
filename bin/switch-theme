@@ -1,0 +1,48 @@
+#!/usr/bin/env python3
+import os
+import secrets
+from pathlib import Path
+import discord_theme
+import sys
+import subprocess
+import threading
+from xdg.BaseDirectory import xdg_config_home
+
+GTK_THEMES = {
+    'light': 'Arc',
+    'dark': 'Arc-Dark',
+}
+THEME_VARIANT_FILE_PATH = os.path.join(xdg_config_home, 'theme-variant')
+
+def switch_gtk_theme(theme):
+    gtk_theme = GTK_THEMES[theme]
+    subprocess.run(['gsettings', 'set', 'org.gnome.desktop.interface', 'gtk-theme', gtk_theme])
+
+def switch_alacritty_theme(theme):
+    subprocess.run(['sed', '-rie', r's/\*(light|dark)/*' + theme + '/', Path(xdg_config_home) / 'alacritty' / 'alacritty.yml'])
+
+def switch_theme_variant_file(theme):
+    tmp_path = THEME_VARIANT_FILE_PATH + '.' + str(os.getpid())
+    with open(tmp_path, 'w') as f:
+        f.write(theme)
+    os.rename(tmp_path, THEME_VARIANT_FILE_PATH)
+
+def switch_theme(theme):
+    if theme not in {'light', 'dark'}:
+        raise ValueError("invalid theme")
+
+    funcs = [
+        discord_theme.switch_theme,
+        switch_gtk_theme,
+        switch_alacritty_theme,
+        switch_theme_variant_file,
+    ]
+
+    threads = [threading.Thread(target=f, args=(theme,)) for f in funcs]
+    for t in threads:
+        t.start()
+    for t in threads:
+        t.join()
+
+if __name__ == '__main__':
+    switch_theme(sys.argv[1])

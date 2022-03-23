@@ -1,3 +1,5 @@
 #!/usr/bin/env bash
+rm -rf /tmp/latex.out
 latexmk --output-directory=/tmp/latex.out -pdfxe "$@"
-
+pdf="${1%%.tex}"
+cp "/tmp/latex.out/$pdf.pdf" .

@@ -8,7 +8,6 @@
 (setq make-backup-files t)
 
 ;; theming
-(setq doom-theme 'tao-one-light)
 (setq doom-font (font-spec :family "Source Code Pro" :size 10.0))
 
 (use-package! eziam-theme
@@ -220,6 +219,9 @@ Containing LEFT, and RIGHT aligned respectively."
 (setq-default rustic-lsp-server 'rust-analyzer)
 (setq-default lsp-rust-analyzer-cargo-watch-args ["--profile", "test"])
 (setq-default lsp-rust-analyzer-cargo-all-targets t)
+(setq-default lsp-rust-analyzer-server-display-inlay-hints t)
+(setq-default lsp-rust-analyzer-display-parameter-hints t)
+(setq-default lsp-rust-analyzer-display-chaining-hints t)
 
 ; disable lsp ui inline display of error messages (its too buggy)
 (setq-default lsp-ui-sideline-enable nil)
@@ -256,3 +258,36 @@ Containing LEFT, and RIGHT aligned respectively."
   (if (equal my--home-git-filename (expand-file-name filename))
       nil
     (funcall orig-fn filename)))
+
+; auto change theme light/dark
+(setq own--theme-variants
+      '((light . tao-one-light)
+        (dark . doom-vibrant)))
+(require 'xdg)
+(setq own--theme-variant-file (concat (file-name-as-directory (xdg-config-home)) "theme-variant"))
+
+(defun +own/switch-theme (variant &optional now)
+  (setq own--theme-current-variant variant)
+  (setq doom-theme (cdr (assoc variant own--theme-variants)))
+  (setq rainbow-identifiers-cie-l*a*b*-lightness
+        (if (eq own--theme-current-variant 'light) 30 60))
+  (when now
+    (load-theme doom-theme t)
+    ; reload rainbow identifiers mode
+    (rainbow-identifiers-mode rainbow-identifiers-mode)))
+
+(defun +own/load-theme-variant ()
+  (or
+   (when (file-exists-p own--theme-variant-file)
+     (with-temp-buffer
+       (insert-file-contents own--theme-variant-file)
+       (intern (string-trim (buffer-string)))))
+   'light))
+(setq own--theme-current-variant (+own/load-theme-variant))
+(+own/switch-theme own--theme-current-variant)
+
+(defun +own/theme-variant-changed (_event)
+  (+own/switch-theme (+own/load-theme-variant) t))
+
+(require 'filenotify)
+(file-notify-add-watch own--theme-variant-file '(change) #'+own/theme-variant-changed)

@@ -1,9 +1,10 @@
-PATH OVERRIDE=${PATH}:@{HOME}/bin:@{HOME}/.yarn/bin:@{HOME}/.local/bin:@{HOME}/.cargo/bin:@{HOME}/.gem/ruby/2.5.0/bin:/opt/fomu/bin
+PATH OVERRIDE=${PATH}:@{HOME}/bin:@{HOME}/.yarn/bin:@{HOME}/.local/bin:@{HOME}/.cargo/bin:@{HOME}/.gem/ruby/2.5.0/bin:/opt/fomu/bin:@{HOME}/.local/opt/android-sdk/cmdline-tools/latest/bin
 SAVED_PATH DEFAULT=${PATH}
 EDITOR DEFAULT=emacsclient -c
 TERMINAL DEFAULT=alacritty
 GOPATH DEFAULT=/code/go
 GOBIN DEFAULT=@{HOME}/.local/bin
+ANDROID_HOME DEFAULT=@{HOME}/.local/opt/android-sdk
 ANDROID_EMULATOR_USE_SYSTEM_LIBS DEFAULT=1
 DOTNET_CLI_TELEMETRY_OPTOUT=1
 SSH_AUTH_SOCK DEFAULT="${XDG_RUNTIME_DIR}/ssh-agent.socket"
