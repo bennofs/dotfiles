@@ -19,7 +19,7 @@ def switch_gtk_theme(theme):
     subprocess.run(['gsettings', 'set', 'org.gnome.desktop.interface', 'gtk-theme', gtk_theme])
 
 def switch_alacritty_theme(theme):
-    subprocess.run(['sed', '-rie', r's/\*(light|dark)/*' + theme + '/', Path(xdg_config_home) / 'alacritty' / 'alacritty.yml'])
+    subprocess.run(['sed', '-ri', '-e', r's/\*(light|dark)/*' + theme + '/', Path(xdg_config_home) / 'alacritty' / 'alacritty.yml'])
 
 def switch_theme_variant_file(theme):
     tmp_path = THEME_VARIANT_FILE_PATH + '.' + str(os.getpid())
