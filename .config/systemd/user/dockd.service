@@ -1,0 +1,7 @@
+[Unit]
+Description=Restore screen layout after dock/undock
+[Service]
+ExecStart=/usr/bin/dockd --daemon
+Restart=always
+[Install]
+WantedBy=default.target

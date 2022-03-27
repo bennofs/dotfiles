@@ -14,23 +14,31 @@ __pycache__
 
 !/.config
 /.config/GIMP
+/.config/Ledger Live
+/.config/Mumble
 /.config/QDirStat
 /.config/QtProject.conf
+/.config/Quotient
 /.config/RadareOrg
 /.config/Riot
 /.config/Signal
 /.config/SuperCollider
 /.config/Trolltech.conf
+/.config/Vector 35
 /.config/VirtualBox
 /.config/binwalk
+/.config/calibre
 /.config/chromium
 /.config/configstore
+/.config/davisr
 /.config/dconf
+/.config/dfx
 /.config/direnv
 /.config/discord
 /.config/enchant
 /.config/evince
 /.config/freerdp
+/.config/gcloud
 /.config/gconf
 /.config/gtk-2.0
 /.config/gtk-3.0
@@ -39,26 +47,43 @@ __pycache__
 /.config/inkscape
 /.config/jd-gui.cfg
 /.config/keepassxc
+/.config/keepassxc-node-cli
 /.config/keybase
 /.config/libreoffice
 /.config/libvirt
 /.config/menus
+/.config/mypaint
 /.config/pavucontrol.ini
+/.config/pipewire
+/.config/protonfixes
 /.config/pulse
+/.config/qt5ct
 /.config/quassel-irc.org/
 /.config/quasselrc
 /.config/radare2
+/.config/rclone
 /.config/remmina
 /.config/remt.ini
 /.config/rmapi
+/.config/rmview.json
+/.config/rmview_known_hosts
 /.config/robolab
+/.config/solana
 /.config/spicy
 /.config/spotify
 /.config/subfinder
 /.config/syncthing
-/.config/virt-viewer
-/.config/yarn/global/node_modules
 /.config/theme-variant
+/.config/virt-viewer
+/.config/xournalpp
+/.config/yarn/global/node_modules
+/.config/zoomus.conf
+
+
+/.config/Code/*
+!/.config/Code/User
+/.config/Code/User/workspaceStorage
+/.config/Code/User/globalStorage
 
 /.config/yay/yay_vcs.json
 

@@ -9,6 +9,7 @@
 (package! org-projectile :pin "96a57a43555e24e5e0d81e79f0fbb47001c41bac")
 (package! eziam-theme :pin "7a585de01b6fee081eaa167b09d7e12d02cf4149")
 (package! rainbow-identifiers :pin "19fbfded1baa98d12335f26f6d7b20e5ae44ce2e")
+(package! diredc :pin "7ee68f6b1c87f8ab86cf23416472747e88860717")
 (package! clean-aindent-mode :pin "a97bcae8f43a9ff64e95473e4ef0d8bafe829211")
 (package! promela-mode :recipe (:host github :repo "rudi/promela-mode") :pin "5974a15221720fdb4eb825da01282289badc4884")
 (package! org-present :recipe (:host github :repo "rlister/org-present") :pin "9709ca2d04a59959354222ac4d3f8b750785739a")
