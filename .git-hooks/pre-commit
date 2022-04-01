@@ -48,3 +48,9 @@ trap - EXIT
 
 # Check that there are any changes left after whitespace fixing
 ! git diff --cached --quiet || { echo "pre-commit: no changes to commit after fixing whitespace. exit"; exit 1; }
+
+# Run transcrypt hook if present
+TRANSCRYPT_HOOK="$GIT_DIR/hooks/pre-commit-crypt"
+if [ -f "$TRANSCRYPT_HOOK" ]; then
+  source "$TRANSCRYPT_HOOK"
+fi
