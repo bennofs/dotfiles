@@ -1,0 +1,125 @@
+{
+    "MAIN": {
+        "attachDistance": 20,
+        "screenShotDelay": 1000,
+        "printMode": "FullPage",
+        "printOrientation": "Landscape",
+        "instrumentsScale": 1,
+        "unitsLocked": false,
+        "filesDir": "/home"
+    },
+    "TOLLBAR": {
+        "first": false,
+        "masked": [],
+        "windowX": 767,
+        "windowY": 400,
+        "iconSize": 32,
+        "windowWidth": 387,
+        "windowHeight": 100,
+        "windowGeometry": "AdnQywADAAAAAAL/AAACHAAABIUAAAKBAAADAQAAAhwAAASDAAACfwAAAAIAAAAAB4AAAAMBAAACHAAABIMAAAJ/",
+        "windowState": "AAAA/wAAAAD9AAAAAAAAAAAAAAAAAAAABAAAAAQAAAAIAAAACPwAAAABAAAAAgAAAAEAAAAOAHQAbwBvAGwAQgBhAHIBAAAAAP////8AAAAAAAAAAA=="
+    },
+    "KID": {
+        "visible": [
+            "FileReload",
+            "FileGoNext",
+            "FileGoPrevious"
+        ],
+        "windowX": 100,
+        "windowY": 200,
+        "windowHeight": 96.0,
+        "windowWidth": 256,
+        "iconSize": 64,
+        "windowGeometry": "",
+        "windowState": ""
+    },
+    "COLORS": {
+        "CustomColor0": [
+            0,
+            0,
+            0,
+            255
+        ],
+        "CustomColor1": [
+            255,
+            255,
+            255,
+            255
+        ],
+        "CustomColor2": [
+            255,
+            0,
+            0,
+            255
+        ],
+        "CustomColor3": [
+            0,
+            255,
+            0,
+            255
+        ],
+        "CustomColor4": [
+            0,
+            0,
+            255,
+            255
+        ],
+        "CustomColor5": [
+            255,
+            255,
+            0,
+            255
+        ],
+        "CustomColor6": [
+            0,
+            192,
+            192,
+            255
+        ],
+        "CustomColor7": [
+            192,
+            0,
+            192,
+            255
+        ],
+        "CustomColor8": [
+            255,
+            128,
+            0,
+            255
+        ],
+        "CustomColor9": [
+            255,
+            0,
+            255,
+            255
+        ],
+        "actualColor": "CustomColor3"
+    },
+    "WIDTHS": {
+        "CustomWidth0": 1,
+        "CustomWidth1": 5,
+        "CustomWidth2": 10,
+        "CustomWidth3": 20,
+        "CustomWidth4": 40,
+        "actualWidth": "CustomWidth1"
+    },
+    "FONT": {
+        "family": "",
+        "pointSize": 14,
+        "color": [
+            0,
+            0,
+            0,
+            255
+        ]
+    },
+    "PEN": {
+        "style": "Solid"
+    },
+    "LASTFILES": [],
+    "TEMP": {},
+    "PROGVERSION": "2.3",
+    "SCREEN_MODE": "FULL_SPACE",
+    "SCREEN_NUMBER": 0
+}

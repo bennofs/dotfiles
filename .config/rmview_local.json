@@ -1,0 +1,14 @@
+{
+    "backend": "screenshare",
+    "orientation": "auto",
+    "pen_size": 15,
+    "pen_color": "red",
+    "pen_trail": 200,
+    "ssh": {
+       "timeout": 4,
+       "address": "10.11.99.1",
+       "username": "root",
+       "key": "~/.ssh/rmview_key",
+       "host_key_policy": "ignore_new"
+    }
+}

@@ -160,3 +160,7 @@ alias play 'wpa_cli -i wl disable 0; wpa_cli -i wl enable 25'
 alias work 'wpa_cli -i wl enable 0; wpa_cli -i wl disable 25'
 alias o xdg-open
 alias prox "env SOCKS_AUTOADD_LANROUTES=no SOCKS4_SERVER=localhost:1888 socksify"
+
+if test -f /opt/asdf-vm/asdf.fish
+  source /opt/asdf-vm/asdf.fish
+end

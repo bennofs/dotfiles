@@ -78,6 +78,11 @@ __pycache__
 /.config/xournalpp
 /.config/yarn/global/node_modules
 /.config/zoomus.conf
+/.config/nushell/history.txt
+/.config/JetBrains
+/.config/Electron
+/.config/ncmpcpp/error.log
+/.config/okularrc
 
 
 /.config/Code/*

@@ -85,6 +85,7 @@
        javascript           ; all(hope(abandon(ye(who(enter(here))))))
        kotlin               ; a better, slicker Java(Script)
        latex                ; writing papers in Emacs has never been so fun
+       ledger               ; money, money
        lua                  ; one-based indices? one-based indices
        markdown             ; writing docs for people to ignore
        nim                  ; python + lisp at the speed of c

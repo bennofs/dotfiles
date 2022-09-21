@@ -1,0 +1,53 @@
+{
+    "default_source": false,
+    "sources": {
+        "default": {
+            "name": "reMarkable",
+            "hidden": false,
+            "type": "ssh",
+            "host": "remarkable.fritz.box.",
+            "username": "root",
+            "host_key_policy": "ignore_new",
+            "timeout": 3,
+            "use_banner": false,
+            "enable_webui_export": false,
+            "key": "~/.ssh/rmview_key"
+        }
+    },
+    "log_verbosity": "info",
+    "export": {
+        "default_dir": "",
+        "eraser_mode": "ignore",
+        "open_exported": true,
+        "include_base_layer": true,
+        "orientation": "auto",
+        "smoothen": false,
+        "simplify": 0,
+        "pencil_resolution": 0.4
+    },
+    "preview": {
+        "eraser_mode": "ignore",
+        "pencil_resolution": 0.4
+    },
+    "upload": {
+        "default_options": {}
+    },
+    "palettes": {
+        "default": {}
+    },
+    "mathpix": {
+        "include_base_layer": false,
+        "pencil_resolution": -1,
+        "scale": 1,
+        "simplify": 0,
+        "smoothen": false,
+        "eraser_mode": "ignore",
+        "exclude_tools": [
+            "brush",
+            "pencil",
+            "highlighter",
+            "eraser",
+            "erase_area"
+        ]
+    }
+}
