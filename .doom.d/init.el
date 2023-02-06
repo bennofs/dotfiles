@@ -10,8 +10,8 @@
 ;;
 
 ;; Set custom file to a different file so it can be ignored by git
-(setq custom-file (concat (dir!) "/customize.el"))
-(when (file-exists-p custom-file) (load custom-file))
+;; (setq custom-file (concat (dir!) "/customize.el"))
+;; (when (file-exists-p custom-file) (load custom-file))
 
 (setq-default lsp-clients-digestif-executable "/home/.luarocks/bin/digestif")
 
@@ -46,7 +46,7 @@
        snippets             ; my elves. They type so I don't have to
 
        :emacs
-       (dired +ranger)      ; making dired pretty [functional]
+       dired      ; making dired pretty [functional]
        electric             ; smarter, keyword-based electric-indent
        ibuffer              ; interactive buffer management
        undo
@@ -62,6 +62,7 @@
        ansible
        biblio
        direnv
+       docker
        editorconfig         ; let someone else argue about tabs vs spaces
        (eval +overlay)      ; run code, run (also, repls)
        gist                 ; interacting with github gists
@@ -77,9 +78,11 @@
 
        :lang
        (cc +lsp)            ; C/C++/Obj-C madness
+       coq
        csharp
        data                 ; config/data formats
        emacs-lisp           ; drown in parentheses
+       (haskell +lsp)       ; a language that's lazier than I am
        go                   ; the hipster dialect
        (java +lsp)          ; the poster child for carpal tunnel syndrome
        javascript           ; all(hope(abandon(ye(who(enter(here))))))
@@ -98,7 +101,6 @@
         +pomodoro
         +present)           ; using org-mode for presentations
        raku                 ; write code no one else can comprehend
-       p
        (python +lsp +pyright) ; beautiful is better than ugly
        racket               ; a DSL for DSLs
        ruby                 ; 1.step {|i| p "Ruby is #{i.even? ? 'love' : 'life'}"}

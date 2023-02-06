@@ -14,13 +14,15 @@
     "vsintellicode.modify.editor.suggestSelection": "automaticallyOverrodeDefaultValue",
     "workbench.startupEditor": "none",
     "diffEditor.ignoreTrimWhitespace": false,
-    "workbench.colorTheme": "Quiet Light",
+    "workbench.colorTheme": "Monokai",
     "window.autoDetectColorScheme": true,
     "workbench.preferredLightColorTheme": "Quiet Light",
     "workbench.preferredDarkColorTheme": "Monokai",
     "debug.allowBreakpointsEverywhere": true,
     "codeQL.telemetry.enableTelemetry": true,
     "[rust]": {
-        "editor.defaultFormatter": "matklad.rust-analyzer"
+        "editor.defaultFormatter": "rust-lang.rust-analyzer"
     },
+    "haskell.ghcupExecutablePath": "/usr/bin/ghcup",
+    "haskell.manageHLS": "GHCup",
 }

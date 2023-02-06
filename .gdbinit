@@ -34,9 +34,11 @@ directory /store/src/glibc/elf
 directory $cwd
 directory $cdir
 set sysroot target:
+set debuginfod enabled on
 
 python
 import os
 if os.getenv("PWNTOOLS"):
   gdb.execute("source ~/.pwn.gdbinit") 
 end
+set debuginfod enabled on

@@ -1,1 +1,8 @@
 :set prompt "λ: "
+import qualified Data.Text as T
+import qualified Data.Map as M
+import Control.Applicative
+import Control.Monad
+import Data.Maybe
+import Data.Foldable
+import Data.Traversable

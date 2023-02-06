@@ -16,9 +16,13 @@
   (setq-default eziam-scale-headings nil)
   (setq-default eziam-scale-other nil))
 
+(defun +own/disable-rainbow-delimiters-mode ()
+  (rainbow-delimiters-mode -1))
+
 (use-package! rainbow-identifiers
   :hook (prog-mode . rainbow-identifiers-mode)
   :hook (promela-mode . rainbow-identifiers-mode)
+  :hook (latex-mode . #'+own/disable-rainbow-delimiters-mode)
   :commands (global-rainbow-identifiers-mode rainbow-identifiers-mode)
   :init
   (setq-default rainbow-identifiers-choose-face-function #'rainbow-identifiers-cie-l*a*b*-choose-face)
@@ -46,7 +50,23 @@
   (define-key evil-normal-state-map (kbd "ö") (lookup-key evil-normal-state-map (kbd "[")))
   (define-key evil-normal-state-map (kbd "ä") (lookup-key evil-normal-state-map (kbd "]")))
   (define-key evil-motion-state-map (kbd "ö") (lookup-key evil-motion-state-map (kbd "[")))
-  (define-key evil-motion-state-map (kbd "ä") (lookup-key evil-motion-state-map (kbd "]"))))
+  (define-key evil-motion-state-map (kbd "ä") (lookup-key evil-motion-state-map (kbd "]")))
+  (define-key evil-normal-state-map (kbd "zx") 'kill-buffer-and-window))
+
+(defun +own/dired-quit-dwim ()
+  (interactive)
+  (if (one-window-p)
+      (kill-current-buffer)
+    (kill-buffer-and-window))
+  (mapc #'kill-buffer
+        (cl-remove-if
+         (lambda (buf) (eq (get-buffer-window buf t)) nil)
+         (doom-buffers-in-mode 'dired-mode))))
+
+(after! dired
+  (map! :map dired-mode-map
+        ;; Kill all dired buffers on q
+        :ng "q" #'+own/dired-quit-dwim))
 
 ; ü for jump
 (map! :n "ü" #'+lookup/definition)
@@ -54,7 +74,8 @@
 ; swap C-l and Tab in ivy (make Tab complete selected match, not longest prefix)
 (after! ivy
   (define-key ivy-minibuffer-map (kbd "C-l") #'ivy-partial-or-done)
-  (define-key ivy-minibuffer-map (kbd "TAB") #'ivy-alt-done))
+  (define-key ivy-minibuffer-map (kbd "TAB") #'ivy-alt-done)
+  (define-key ivy-minibuffer-map (kbd "<backtab>") #'ivy-partial))
 
 ; hydra for multiple-cursors
 (defvar own--mc-hydra-frozen nil)
@@ -163,8 +184,26 @@
         "<f8>" 'org-present-prev
         "<f9>" 'org-present-next)
   (add-hook 'org-present-mode-hook #'+org-present-init-hook)
-  (add-hook 'org-present-mode-quit-hook #'+org-present-quit-hook)
-  )
+  (add-hook 'org-present-mode-quit-hook #'+org-present-quit-hook))
+
+(use-package! filetags
+  :after dired
+  :bind (:map dired-mode-map
+              ("," . filetags-dired-update-tags)))
+
+(use-package! diredc
+  :after dired
+  :config
+  :defer 10
+  :commands (diredc diredc-mode)
+  :bind (:map diredc-mode-map
+              ("gO" . diredc-hist-find-file-other-window))
+  :init
+  (setq-default
+   diredc-browse-exclude-coding-systems nil
+   diredc-browse-exclude-file-extensions nil
+   diredc-browse-exclude-helper
+   '((gnu/linux "/usr/bin/file" "-bi" "\\<text\\>\\|application/zip\\|application/pdf\\|image/" "/usr/bin/file" "-bi" "\\<ELF\\>\\|\\<binary\\>"))))
 
 (defun +epresent-init-hook ()
   (setq-local display-line-numbers nil)
@@ -291,3 +330,39 @@ Containing LEFT, and RIGHT aligned respectively."
 
 (require 'filenotify)
 (file-notify-add-watch own--theme-variant-file '(change) #'+own/theme-variant-changed)
+
+(use-package! date2name
+  :config
+  (setq-default date2name-default-separation-character " "))
+
+(define-minor-mode sensitive-mode
+  "For sensitive files like password lists.
+It disables backup creation and auto saving.
+
+With no argument, this command toggles the mode.
+Non-null prefix argument turns on the mode.
+Null prefix argument turns off the mode."
+  ;; The initial value.
+  nil
+  ;; The indicator for the mode line.
+  " Sensitive"
+  ;; The minor mode bindings.
+  nil
+  (if (symbol-value sensitive-mode)
+      (progn
+        ;; disable backups
+        (set (make-local-variable 'backup-inhibited) t)
+        ;; disable auto-save
+        (if auto-save-default
+            (auto-save-mode -1))
+        ;; disable undo fu session
+        (if global-undo-fu-session-mode
+            (undo-fu-session-mode -1)))
+                                        ;resort to default value of backup-inhibited
+    (kill-local-variable 'backup-inhibited)
+                                        ;resort to default auto save setting
+    (if auto-save-default
+        (auto-save-mode 1))
+
+    (if global-undo-fu-session-mode
+        (undo-fu-session-mode -1))))

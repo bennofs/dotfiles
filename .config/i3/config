@@ -2,13 +2,13 @@
 #
 # Please see http://i3wm.org/docs/userguide.html for a complete reference!
 
-#exec --no-startup-id feh --bg-center ~/.background.jpg
 exec --no-startup-id feh --bg-fill ~/.background.jpg
 exec --no-startup-id dunst -cto 4 -nto 2 -lto 1 -config ~/.config/dunstrc
 exec --no-startup-id polybar default
 exec --no-startup-id udiskie --tray
 exec --no-startup-id redshift -O 3500
 exec --no-startup-id /usr/lib/gsd-xsettings
+exec --no-startup-id nextcloud --background
 
 set $mod Mod4
 
