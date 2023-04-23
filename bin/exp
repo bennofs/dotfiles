@@ -3,16 +3,25 @@ import sys
 import os.path
 import os
 import subprocess
+import re
 
+REMOTE_CALL = re.compile(r'remote(.*)')
 def parse_conn(s):
+    m = REMOTE_CALL.search(s)
+    if m:
+        return m.group(0)
+
+    ssl = '--ssl' in s or bool(re.search(r'ssl\s*=\s*True', s)) or 's_client' in s
+
     s = s.replace(":", " ")
     s = s.replace(",", " ")
     s = s.strip()
     parts = s.split(" ")
+
     if len(parts) == 3:
-        return parts[1], int(parts[2])
+        return f'remote("{parts[1]}", {int(parts[2])}, ssl={ssl})'
     if len(parts) == 2:
-        return parts[0], int(parts[1])
+        return f'remote("{parts[0]}", {int(parts[1])}, ssl={ssl})'
     raise RuntimeError("cannot parse conn")
 
 
@@ -25,13 +34,13 @@ libc = sys.argv[2] if len(sys.argv) > 2 else None
 
 try:
     conn_string = subprocess.check_output(["xsel", "-ob"]).decode()
-    host, port = parse_conn(conn_string)
+    conn = parse_conn(conn_string)
 except RuntimeError:
     conn_string = input("conn: ")
     if conn_string.strip():
-        host, port = parse_conn(conn_string)
+        conn = parse_conn(conn_string)
     else:
-        host, port = "localhost", "1337"
+        conn = 'remote("localhost", 1337)'
 
 libc_string = "exe.libc" if libc is None else f'ELF("{libc}") if args.REMOTE else exe.libc'
 template = f'''
@@ -41,7 +50,7 @@ from pwn import *
 exe = context.binary = ELF("{binary}")
 libc = {libc_string}
 
-r = None
+r: process = None # type: ignore
 def connect(fresh=True, local=False):
     global r
     if r is not None:
@@ -49,7 +58,7 @@ def connect(fresh=True, local=False):
             r.close()
         else:
             return
-    r = remote("{host}", {port}) if args.REMOTE and not local else exe.process()
+    r = {conn} if args.REMOTE and not local else exe.process() # type: ignore
 
 connect()
 
