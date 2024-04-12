@@ -83,12 +83,16 @@ __pycache__
 /.config/Electron
 /.config/ncmpcpp/error.log
 /.config/okularrc
-
+/.config/lnav
+/.config/git/gitk
+/.config/gajim
+/.config/ente
 
 /.config/Code/*
 !/.config/Code/User
 /.config/Code/User/workspaceStorage
 /.config/Code/User/globalStorage
+/.config/Code/User/History
 
 /.config/yay/yay_vcs.json
 
@@ -103,6 +107,15 @@ __pycache__
 /.config/nvim/plugged
 /.config/nvim/.netrwhist
 /.config/nvim/colors
+
+/.config/Unknown Organization/AusweisApp2.conf
+/.config/icedtea-web/security
+
+/.config/Nextcloud
+/.config/cabal
+
+# diffpdf
+/.config/Qtrac Ltd. 
 
 !/.local
 /.local/*
@@ -151,3 +164,4 @@ __pycache__
 !/public
 /public/*
 !/public/README.md
+

@@ -1,0 +1,19 @@
+[core]
+	notifications = true
+	exportkeys = false
+	cliptimeout = 45
+	autoimport = true
+	parsing = true
+	nopager = false
+[age]
+	usekeychain = false
+[mounts]
+	path = /home/.password-store
+[mounts "ascii"]
+	path = /home/.password-store-ascii
+[mounts "ifsr"]
+	path = /home/.password-store-ifsr
+[show]
+	safecontent = false
+[generate]
+	autoclip = true

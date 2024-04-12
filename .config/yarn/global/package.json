@@ -1,0 +1,5 @@
+{
+  "dependencies": {
+    "create-playwright": "^1.17.131"
+  }
+}
