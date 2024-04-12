@@ -8,16 +8,12 @@
 ;; More information about these modules (and what flags they support) can be
 ;; found in modules/README.org.
 ;;
-
-;; Set custom file to a different file so it can be ignored by git
-;; (setq custom-file (concat (dir!) "/customize.el"))
-;; (when (file-exists-p custom-file) (load custom-file))
-
 (setq-default lsp-clients-digestif-executable "/home/.luarocks/bin/digestif")
 
 (doom! :completion
        company              ; the ultimate code completion backend
-       ivy                  ; a search engine for love and life
+                                        ;ivy                  ; a search engine for love and life
+       vertico
 
        :ui
        doom                 ; what makes DOOM look the way it does
@@ -65,18 +61,20 @@
        docker
        editorconfig         ; let someone else argue about tabs vs spaces
        (eval +overlay)      ; run code, run (also, repls)
-       gist                 ; interacting with github gists
        (lookup              ; helps you navigate your code and documentation
         +docsets)           ; ...or in Dash docsets locally
        lsp
-       (magit +forge)       ; a git porcelain for Emacs
+       magit                ; a git porcelain for Emacs
        pdf                  ; pdf enhancements
+       tree-sitter
 
        :checkers
+       grammar
        (syntax +childframe) ; tasing you for every semicolon you forget
-       ;spell                ; tasing you for misspelling mispelling TODO: disabled due to perf issues
+       ;;spell                ; tasing you for misspelling mispelling TODO: disabled due to perf issues
 
        :lang
+       (agda +tree-sitter)
        (cc +lsp)            ; C/C++/Obj-C madness
        coq
        csharp
@@ -109,8 +107,8 @@
        yaml
        web                  ; the tubes
 
-                            ;; The default module sets reasonable defaults for Emacs. It also
-                            ;; provides a Spacemacs-inspired keybinding scheme and a smartparens
-                            ;; config. Use it as a reference for your own modules.
+       ;; The default module sets reasonable defaults for Emacs. It also
+       ;; provides a Spacemacs-inspired keybinding scheme and a smartparens
+       ;; config. Use it as a reference for your own modules.
        :config
        (default +bindings +smartparens))

@@ -29,12 +29,16 @@ add-auto-load-safe-path /code/rlottie/build_dbg/.gdbinit
 add-auto-load-safe-path /code/rr/build/.gdbinit
 add-auto-load-safe-path /code/ALLESCTF2020
 add-auto-load-safe-path /code/csaw20-finals
+add-auto-load-safe-path /code/nixd
+add-auto-load-safe-path /nix/store
 directory /store/src/glibc/malloc
 directory /store/src/glibc/elf
 directory $cwd
 directory $cdir
 set sysroot target:
 set debuginfod enabled on
+set history save on
+
 
 python
 import os
@@ -42,3 +46,4 @@ if os.getenv("PWNTOOLS"):
   gdb.execute("source ~/.pwn.gdbinit") 
 end
 set debuginfod enabled on
+source /code/pwndbg/gdbinit.py

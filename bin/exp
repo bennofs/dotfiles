@@ -6,12 +6,16 @@ import subprocess
 import re
 
 REMOTE_CALL = re.compile(r'remote(.*)')
+RE_SSL = re.compile(r'\s+--ssl\s+')
 def parse_conn(s):
     m = REMOTE_CALL.search(s)
     if m:
         return m.group(0)
 
     ssl = '--ssl' in s or bool(re.search(r'ssl\s*=\s*True', s)) or 's_client' in s
+    if RE_SSL.search(s):
+        ssl = True
+        s = RE_SSL.sub(' ', s)
 
     s = s.replace(":", " ")
     s = s.replace(",", " ")

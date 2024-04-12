@@ -147,3 +147,7 @@ __pycache__
 
 !/.doom.d
 !/.git-hooks
+
+!/public
+/public/*
+!/public/README.md

@@ -8,7 +8,7 @@ exec --no-startup-id polybar default
 exec --no-startup-id udiskie --tray
 exec --no-startup-id redshift -O 3500
 exec --no-startup-id /usr/lib/gsd-xsettings
-exec --no-startup-id nextcloud --background
+#exec --no-startup-id nextcloud --background
 
 set $mod Mod4
 

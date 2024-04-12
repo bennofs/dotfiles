@@ -4,7 +4,8 @@
 [push]
 	default = simple
 [core]
-	pager = less -F -X
+	#pager = less -F -X
+	pager = delta
 	excludesfile = /home/.gitignore_global
 	autocrlf = input
 	editor = vim
@@ -45,3 +46,13 @@
 	smtpEncryption = tls
 	smtpServerPort = 587
 	smtpUser = benno.fuenfstueck@gmail.com
+[interactive]
+	diffFilter = delta --color-only
+[diff]
+	colorMoved = default
+[delta]
+	navigate = true
+	light = true
+	hyperlinks = true
+[diff "sqldiff"]
+	command = gitsqldiff

@@ -19,7 +19,15 @@ def switch_gtk_theme(theme):
     subprocess.run(['gsettings', 'set', 'org.gnome.desktop.interface', 'gtk-theme', gtk_theme])
 
 def switch_alacritty_theme(theme):
-    subprocess.run(['sed', '-ri', '-e', r's/\*(light|dark)/*' + theme + '/', Path(xdg_config_home) / 'alacritty' / 'alacritty.yml'])
+    subprocess.run(['sed', '-ri', '-e', '/^# COLOR-SCHEME-BEGIN:/,/^# COLOR-SCHEME-END:/{/^#/!s/^/#/}', '-e', f'/^# COLOR-SCHEME-BEGIN:{theme}/,/^# COLOR-SCHEME-END:{theme}/{{/# COLOR-SCHEME/!s/^#//}}', Path.home() / '.config/alacritty/alacritty.toml'])
+
+def switch_delta_theme(theme):
+    setting = {
+        "light": "light = true",
+        "dark": "light = false",
+    }
+    subprocess.run(['sed', '-ri', '-e', r's/light = (true|false)/' + setting[theme] + '/', Path.home() / '.gitconfig'])
+    pass
 
 def switch_theme_variant_file(theme):
     tmp_path = THEME_VARIANT_FILE_PATH + '.' + str(os.getpid())
@@ -36,6 +44,7 @@ def switch_theme(theme):
         switch_gtk_theme,
         switch_alacritty_theme,
         switch_theme_variant_file,
+        switch_delta_theme,
     ]
 
     threads = [threading.Thread(target=f, args=(theme,)) for f in funcs]

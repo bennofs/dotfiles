@@ -14,7 +14,7 @@
     "vsintellicode.modify.editor.suggestSelection": "automaticallyOverrodeDefaultValue",
     "workbench.startupEditor": "none",
     "diffEditor.ignoreTrimWhitespace": false,
-    "workbench.colorTheme": "Monokai",
+    "workbench.colorTheme": "Quiet Light",
     "window.autoDetectColorScheme": true,
     "workbench.preferredLightColorTheme": "Quiet Light",
     "workbench.preferredDarkColorTheme": "Monokai",
@@ -25,4 +25,8 @@
     },
     "haskell.ghcupExecutablePath": "/usr/bin/ghcup",
     "haskell.manageHLS": "GHCup",
+    "[python]": {
+        "editor.formatOnType": true
+    },
+    "playwright.reuseBrowser": true,
 }

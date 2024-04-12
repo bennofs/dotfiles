@@ -3,12 +3,13 @@
 ;; Place your private configuration here
 
 ;; misc
-; no prompt on quit
+;; no prompt on quit
 (setq confirm-kill-emacs nil)
 (setq make-backup-files t)
+(setq save-interprogram-paste-before-kill t)
 
 ;; theming
-(setq doom-font (font-spec :family "Source Code Pro" :size 10.0))
+(setq doom-font (font-spec :family "Fira Mono" :size 10.0))
 
 (use-package! eziam-theme
   :defer t
@@ -43,10 +44,10 @@
     (if (= new-count 0) current-sexp (sp-get-enclosing-sexp new-count))))
 
 (after! evil
-  ; o/O should not continue comments
+  ;; o/O should not continue comments
   (setq +evil-want-o/O-to-continue-comments nil)
 
-  ; alias ö and ä to [ and ] in vim movement keybindings
+  ;; alias ö and ä to [ and ] in vim movement keybindings
   (define-key evil-normal-state-map (kbd "ö") (lookup-key evil-normal-state-map (kbd "[")))
   (define-key evil-normal-state-map (kbd "ä") (lookup-key evil-normal-state-map (kbd "]")))
   (define-key evil-motion-state-map (kbd "ö") (lookup-key evil-motion-state-map (kbd "[")))
@@ -68,16 +69,13 @@
         ;; Kill all dired buffers on q
         :ng "q" #'+own/dired-quit-dwim))
 
-; ü for jump
+;; ü for jump
 (map! :n "ü" #'+lookup/definition)
 
-; swap C-l and Tab in ivy (make Tab complete selected match, not longest prefix)
-(after! ivy
-  (define-key ivy-minibuffer-map (kbd "C-l") #'ivy-partial-or-done)
-  (define-key ivy-minibuffer-map (kbd "TAB") #'ivy-alt-done)
-  (define-key ivy-minibuffer-map (kbd "<backtab>") #'ivy-partial))
+(after! vertico
+  (define-key vertico-map (kbd "C-o") #'embark-act))
 
-; hydra for multiple-cursors
+;; hydra for multiple-cursors
 (defvar own--mc-hydra-frozen nil)
 (defun +own/exit-mc-hydra (&optional clear)
   "Cleanup after evil multiple-cursors hydra"
@@ -177,7 +175,7 @@
 (use-package! org-present
   :after org
   :bind (:map org-mode-map
-          ("<f7>" . org-present-mode))
+              ("<f7>" . org-present-mode))
   :config
   (map! :map org-present-mode-keymap
         "<f7>" 'org-present-quit
@@ -230,7 +228,7 @@ Containing LEFT, and RIGHT aligned respectively."
 (use-package! epresent
   :after org
   :bind (:map org-mode-map
-         ("<f5>" . epresent-run))
+              ("<f5>" . epresent-run))
   :config
   (setq epresent-pretty-entities t)
   (map! :map epresent-mode-map
@@ -251,7 +249,7 @@ Containing LEFT, and RIGHT aligned respectively."
   :around #'org-pomodoro-notify
   (funcall orig-fn (concat "🍅 " title) message))
 
-; we want doom scratch buffer to use org-mode
+;; we want doom scratch buffer to use org-mode
 (setq-default doom-scratch-buffer-major-mode 'org-mode)
 
 ;; lang configurations
@@ -262,14 +260,14 @@ Containing LEFT, and RIGHT aligned respectively."
 (setq-default lsp-rust-analyzer-display-parameter-hints t)
 (setq-default lsp-rust-analyzer-display-chaining-hints t)
 
-; disable lsp ui inline display of error messages (its too buggy)
+;; disable lsp ui inline display of error messages (its too buggy)
 (setq-default lsp-ui-sideline-enable nil)
 
-; don't display documentation in lsp signatures by default
+;; don't display documentation in lsp signatures by default
 (setq-default lsp-signature-doc-lines 0)
 
-; make the threshold a bit bigger (default is 1000)
-; even gnu coreutils repo has already >1k files
+;; make the threshold a bit bigger (default is 1000)
+;; even gnu coreutils repo has already >1k files
 (setq-default lsp-file-watch-threshold 15000)
 
 (use-package! promela-mode
@@ -284,13 +282,13 @@ Containing LEFT, and RIGHT aligned respectively."
   :config
   (setq-default pasp-clingo-path "~/.local/bin/clingo"))
 
-; vereofy reo scripting language basic support
+;; vereofy reo scripting language basic support
 (define-derived-mode vereofy-major-mode prog-mode
   "vereofy"
   (electric-indent-mode 9))
 (add-to-list 'auto-mode-alist '("\\.rsl\\'" . vereofy-major-mode))
 
-; we don't want projectile to detect our home as project
+;; we don't want projectile to detect our home as project
 (setq my--home-git-filename (expand-file-name "~/.git"))
 (defadvice! my--projectile-file-exists-p-a (orig-fn filename)
   :around #'projectile-file-exists-p
@@ -298,7 +296,7 @@ Containing LEFT, and RIGHT aligned respectively."
       nil
     (funcall orig-fn filename)))
 
-; auto change theme light/dark
+;; auto change theme light/dark
 (setq own--theme-variants
       '((light . tao-one-light)
         (dark . doom-vibrant)))
@@ -312,7 +310,7 @@ Containing LEFT, and RIGHT aligned respectively."
         (if (eq own--theme-current-variant 'light) 30 60))
   (when now
     (load-theme doom-theme t)
-    ; reload rainbow identifiers mode
+    ;; reload rainbow identifiers mode
     (rainbow-identifiers-mode rainbow-identifiers-mode)))
 
 (defun +own/load-theme-variant ()
@@ -342,12 +340,8 @@ It disables backup creation and auto saving.
 With no argument, this command toggles the mode.
 Non-null prefix argument turns on the mode.
 Null prefix argument turns off the mode."
-  ;; The initial value.
-  nil
   ;; The indicator for the mode line.
-  " Sensitive"
-  ;; The minor mode bindings.
-  nil
+  :lighter " Sensitive"
   (if (symbol-value sensitive-mode)
       (progn
         ;; disable backups
@@ -356,13 +350,49 @@ Null prefix argument turns off the mode."
         (if auto-save-default
             (auto-save-mode -1))
         ;; disable undo fu session
-        (if global-undo-fu-session-mode
+        (if undo-fu-session-global-mode
             (undo-fu-session-mode -1)))
-                                        ;resort to default value of backup-inhibited
+    ;; resort to default value of backup-inhibited
     (kill-local-variable 'backup-inhibited)
-                                        ;resort to default auto save setting
+    ;; resort to default auto save setting
     (if auto-save-default
         (auto-save-mode 1))
 
-    (if global-undo-fu-session-mode
+    (if undo-fu-session-global-mode
         (undo-fu-session-mode -1))))
+
+(defun +own/tex-mode-config-indent ()
+  (interactive)
+  (setq-local +electric-indent-words '("item" "}")))
+
+(use-package! latex
+  :hook (LaTeX-mode . +own/tex-mode-config-indent)
+  :bind (:map LaTeX-mode-map ("C-." . #'LaTeX-close-environment)))
+
+(use-package! lsp-mode
+  :config
+  (add-to-list 'lsp-language-id-configuration '(nix-mode . "nix"))
+  (lsp-register-client
+   (make-lsp-client
+    :new-connection (lsp-stdio-connection '("nix" "develop" "/code/nixd" "--command" "/code/nixd/build/nixd"))
+    :major-modes '(nix-mode)
+    :priority 1
+    :server-id 'nixd)))
+
+(after! tex
+  (add-to-list 'TeX-view-program-list
+               `("Sioyek"
+                 ("sioyek %o"
+                  (mode-io-correlate
+                   ,(concat
+                     " --forward-search-file \"%b\""
+                     " --forward-search-line %n"
+                     " --inverse-search \"emacsclient \\\"+%2\\\" \\\"%1\\\"\"")))))
+  (add-to-list 'TeX-view-program-selection '(output-pdf "Sioyek")))
+
+(use-package! lsp-ltex
+  :hook (text-mode . (lambda ()
+                       (require 'lsp-ltex)
+                       (lsp)))  ; or lsp-deferred
+  :init
+  (setq lsp-ltex-version "16.0.0"))  ; make sure you have set this, see below
