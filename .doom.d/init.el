@@ -82,6 +82,7 @@
        emacs-lisp           ; drown in parentheses
        (haskell +lsp)       ; a language that's lazier than I am
        go                   ; the hipster dialect
+       graphql
        (java +lsp)          ; the poster child for carpal tunnel syndrome
        javascript           ; all(hope(abandon(ye(who(enter(here))))))
        kotlin               ; a better, slicker Java(Script)

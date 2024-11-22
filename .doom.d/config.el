@@ -365,9 +365,20 @@ Null prefix argument turns off the mode."
   (interactive)
   (setq-local +electric-indent-words '("item" "}")))
 
+(defun +own/align-tikz-matrix ()
+  (interactive)
+  (align-regexp (region-beginning) (region-end)
+                (rx
+                 (group (0+ whitespace))
+                 (or "§" "&" "\\\\"))
+                1
+                align-default-spacing
+                t))
+
 (use-package! latex
   :hook (LaTeX-mode . +own/tex-mode-config-indent)
-  :bind (:map LaTeX-mode-map ("C-." . #'LaTeX-close-environment)))
+  :bind (:map LaTeX-mode-map ("C-." . #'LaTeX-close-environment))
+  )
 
 (use-package! lsp-mode
   :config
@@ -388,11 +399,7 @@ Null prefix argument turns off the mode."
                      " --forward-search-file \"%b\""
                      " --forward-search-line %n"
                      " --inverse-search \"emacsclient \\\"+%2\\\" \\\"%1\\\"\"")))))
-  (add-to-list 'TeX-view-program-selection '(output-pdf "Sioyek")))
-
-(use-package! lsp-ltex
-  :hook (text-mode . (lambda ()
-                       (require 'lsp-ltex)
-                       (lsp)))  ; or lsp-deferred
-  :init
-  (setq lsp-ltex-version "16.0.0"))  ; make sure you have set this, see below
+  (add-to-list 'TeX-view-program-selection '(output-pdf "Sioyek"))
+  (map! :after latex
+        :map LaTeX-mode-map
+        :desc "Align tikz matrix" "<f5>" #'+own/align-tikz-matrix))

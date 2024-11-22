@@ -1,2 +1,11 @@
-#!/usr/bin/env bash
-i3lock -i ~/.background.png
+#!/usr/bin/env fish
+set dim (xdpyinfo | grep dimensions | sed -r 's/^[^0-9]*([0-9]+x[0-9]+).*$/\1/')
+set fullfile (readlink ~/.background.jpg)
+
+set h (echo $dim $fullfile | md5sum | cut -d' ' -f1)
+if ! test -f ~/.cache/lock/$h.png; 
+	mkdir -p ~/.cache/lock
+	magick ~/.background.jpg -resize $dim^ ~/.cache/lock/$h.png
+end
+
+i3lock --image ~/.cache/lock/$h.png

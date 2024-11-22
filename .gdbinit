@@ -46,4 +46,4 @@ if os.getenv("PWNTOOLS"):
   gdb.execute("source ~/.pwn.gdbinit") 
 end
 set debuginfod enabled on
-source /code/pwndbg/gdbinit.py
+source /usr/share/pwndbg/gdbinit.py

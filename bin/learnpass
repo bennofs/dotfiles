@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 read exphash < /code/key.argon2
-inphash=$(echo -e "SETPROMPT gpg2 pass check: \nGETPIN" | pinentry | sed -nre 's/^D //p' | tr -d '\n' | argon2 gpg2pass -e)
+inphash=$(echo -e "SETPROMPT gpg2 pass check: \nGETPIN" | pinentry | sed -nre 's/^D //p' | tr -d '\n' | argon2 vxrgkKkG6Tst3lPCNi6zOyjpDMWTjVPm -m 16 -e)
 
 if [[ "$exphash" = "$inphash" ]]; then
     echo "ok"

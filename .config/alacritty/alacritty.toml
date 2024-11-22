@@ -1,5 +1,3 @@
-live_config_reload = true
-working_directory = "/code"
 
 [bell]
 animation = "EaseOutExpo"
@@ -632,7 +630,7 @@ multiplier = 3
 save_to_clipboard = false
 semantic_escape_chars = ",│`|:\"' ()[]{}<>"
 
-[shell]
+[terminal.shell]
 program = "/usr/bin/fish"
 
 [window]
@@ -648,3 +646,9 @@ lines = 0
 [window.padding]
 x = 3
 y = 2
+
+[general]
+live_config_reload = true
+working_directory = "/code"
+
+[terminal]

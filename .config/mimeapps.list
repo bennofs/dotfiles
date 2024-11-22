@@ -23,6 +23,7 @@ x-scheme-handler/remmina=org.remmina.Remmina.desktop
 application/x-remmina=org.remmina.Remmina.desktop
 x-scheme-handler/tg=org.telegram.desktop.desktop
 x-scheme-handler/mid=userapp-Thunderbird-LCSOB1.desktop
+x-scheme-handler/tonsite=org.telegram.desktop.desktop
 
 [Added Associations]
 text/x-diff=emacs.desktop;
@@ -51,3 +52,4 @@ x-scheme-handler/tg=userapp-Telegram Desktop-XTI5W0.desktop;org.telegram.desktop
 image/png=feh.desktop;
 x-scheme-handler/mid=userapp-Thunderbird-LCSOB1.desktop;
 image/jpeg=feh.desktop;
+x-scheme-handler/tonsite=org.telegram.desktop.desktop;
